@@ -1,0 +1,104 @@
+term	annotation	term_genes_found	input_size	term_genes	genes_universe	hyp_pval	hyp_pval_adj	genes
+defense response to virus	GO:0051607	23	30	209	18944	5.26743e-40	1.0798199999999998e-37	IFIT5,IFITM3,IRF9,TRIM22,ISG15,IFITM1,STAT2,STAT1,OAS3,OAS2,OAS1,MX1,ISG20,IRF7,IFIT3,IFIT1,IFIT2,IFI27,GBP1,TRIM5,DHX58,IFIH1,DDX60
+type I interferon signaling pathway	GO:0060337	17	30	67	18944	2.68645e-35	2.75361e-33	IFITM3,IRF9,ISG15,IFITM1,STAT2,STAT1,OAS3,OAS2,OAS1,MX1,ISG20,IRF7,IFIT3,IFIT1,IFIT2,IFI35,IFI27
+immune system process	GO:0002376	22	30	531	18944	2.17908e-28	1.48904e-26	IFIT5,IFITM3,IRF9,ISG15,IFITM1,TAP1,OAS3,OAS2,OAS1,MX1,ISG20,IRF7,IFIT3,IFIT1,IFIT2,IFI27,GBP1,TRIM5,DHX58,IFIH1,DDX60,LAMP3
+response to virus	GO:0009615	15	30	112	18944	2.05084e-26	1.05105e-24	IFITM3,TRIM22,IFITM1,OAS3,OAS2,OAS1,MX1,ISG20,IRF7,IFIT3,IFIT1,IFIT2,DHX58,IFIH1,DDX60
+innate immune response	GO:0045087	19	30	604	18944	1.10274e-21	4.5212199999999996e-20	IFIT5,IFITM3,TRIM22,ISG15,IFITM1,OAS3,OAS2,OAS1,MX1,ISG20,IRF7,IFIT3,IFIT1,IFIT2,IFI27,TRIM5,DHX58,IFIH1,DDX60
+negative regulation of viral genome replication	GO:0045071	10	30	41	18944	1.9978e-20	6.82582e-19	IFIT5,IFITM3,ISG15,IFITM1,OAS3,OAS2,OAS1,MX1,ISG20,IFIT1
+interferon-gamma-mediated signaling pathway	GO:0060333	9	30	72	18944	1.32293e-15	3.87429e-14	IRF9,TRIM22,STAT1,OAS3,OAS2,OAS1,IRF7,GBP1,TRIM5
+viral process	GO:0016032	11	30	579	18944	6.37766e-10	1.63428e-08	TRIM22,ISG15,TAP1,STAT2,STAT1,IRF7,IFIT1,IFI27,TRIM5,DHX58,IFIH1
+regulation of ribonuclease activity	GO:0060700	3	30	4	18944	1.4319500000000001e-08	3.2616500000000004e-07	OAS3,OAS2,OAS1
+response to interferon-beta	GO:0035456	3	30	10	18944	4.2683599999999997e-07	7.954660000000001e-06	IFITM3,IFITM1,STAT1
+response to interferon-alpha	GO:0035455	3	30	10	18944	4.2683599999999997e-07	7.954660000000001e-06	IFITM3,IFITM1,LAMP3
+cellular response to interferon-alpha	GO:0035457	3	30	13	18944	1.01403e-06	1.73231e-05	OAS1,IFIT3,IFIT2
+defense response	GO:0006952	5	30	141	18944	2.6097500000000003e-06	4.11538e-05	SP140,TAP1,STAT2,STAT1,MX1
+negative regulation of viral entry into host cell	GO:0046597	3	30	19	18944	3.41369e-06	4.99861e-05	IFITM3,IFITM1,TRIM5
+positive regulation of interferon-alpha production	GO:0032727	3	30	23	18944	6.21242e-06	8.490309999999999e-05	STAT1,IRF7,IFIH1
+MDA-5 signaling pathway	GO:0039530	2	30	3	18944	7.26594e-06	9.30949e-05	IRF7,IFIH1
+positive regulation of MDA-5 signaling pathway	GO:1900245	2	30	4	18944	1.45176e-05	0.000175065	DHX58,DDX60
+positive regulation of interferon-beta production	GO:0032728	3	30	33	18944	1.89354e-05	0.000204303	IRF7,DHX58,IFIH1
+negative regulation of type I interferon production	GO:0032480	3	30	33	18944	1.89354e-05	0.000204303	ISG15,DHX58,IFIH1
+response to type I interferon	GO:0034340	2	30	8	18944	6.7482e-05	0.000691691	ISG15,MX1
+positive regulation of RIG-I signaling pathway	GO:1900246	2	30	10	18944	0.00010824	0.00105663	DHX58,DDX60
+regulation of viral entry into host cell	GO:0046596	2	30	15	18944	0.000251318	0.00234183	TRIM22,TRIM5
+cellular response to exogenous dsRNA	GO:0071360	2	30	18	18944	0.000365127	0.00325439	IFIT1,IFIH1
+response to interferon-gamma	GO:0034341	2	30	25	18944	0.000711018	0.00583035	IFITM3,IFITM1
+RNA catabolic process	GO:0006401	2	30	25	18944	0.000711018	0.00583035	OAS2,ISG20
+receptor signaling pathway via JAK-STAT	GO:0007259	2	30	32	18944	0.00116748	0.00920515	STAT2,STAT1
+response to bacterium	GO:0009617	3	30	138	18944	0.00132963	0.00973479	ISG15,OAS2,DHX58
+positive regulation of erythrocyte differentiation	GO:0045648	2	30	34	18944	0.00131788	0.010006200000000002	ISG15,STAT1
+modulation by host of viral genome replication	GO:0044827	1	30	1	18944	0.00158361	0.010145	IFI27
+regulation of MyD88-independent toll-like receptor signaling pathway	GO:0034127	1	30	1	18944	0.00158361	0.010145	IRF7
+regulation of lactation	GO:1903487	1	30	1	18944	0.00158361	0.010145	OAS2
+negative regulation of metanephric nephron tubule epithelial cell differentiation	GO:0072308	1	30	1	18944	0.00158361	0.010145	STAT1
+protein localization to vacuole	GO:0072665	1	30	2	18944	0.00316481	0.014103999999999998	GBP1
+cytoplasmic pattern recognition receptor signaling pathway in response to virus	GO:0039528	1	30	2	18944	0.00316481	0.014103999999999998	IFIH1
+regulation of type III interferon production	GO:0034344	1	30	2	18944	0.00316481	0.014103999999999998	IFIH1
+renal tubule development	GO:0061326	1	30	2	18944	0.00316481	0.014103999999999998	STAT1
+cytosol to endoplasmic reticulum transport	GO:0046967	1	30	2	18944	0.00316481	0.014103999999999998	TAP1
+regulation of MyD88-dependent toll-like receptor signaling pathway	GO:0034124	1	30	2	18944	0.00316481	0.014103999999999998	IRF7
+cellular response to type I interferon	GO:0071357	1	30	2	18944	0.00316481	0.014103999999999998	IFIT1
+intracellular transport of viral protein in host cell	GO:0019060	1	30	2	18944	0.00316481	0.014103999999999998	IFIT1
+establishment of viral latency	GO:0019043	1	30	2	18944	0.00316481	0.014103999999999998	IRF7
+negative regulation by virus of viral protein levels in host cell	GO:0046725	1	30	2	18944	0.00316481	0.014103999999999998	STAT1
+regulation of viral life cycle	GO:1903900	1	30	2	18944	0.00316481	0.014103999999999998	LAMP3
+regulation of monocyte differentiation	GO:0045655	1	30	2	18944	0.00316481	0.014103999999999998	IRF7
+membrane fusion	GO:0061025	2	30	45	18944	0.00230067	0.014292	OTOF,MX1
+positive regulation of type I interferon production	GO:0032481	2	30	55	18944	0.00341728	0.0145946	IRF7,DHX58
+nucleobase-containing compound metabolic process	GO:0006139	2	30	55	18944	0.00341728	0.0145946	OAS3,OAS2
+response to peptide hormone	GO:0043434	2	30	61	18944	0.00418648	0.0175148	STAT2,STAT1
+metanephric mesenchymal cell proliferation involved in metanephros development	GO:0072136	1	30	3	18944	0.00474358	0.017680599999999998	STAT1
+negative regulation of mesenchymal to epithelial transition involved in metanephros morphogenesis	GO:0003340	1	30	3	18944	0.00474358	0.017680599999999998	STAT1
+interferon-alpha production	GO:0032607	1	30	3	18944	0.00474358	0.017680599999999998	IRF7
+interferon-beta production	GO:0032608	1	30	3	18944	0.00474358	0.017680599999999998	IRF7
+negative regulation of helicase activity	GO:0051097	1	30	3	18944	0.00474358	0.017680599999999998	IFIT1
+positive regulation of autophagy	GO:0010508	2	30	62	18944	0.00432178	0.017719299999999997	TRIM22,TRIM5
+positive regulation of I-kappaB kinase/NF-kappaB signaling	GO:0043123	3	30	186	18944	0.00311105	0.0187578	IFIT5,TRIM22,TRIM5
+regulation of protein localization	GO:0032880	2	30	68	18944	0.00517571	0.0189468	TRIM22,TRIM5
+negative regulation of MDA-5 signaling pathway	GO:0039534	1	30	4	18944	0.00631993	0.0227296	DHX58
+negative regulation of protein binding	GO:0032091	2	30	77	18944	0.00658961	0.023290900000000003	IFIT1,IFIT2
+interleukin-10 production	GO:0032613	1	30	5	18944	0.00789387	0.0261007	ISG15
+regulation of lipopolysaccharide-mediated signaling pathway	GO:0031664	1	30	5	18944	0.00789387	0.0261007	TRIM5
+metanephric mesenchymal cell differentiation	GO:0072162	1	30	5	18944	0.00789387	0.0261007	STAT1
+type I interferon production	GO:0032606	1	30	5	18944	0.00789387	0.0261007	IRF7
+protein deubiquitination	GO:0016579	3	30	266	18944	0.00839923	0.0273308	USP18,USP41,IFIH1
+negative regulation of macrophage apoptotic process	GO:2000110	1	30	6	18944	0.009465399999999999	0.028535400000000006	IRF7
+detection of virus	GO:0009597	1	30	6	18944	0.009465399999999999	0.028535400000000006	IFIH1
+regulation of interferon-gamma production	GO:0032649	1	30	6	18944	0.009465399999999999	0.028535400000000006	ISG15
+vesicle fusion with endoplasmic reticulum-Golgi intermediate compartment (ERGIC) membrane	GO:1990668	1	30	6	18944	0.009465399999999999	0.028535400000000006	TAP1
+ISG15-protein conjugation	GO:0032020	1	30	6	18944	0.009465399999999999	0.028535400000000006	ISG15
+positive regulation of response to cytokine stimulus	GO:0060760	1	30	7	18944	0.0110345	0.0309873	IFIH1
+macrophage derived foam cell differentiation	GO:0010742	1	30	7	18944	0.0110345	0.0309873	STAT1
+synaptic vesicle budding from presynaptic endocytic zone membrane	GO:0016185	1	30	7	18944	0.0110345	0.0309873	MX1
+organelle fission	GO:0048285	1	30	7	18944	0.0110345	0.0309873	MX1
+cellular response to interferon-gamma	GO:0071346	2	30	99	18944	0.0106922	0.0317665	STAT1,GBP1
+dynamin family protein polymerization involved in mitochondrial fission	GO:0003374	1	30	8	18944	0.0126012	0.0331186	MX1
+interleukin-21-mediated signaling pathway	GO:0038114	1	30	8	18944	0.0126012	0.0331186	STAT1
+regulation of defense response to virus	GO:0050688	1	30	8	18944	0.0126012	0.0331186	IFIT1
+negative regulation of RIG-I signaling pathway	GO:0039536	1	30	8	18944	0.0126012	0.0331186	DHX58
+DNA catabolic process, exonucleolytic	GO:0000738	1	30	8	18944	0.0126012	0.0331186	ISG20
+postsynaptic neurotransmitter receptor internalization	GO:0098884	1	30	9	18944	0.0141656	0.0333786	MX1
+regulation of type I interferon-mediated signaling pathway	GO:0060338	1	30	9	18944	0.0141656	0.0333786	USP18
+interleukin-9-mediated signaling pathway	GO:0038113	1	30	9	18944	0.0141656	0.0333786	STAT1
+regulation of adaptive immune response	GO:0002819	1	30	9	18944	0.0141656	0.0333786	IRF7
+establishment of protein localization to organelle	GO:0072594	1	30	9	18944	0.0141656	0.0333786	LAMP3
+antigen processing and presentation of endogenous peptide antigen via MHC class I	GO:0019885	1	30	9	18944	0.0141656	0.0333786	TAP1
+modification-dependent protein catabolic process	GO:0019941	1	30	9	18944	0.0141656	0.0333786	ISG15
+regulation of protein export from nucleus	GO:0046825	1	30	9	18944	0.0141656	0.0333786	IFI27
+regulation of mitochondrial fission	GO:0090140	1	30	9	18944	0.0141656	0.0333786	STAT2
+positive regulation of DNA-binding transcription factor activity	GO:0051091	2	30	116	18944	0.0144593	0.0336835	TRIM22,TRIM5
+peptide transport	GO:0015833	1	30	10	18944	0.015727500000000002	0.03622619999999999	TAP1
+interleukin-27-mediated signaling pathway	GO:0070106	1	30	11	18944	0.017287	0.03852	STAT1
+interleukin-35-mediated signaling pathway	GO:0070757	1	30	11	18944	0.017287	0.03852	STAT1
+regulation of synapse structure or activity	GO:0050803	1	30	11	18944	0.017287	0.03852	MX1
+regulation of gene expression	GO:0010468	3	30	352	18944	0.017819	0.0392785	TRIM22,IRF7,TRIM5
+regulation of calcium-mediated signaling	GO:0050848	1	30	12	18944	0.018844200000000002	0.0410963	GBP1
+regulation of interferon-gamma-mediated signaling pathway	GO:0060334	1	30	13	18944	0.0203989	0.0431111	STAT1
+negative regulation of substrate adhesion-dependent cell spreading	GO:1900025	1	30	13	18944	0.0203989	0.0431111	GBP1
+positive regulation of type I interferon-mediated signaling pathway	GO:0060340	1	30	13	18944	0.0203989	0.0431111	IRF7
+immunoglobulin mediated immune response	GO:0016064	1	30	14	18944	0.0219513	0.045000099999999994	IRF7
+negative regulation of proteasomal protein catabolic process	GO:1901799	1	30	14	18944	0.0219513	0.045000099999999994	LAMP3
+negative regulation of viral transcription	GO:0032897	1	30	14	18944	0.0219513	0.045000099999999994	IFITM3
+negative regulation of viral release from host cell	GO:1902187	1	30	15	18944	0.0235013	0.047233	TRIM5
+regulation of type I interferon production	GO:0032479	1	30	15	18944	0.0235013	0.047233	IRF7
+synaptic vesicle priming	GO:0016082	1	30	16	18944	0.0250489	0.0498546	OTOF

@@ -1,0 +1,138 @@
+<div class="tile is-vertical">
+  <div class="tile">
+    <button type="button" class="button label is-fullwidth select toggle" onclick="showParentNextSibling(event);">
+      Advanced options
+    </button>
+  </div>
+  <div class="tile" id='advanced' style="display:none;">
+    <div class="tile is-6 is-vertical">
+      <div class="field">
+        <label class="label"><p>Enrichment stats</p>
+          <i class="far fa-question-circle tooltip">
+            <span class="tooltiptext">Select Wallenius to account for bias in RNAseq and WG Methylation assays.</span>
+          </i>
+        </label>
+        <div class="control">
+          <label class="pr-5" for="hypergeom"><input id="hypergeom" value="hypergeom" class="mr-2" name="stat" type="radio" onchange="disableAnnotsByInputType();" checked>Hypergeometric</label>
+          <label for="wallenius"><input id="wallenius" value="wallenius" class="mr-2" name="stat" type="radio" onchange="disableAnnotsByInputType();">Wallenius</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label"><p>Universe scope</p>
+          <i class="far fa-question-circle tooltip">
+            <span class="tooltiptext">Select between only the database annotated genes or all the genes allowed in GeneCodis4.</span>
+          </i>
+        </label>
+        <div class="control">
+          <label class="pr-5" for="annotated"><input id="annotated" value="annotated" class="mr-2" name="scope" type="radio" checked>Annotated</label>
+          <label for="whole"><input id="whole" value="whole" class="mr-2" name="scope" type="radio">Whole</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label"><p>CoAnnotation analysis</p>
+          <i class="far fa-question-circle tooltip">
+            <span class="tooltiptext">Discover significant and concurrent annotations in your input list.</span>
+          </i>
+        </label>
+        <div class="control">
+          <label class="pr-5" for="coannotation_yes"><input class="mr-2" type="radio" name="coannotation" value="coannotation_yes" id="coannotation_yes" onchange="changeLimits()">Yes</label>
+          <label class="" for="coannotation_no"><input class="mr-2" type="radio" name="coannotation" value="coannotation_no" id="coannotation_no" onchange="changeLimits()" checked>No</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label"><p>CoAnnotation algorithm</p>
+          <i class="far fa-question-circle tooltip">
+            <span class="tooltiptext">Find closed itemsets of annotations or maximal closed itemsets.</span>
+          </i>
+        </label>
+        <div class="control">
+          <label class="pr-5" for="fpgrowth"><input id="fpgrowth" value="fpgrowth" class="mr-2" name="algorithm" type="radio" checked>FP Growth</label>
+          <label for="fpmax"><input id="fpmax" value="fpmax" class="mr-2" name="algorithm" type="radio">FP Max</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label"><p>Minimal input % in CoAnnotation</p>
+          <i class="far fa-question-circle tooltip">
+            <span class="tooltiptext">Minimun % of input elements allowed to consider an annotation to be co-annotated. This will be increased automatically to balance analysis elapsed time and number of results.</span>
+          </i>
+        </label>
+        <div class="control has-icons-right" style="width:50%;">
+          <input class="input pr-4" name="inputSupport" id="inputSupport" placeholder="10" size="3" maxlength="3" value="10">
+          <span class="icon is-small is-right">
+            <i class="fas fa-percentage"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="tile is-6 is-vertical">
+      <div class="field">
+        <label class="label"><p>Compare two lists</p>
+          <i class="far fa-question-circle tooltip">
+            <span class="tooltiptext">Two lists can be provided to study their intersect and difference sets.</span>
+          </i>
+        </label>
+        <div class="control">
+          <label class="pr-5" for="single"><input class="mr-2" id="single" onchange="comparingMode(); adjustDisplaying(); resetFile('doc_file2');" name="inputmode" type="radio" checked>No</label>
+          <label for="comparative"><input class="mr-2" id="comparative" onchange="comparingMode(); adjustDisplaying();" name="inputmode" type="radio">Yes</label>
+        </div>
+      </div>
+      <div class="field" id='universe'>
+        <label class="label" for='universe'><p>Custom universe</p>
+          <i class="far fa-question-circle tooltip">
+            <span class="tooltiptext">Paste the whole list of genes considered in your upstream analysis to adjusts statistics.</span>
+          </i>
+        </label>
+        <div class="tile is-vertical">
+          <div class="control">
+            <textarea name="universe" id="holder3" ondragenter="_ondragenter(event,'holder3')" ondragleave="_ondragleave('holder3')" ondrop="drop(event,'universe')" ondragover="allowDrop(event)" class="textarea has-fixed-size" placeholder="Choose your file (only txt or csv formats supported), drag it or paste here your reference list of genes, TFs, miRNAs or CpGs. One per line." cols="8" rows="5"></textarea>
+          </div>
+          <div class="tile is-flex">
+            <div class="file is-small has-name">
+              <label class="file-label" style="overflow: visible;" >
+                <input class="file-input" type="file" accept=".txt,.csv" id="doc_file3" onchange="printDataFromFile('doc_file3');">
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Browse
+                  </span>
+
+                </span>
+                <span class="file-name" id="fileName3" >
+                  No file selected
+                </span>
+              </label>
+            </div>
+            <div class="tile is-justify-content-left">
+              <button class="button is-text is-small" onclick="clearinputBox('universe'); resetFile('doc_file3');" type="button">
+              &#9747; Empty
+              </button>
+            </div>
+          </div>
+          <!-- <div class="file is-small is-boxed has-name is-fullwidth">
+          <div class="tile is-vertical">
+            <label class="file-label">
+              <input name="universe" class="file-input" type="file" onchange="showfilename(event);">
+              <span class="file-cta px-4">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Select your file
+                </span>
+              </span>
+              <span class="file-name px-4">
+                ...
+              </span>
+            </label>
+            <button class="button is-text is-small is-justify-content-left" onclick="removefile('universe');" type="button">
+              Remove file &#9747;
+            </button>
+          </div>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

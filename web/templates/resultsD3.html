@@ -1,0 +1,292 @@
+<div class="tile is-ancestor">
+  <div class="tile is-vertical">
+    <div class="tile">
+      <div class="tile is-parent is-4 is-vertical py-0">
+        <div class="tile is-child">
+          <nav class="panel panelfixed" id='resultspanel'>
+            <p class="panel-heading">Results              
+                <i class="fas fa-exclamation-circle tooltip">
+                <span class="tooltiptext">Results are stored temporarily in our server for 30 days.</span>
+              </i>
+            </p>
+            <button class="button is-flex" type="button" onclick="getResults('all',download=true)">
+              <span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download all tables
+              </span>
+            </button>
+            <p class="panel-tabs">
+              {% for input in outJobs %}
+              <a onclick="openTab(event,'{{outJobs[input]['name']|safe}}')">{{outJobs[input]['name']|replace("_", " ")|safe}}</a>         
+              {% endfor %}
+            </p>
+            <div>
+              {% for input in outJobs %}
+              <div id="{{outJobs[input]['name']|safe}}">
+                {% if 'engenes' in outJobs[input] %}
+                  <div style="overflow-y:auto;max-height:172px;">
+                    {% for result in outJobs[input]['engenes'] %}
+                    <a class="panel-block" onclick="openTab(event,'{{outJobs[input]['engenes'][result]['id']|safe}}div')">
+                      <span class="panel-icon"><i class="fas fa-book" aria-hidden="true"></i></span>
+                      {{outJobs[input]['engenes'][result]['annotation']}}
+                    </a>
+                    {% endfor %}
+                    
+                  </div>
+                  
+                  {% for result in outJobs[input]['engenes'] %}
+                  <div class="is-vertical" id="{{outJobs[input]['engenes'][result]['id']}}opts" style="display:none;">
+                    <p class="panel-heading">Visualization options
+                      <i class="far fa-question-circle tooltip">
+                        <span class="tooltiptext">Modify the number of annotations displayed with the silder or input box. Also customize the network display.</span>
+                      </i>
+                    </p>
+                    <a class="panel-block" onclick="move2anchor('{{outJobs[input]['engenes'][result]['id']}}qctitle');">
+                      <span class="panel-icon"><i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                      Quality control</a>
+                    <a class="panel-block" onclick="move2anchor('{{outJobs[input]['engenes'][result]['id']}}tabletitle');">
+                      <span class="panel-icon"><i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                      Table
+                    </a>
+                    <a class="panel-block is-flex-direction-column is-align-items-start">
+                      <p id="{{outJobs[input]['engenes'][result]['id']}}sliderval" class="pb-2"></p>
+                      <div class="columns is-vcentered py-3 ml-1">
+                        <div class="column is-10 has-text-centered p-0">
+                          <input class="pl-2" id="{{outJobs[input]['engenes'][result]['id']}}slider" style="display:flex;align-self:center;" type="range" min="1" max="50" value="10" step="1"
+                          oninput="updateVisualizations('{{outJobs[input]['engenes'][result]['id']}}',this)">
+                        </div>
+                        <div class="column p-0">
+                          <input id="{{outJobs[input]['engenes'][result]['id']}}txbox" style="width:40px;" type="text" size="2" placeholder="10" value=10 maxlength="2"
+                          onchange="updateVisualizations('{{outJobs[input]['engenes'][result]['id']}}',this);">
+                        </div>
+                      </div>
+                    </a>
+                    <a class="panel-block" onclick="move2anchor('{{outJobs[input]['engenes'][result]['id']}}networktitle');">
+                      <span class="panel-icon"><i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                      Gene-annotation clusters network</a>
+                    <div class="columns mb-0 p-1">
+                      <div class="column">
+                        <label for="{{outJobs[input]['engenes'][result]['id']}}hidelabelgenes" class="checkbox pl-2">
+                          <input class="mr-2" type="checkbox" id="{{outJobs[input]['engenes'][result]['id']}}hidelabelgenes" checked onchange="updateVisualizations('{{outJobs[input]['engenes'][result]['id']}}',this);">
+                          Show gene label
+                        </label>
+                        <label for="{{outJobs[input]['engenes'][result]['id']}}hidegenes" class="checkbox pl-2">
+                          <input class="mr-2" type="checkbox" id="{{outJobs[input]['engenes'][result]['id']}}hidegenes" checked onchange="updateVisualizations('{{outJobs[input]['engenes'][result]['id']}}',this);">
+                          Show network genes
+                        </label>
+                      </div>
+                    </div>
+                    <a class="panel-block" style="border-top: 1px solid #ededed;" onclick="move2anchor('{{outJobs[input]['engenes'][result]['id']}}barcharttitle');">
+                      <span class="panel-icon"><i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                      Bars chart</a>
+                    {% if 'mirnas' in outJobs[input]['engenes'][result]['plot'] %}
+                      <a class="panel-block" style="border-top: 1px solid #ededed;" onclick="move2anchor('{{outJobs[input]['engenes'][result]['id']}}mirnatargetstitle');">
+                        <span class="panel-icon"><i class="fas fa-arrow-right" aria-hidden="true"></i></span>miRNAs-targets table
+                      </a>
+                    {% endif %}
+                    <a class="panel-block" href="{{API_URL|replace(':5000','')|replace('/gc4','')|safe}}">
+                      <span class="panel-icon"><i class="fas fa-redo"></i></span>
+                      <span>Launch new analysis</span>
+                    </a>
+                  </div>
+                  {% endfor %}
+                {% else %}
+                  <a class="panel-block" onclick="openTab(event,'{{outJobs[input]['name']|safe}}div')">
+                    <span class="panel-icon"><i class="fas fa-book" aria-hidden="true"></i></span>
+                    Invalid input
+                  </a>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </nav>
+        </div>
+      </div>
+      <div class="tile is-parent is-8 is-vertical p-0">
+        <div class="is-child is-vertical box">
+          {% for input in outJobs %}
+            {% if 'engenes' in outJobs[input] %}
+              {% for result in outJobs[input]['engenes'] %}
+              <div id="{{outJobs[input]['engenes'][result]['id']|safe}}div" style="display:none;">
+                <label class="label">
+                  <p id="{{outJobs[input]['engenes'][result]['id']}}qctitle">
+                    Quality control
+                  </p>
+                  <i class="far fa-question-circle tooltip">
+                    <span class="tooltiptext">Sanity check of your input list. Check the help page for more details.</span>
+                  </i>
+                </label>
+                <div class="tile mb-5">
+                  <div class="tile is-vertical">
+                    <p>Input not in our database:
+                      {% if outJobs[input]['notInDB']['invalidInput']|length == 0 %}
+                      0
+                      {% else %}
+                      <a class="genyoLink" onclick="showList({{ outJobs[input]['notInDB']['invalidInput']|safe }});">
+                        {{ outJobs[input]['notInDB']['invalidInput']|length|safe }}
+                      </a>
+                      {% endif %}
+                    </p>
+                    <p>Universe not in our database:
+                      {% if outJobs[input]['notInDB']['invalidUniverse']|length == 0 %}
+                      0
+                      {% else %}
+                      <a class="genyoLink" onclick="showList({{outJobs[input]['notInDB']['invalidUniverse']|safe }});">
+                        {{ outJobs[input]['notInDB']['invalidUniverse']|length|safe }}
+                      </a>
+                      {% endif %}
+                    </p>
+                    <p>Annotations not mapped to input:
+                      {% if outJobs[input]['notInDB']['notMapped']|length == 0 %}
+                      0
+                      {% else %}
+                      {{ outJobs[input]['notInDB']['notMapped']|join(', ')|safe }}
+                      {% endif %}
+                    </p>
+                  </div>
+                  <div class="tile is-vertical">
+                    <p>Annotated input:
+                      {% if outJobs[input]['engenes'][result]['annotated']|length == 0 %}
+                      0
+                      {% else %}
+                      <a class="genyoLink" href="{{API_URL}}/geneinfo?org={{organism}}&genes={{outJobs[input]['engenes'][result]['annotated']|join(',')|safe }}" target="_blank">
+                        {{ outJobs[input]['engenes'][result]['annotated']|length|safe }}
+                      </a>
+                      {% endif %}
+                    </p>
+                    <p>No annotated input:
+                      {% if outJobs[input]['engenes'][result]['noAnnotated']|length == 0 %}
+                      0
+                      {% else %}
+                      <a class="genyoLink" href="{{API_URL}}/geneinfo?org={{organism}}&genes={{outJobs[input]['engenes'][result]['noAnnotated']|join(',')|safe }}" target="_blank">
+                        {{ outJobs[input]['engenes'][result]['noAnnotated']|length|safe }}
+                      </a>
+                      {% endif %}
+                    </p>
+                    <p>Annotation universe:
+                      {% if  outJobs[input]['engenes'][result]['universe'] is number %}
+                      {{ outJobs[input]['engenes'][result]['universe']|safe }}
+                      {% elif outJobs[input]['engenes'][result]['universe']|length == 0 %}
+                      0
+                      {% else %}
+                      <a class="button is-ghost" href="{{API_URL}}/geneinfo?org={{organism}}&genes={{outJobs[input]['engenes'][result]['universe']|join(',')|safe }}" target="_blank">
+                        {{ outJobs[input]['engenes'][result]['universe']|length|safe }}
+                      </a>
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
+                {% if outJobs[input]['engenes'][result]['plot'] is string %}
+                <div class="notification is-info is-light">
+                  <p>There are no significant annotations</p>
+                </div>
+                {% else %}
+                <label class="label">
+                  <p id="{{outJobs[input]['engenes'][result]['id']}}tabletitle">
+                    Table results
+                  </p>
+                  <i class="far fa-question-circle tooltip">
+                    <span class="tooltiptext">The stats of results with a max of 100 top enriched. Download the complete table to see more information, i.e. genes that cause the enrichment.</span>
+                  </i>
+                </label>
+                {{ outJobs[input]['engenes'][result]['plot']['table']|safe }}
+                
+                <div class="tile is-justify-content-space-between py-3">
+                  <p>{{ outJobs[input]['engenes'][result]['plot']['totalresults']|safe }}</p>
+                  <button class="button is-flex" type="button" onclick="getResults('{{outJobs[input]['engenes'][result]['id']}}',download=true)">
+                    <span class="icon">
+                      <i class="fas fa-download"></i>
+                    </span><span>
+                      Download complete table
+                    </span>
+                  </button>
+                </div>
+                <label class="label">
+                  <p id="{{outJobs[input]['engenes'][result]['id']}}networktitle">
+                    Gene-annotation clusters network
+                  </p>
+                  <i class="far fa-question-circle tooltip">
+                    <span class="tooltiptext">Interactions input gene-annotation to catch functional modules.</span>
+                  </i>
+                </label>
+                <div id="{{outJobs[input]['engenes'][result]['id']}}network"></div>
+                <div class="tile is-justify-content-end py-3">
+                  <button class="button mr-3" onclick="downloadPNG('{{outJobs[input]['engenes'][result]['id']}}network')">
+                    <span class="icon"><i class="fas fa-download"></i></span><span>Download (.png)</span>
+                  </button>
+                  <button class="button" onclick="downloadSVG('{{outJobs[input]['engenes'][result]['id']}}network')">
+                    <span class="icon"><i class="fas fa-download"></i></span><span>Download (.svg)</span>
+                  </button>
+                </div>
+                <ul class="pb-3 is-size-7">
+                  <li>- Zoom in/out with the mouse wheel</li>
+                  <li>- Click on a node to hide/show its label and of the linked neighbors.</li>
+                </ul>
+                <label class="label">
+                  <p id="{{outJobs[input]['engenes'][result]['id']}}barcharttitle">Bars chart</p>
+                  <i class="far fa-question-circle tooltip">
+                    <span class="tooltiptext">Representation of the -log10(pVal) of the significant annotations.</span>
+                  </i>
+                </label>
+                <div id="{{outJobs[input]['engenes'][result]['id']}}barchart"></div>
+                <div class="tile is-justify-content-end py-3">
+                  <button class="button mr-3" onclick="downloadPNG('{{outJobs[input]['engenes'][result]['id']}}barchart')">
+                    <span class="icon"><i class="fas fa-download"></i></span><span>Download (.png)</span>
+                  </button>
+                  <button class="button" onclick="downloadSVG('{{outJobs[input]['engenes'][result]['id']}}barchart')">
+                    <span class="icon"><i class="fas fa-download"></i></span><span>Download (.svg)</span>
+                  </button>
+                </div>
+                {% if 'mirnas' in outJobs[input]['engenes'][result]['plot'] %}
+                <label class="label">
+                  <p id="{{outJobs[input]['engenes'][result]['id']}}mirnatargetstitle">miRNAs-target table</p>
+                  <i class="far fa-question-circle tooltip">
+                    <span class="tooltiptext">Input miRNAs and their target in the annotation database.</span>
+                  </i>
+                </label>
+                {{ outJobs[input]['engenes'][result]['plot']['mirnas']['table']|safe }}
+                {{ outJobs[input]['engenes'][result]['plot']['mirnas']['js']|safe }}
+                {% endif %}
+                {% endif %}
+              </div>
+              {% endfor %}
+            {% else %}
+              <div id="{{outJobs[input]['name']|safe}}div" style="display:none;">
+                <div class="notification is-info is-light">
+                  <p>
+                    The input provided is not associated to the selected
+                    annotations or in case of comparative analysis there are not
+                    uniques or commons genes in the resulting list.
+                  </p>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% for input in outJobs %}
+{% if 'engenes' in outJobs[input] %}
+{% for result in outJobs[input]['engenes'] %}
+{{outJobs[input]['engenes'][result]['plot']['js']|safe}}
+<script>
+  updateVisualizations("{{outJobs[input]['engenes'][result]['id']|safe}}");
+</script>
+{% endfor %}
+{% endif %}
+{% endfor %}
+<script>
+  [...document.querySelectorAll("[type='range']")].map(function(sld) {
+    initSlider(sld)
+  });
+  document.querySelector('#resultspanel').querySelector('.panel-heading').style.display = '';
+  document.querySelector('#resultspanel').querySelector('[id$="opts"]').style.display = '';
+  document.querySelector('#resultspanel').querySelector('.panel-block').click();
+  document.querySelector('#resultspanel').querySelector('.panel-tabs').children[0].click();
+  document.querySelector('#resultspanel').querySelector('[id$="opts"]').querySelector('.columns').style.display = '';
+  openTabResults();
+  checkEnvironment();
+</script>

@@ -1,0 +1,14 @@
+#/etc/systemd/system/gc4.service
+[Unit]
+Description=Gunicorn instance to serve GeneCodis4
+After=network.target
+
+[Service]
+User=genecodis
+Group=nginx
+WorkingDirectory=/home/genecodis/GeneCodis4.0
+Environment="PATH=/home/genecodis/GeneCodis4.0/gc4venv/bin"
+ExecStart=/home/genecodis/GeneCodis4.0/gc4venv/bin/gunicorn -b 0.0.0.0:5000 -k gevent --workers 8 --timeout 86400 --bind unix:gc4.sock -m 007 --log-file "/home/genecodis/GeneCodis4.0/gc4gunicorn.log" --log-level degub wsgi:app --certfile fullchain5.pem --keyfile privkey5.pem
+
+[Install]
+WantedBy=multi-user.target

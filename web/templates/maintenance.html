@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>GeneCodis 4.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="assets/images/GC4_favicon.png?v=1586453086789">
+    <link rel="stylesheet" type="text/css" href="assets/css/flex_layout.css">
+    <script src="assets/js/organism_annotations.js"></script>
+    <script src="assets/js/validator.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-tables-1.3.0.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159036264-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-159036264-1');
+    </script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="row">
+        <img class="logo" src="assets/images/bioinformatics-GENyO-junta-andalucia-pfizer-universidad-granada-logo.png?v=1586453086789" alt="GENyO BioInformatics Logo">
+        <img class="logo" src="assets/images/GC4logo.png?v=1586453086789" alt="GeneCodis4 Logo">
+      </div>
+    </header>
+    <div class="navbar primary">
+      <button class="tab active" onclick="openTab(event,'analysis')">Analysis</button>
+      <!-- <button class="tab" onclick="openTab(event,'api')">API</button> -->
+      <button class="tab" onclick="openTab(event,'about')">Help</button>
+      <!-- <button class="tab" onclick="openTab(event,'faqs')">FAQ</button> -->
+      <button class="tab hidden" id="resultstab" onclick="openTab(event,'results')">Results</button>
+    </div>
+    <main class="content">
+
+<div id="analysis" class="tabcontent">
+    <p class="gc4title warningtitle">
+        We are carrying out maintance taks. Sorry the inconveniences.
+    </p>
+</div>
+<!-- <div id="api" class="tabcontent hidden">
+    <p class='gc4title'>API</p>
+
+</div> -->
+<div id="about" class="tabcontent hidden">
+    <div class="column help">
+<button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+ General Info
+</button>
+<div class="hidden">
+  <p>
+    GeneCodis is a web-based tool for the ontological analysis of lists of genes.
+    It can be used to determine biological annotations or combinations of annotations that
+    are significantly associated to a list of genes under study with respect to a reference
+    list. As well as single annotations, this tool allows users to simultaneously evaluate
+    annotations from different sources, for example GO Biological Process and KEGG.
+    To this end, and before computing p-values, it uses the apriori algorithm to
+    extract sets of annotations that frequently co-occur in the analyzed list of
+    genes. More information can be found in <a class="plusInfo" href="https://doi.org/10.1186/1471-2105-7-54", target="_blank">Carmona-Saez et al. (BMC Bioinformatics, 2006).</a>
+  </p>
+</div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    About the new GeneCodis
+  </button>
+  <div class="hidden">
+    <p>
+      You are visiting a whole new website of GeneCodis. This new version allows
+      users to input genes as transcription factor and also accepts CPGs and miRNAs.
+      This website has only been tested in Google Chrome 80.0.3987.87, other browsers
+      might rise issues. We have updated the annotations and organisms. Some of
+      them are completly new, but some old ones have not been included. Annotations
+      are now divided in three general collections, Regulatory, Functional and Perturbation.
+      The results are also displayed differently, we are now using
+      <a class="plusInfo" href="https://docs.bokeh.org" target="_blank">bokeh</a>.
+      In case that you are missing any functionality, organisms, annotation or
+      even if you want some kind of new feature please do not hesitate in contact
+      us at <a class="plusInfo" target="_blank" href="mailto:bioinfo@genyo.es">bioinfo@genyo.es</a>
+      since we are still working on creating a complete updated GeneCodis.
+    </p>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Allowed Input
+  </button>
+  <div class="hidden">
+  <p>GeneCodis supports different gene nomenclatures and other types of input
+    which are, micro-RNAs and CPGs. Genes can be set to act as transcription
+    factors, which along with an input of miRNAs and CPGs, will be converted
+    to its genes target or, in case of the CPGs, those where they occur. For all
+    organisms, users can input entrez, symbol, ensembl and uniprot ids,
+    as well as synonyms symbols collected in the NCBI FTP
+    <a class="plusInfo" target="_self" href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">
+    gene_info.gz file</a>. CPGs allowed derive from EPIC i.e.: cg00050873 and
+    are extracted from Bioconductor's package
+    <a class="plusInfo" target="_blank" href="http://bioconductor.org/packages/release/data/annotation/html/IlluminaHumanMethylationEPICanno.ilm10b4.hg19.html">
+    (IlluminaHumanMethylationEPICanno.ilm10b4.hg19)</a>. The miRNAs allowed,
+    i.e: hsa-miR-122-5p, come from miRTarBase.
+  </p>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Launch Analysis
+  </button>
+  <div class="hidden">
+  <p class="helpTitle">1º Choose an organism</p>
+  <p>Select one of the fifteen possible organisms listed in this page SECTION "Organisms".</p>
+  <p class="helpTitle">2º Choose the type of input</p>
+  <p>By default GeneCodis will treat your input as genes but it can be treated as
+     TFs (Transcription Factors). TFs are only available for Humans. If this type
+     of input is selected, genes will be transformed to their targets which also
+     happens if your input is a list miRNAs or CPGs but in these cases it will be
+     identified automatically.
+  </p>
+  <p class="helpTitle">3º Paste your query list/s</p>
+  <p>Genes, Transcription Factors, CPGs and/or microRNAs in any of the allowed
+  nomenclatures, as explained in "Allowed Input" section of this page.</p>
+  <p class="helpTitle">4º Choose the annotation/s</p>
+  <p>At least one must be selected. The available annotations vary for each organism,
+     check "Organisms" help.</p>
+  <p class="helpTitle">5º Advanced Options</p>
+  <h5>Test</h5>
+  <p>Hypergeometric by default, also Chi-Square test is available. See details at "Stats".</p>
+  <h5>pValue Correction</h5>
+  <p>FDR by default. You can choose Permutations test or None to obtain only pValues
+     not corrected. See details at "Stats".</p>
+  <h5>Mode of analysis</h5>
+  <p>Single by default. It is also possible Comparative, which analyse the common
+     elements and uniques of the two input lists. If this last option is selected,
+     you will be able to name each list, if not they are called "input1" and "input 2",
+     respectively.
+ </p>
+  <h5>Min genes annotated</h5>
+  <p>Annotations or combinations of annotations that do not have at least the
+     selected number of genes will not be shown. This parameter is only relevant
+     for the co-ocurrence analysis, the singular analyses are always computed
+     with a minimum support of 1.
+  </p>
+  <h5>Universe</h5>
+  <p>By default, all the genes of the organism that have one annotation associated.
+     It will differ in each annotation data base.</p>
+  <p class="helpTitle">Email</p>
+  <p>Introduce your email so that we can send you the link with results. If you
+  do not want to submit it please be sure to copy the report url to recover your
+  job anytime.</p>
+  <p class="helpTitle">Report Name</p>
+  <p>Personalise your analysis with a name.</p>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+   Results Interpretation
+  </button>
+  <div class="hidden">
+    <p>
+        GeneCodis reports only significant results, pValue below 0.05, which in
+        the website are limited so that only the top 50 terms are shown. If you
+        want to see all the terms enriched, click in "Download Full Table".
+    </p>
+    <p class="helpTitle">Table</p>
+    <p>
+        There is one for every selected annotation database, pluse one for the
+        CoAnnotation analysis. The table is linked to two visualizations
+        "Gene-Clustered" and "Bar-Chart", the terms selected in the table will
+        be remarked in these. The columns of the table vary according to the
+        statistical test/s chosen and its pValue correction method. The different
+        columns are:
+    </p>
+    <div class="row help whitoverblack bordered">
+        <p style="font-weight: bold;">Annotations</p>
+        <p>The standarized code that identifies each term. It is specific to each
+        ontology.</p>
+    </div>
+    <div class="row help whitoverblack bordered">
+        <p style="font-weight: bold;">Terms</p>
+        <p>The human readable names of the annotations.</p>
+    </div>
+    <div class="row help whitoverblack bordered">
+        <p style="font-weight: bold;">Hyp/Chi pVal/pValAdj</p>
+        <p>Hyp refers to the Hypergeometric test, and Chi to the Chi-Square test.
+           You can apply one or both at the same time. The number of these
+           columns is the pValue resulting from applying the test/s selected.
+           Additionally, another column with the adjusted pValues by Permutations
+           or False Discovery Rate (FDR), might appear always that a "pValue Correction"
+           method is selected.</p>
+    </div>
+    <div class="row help whitoverblack bordered">
+        <p style="font-weight: bold;">Term's Genes</p>
+        <p>Number of genes that are annotated to each annotation.</p>
+    </div>
+    <div class="row help whitoverblack bordered">
+        <p style="font-weight: bold;">Term's Genes Found</p>
+        <p>Number of genes in the input list that part of the annotation.</p>
+    </div>
+    <div class="row help whitoverblack bordered">
+        <p style="font-weight: bold;">Genes Universe</p>
+        <p>The number of genes that are annotated for the selected database/s
+        and organism but, optionally, it will match the valid input in
+        "Advanced Options > Universe > Custom".</p>
+    </div>
+    <div class="row help whitoverblack bordered">
+        <p style="font-weight: bold;">Genes</p>
+        <p>The input genes associated to each annotation separated by comma.</p>
+    </div>
+    <p class="helpTitle">Gene-Clustered</p>
+    <p>It is a 2D representation of the results. To achieve this, the results are
+     transformed to a binary matrix with genes as columns and annotations in rows.
+     For every gene that is part of an annotation a 1 is placed, 0 otherwise.
+     A PCA is later applied to keep as maximun 50 components which later are
+     passed to a t-SNE test (t-distributed Stochastic Neighbor Embedding) to get
+     the final dimensionality reduction.
+    </p>
+    <p class="helpTitle">WordsCloud</p>
+    <p>In CoAnnotation, the terms appear in the wordscloud according the frequency
+    that each one is reported in the top 50 co-annotated terms. Meanwhile, in the
+    single analysis, the size of the word is related to the -Log(pVal|pValAdj)
+    of the first column that reports it, preferably pValAdj.</p>
+    <p class="helpTitle">Bars-Chart</p>
+    <p>The bars size represent the -Log(pVal|pValAdj) of the first column that
+    reports it, preferably pValAdj.</p>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Organisms
+  </button>
+  <div class="hidden">
+    <p>Currently GeneCodis provides annotations for 15 different organisms. Click on them to check the different annotations available.</p>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+        Homo sapiens
+      </button>
+      <div class="column helpannots hidden">
+      <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+      <p>KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+      <p>DoRothEA, miRNAs Strong, Reactome, WikiPathways</p>
+      <p>CTD, HPO, LINCS, OMIM, PharmGKB</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Caenorhabditis elegans</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, CTD, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Canis familiaris</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, Mouse Genomic Information, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Danio rerio</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+        <p>miRNAs Strong, CTD, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Drosophila melanogaster</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, miRNAs Strong, CTD, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Gallus gallus</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, Mouse Genomic Information, CTD</p>
+        <p>Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Bos taurus</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, Mouse Genomic Information, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Mus musculus</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+        <p>miRNAs Strong, CTD, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Rattus norvegicus</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+        <p>miRNAs Strong, CTD, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Sus scrofa</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, CTD, Reactome</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Arabidopsis thaliana</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, CTD, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Oryza sativa</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Saccharomyces cerevisiae</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Aspergillus nidulans</button>
+  <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Escherichia coli</button>
+    <div class="column helpannots hidden">
+        <p>Gene Ontology: Biological Process, Cellular Component, Molecular Function.</p>
+        <p>KEGG Pathways, Panther Pathways</p>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Annotations
+  </button>
+  <div class="hidden">
+    <p>We offer 13 annotation sources. These
+      are updated every three months. You can download, for each one, a
+      two columns table with the pairs gene-annotation directly from our
+      database. Genes are in by default in Symbol nomenclature, but you can
+      choose the one that suits you:
+      <select name="nomenclature">
+        <option value="symbol">Symbol</option>
+        <option value="ensembl">Ensembl</option>
+        <option value="entrez">Entrez</option>
+        <option value="uniprot">Uniprot</option>
+      </select>
+      By defaul, you will download the information from all the organisms
+      in the database, however you can choose a concrete one:
+      <select name="taxid">
+        <option value="all">All</option>
+        <option value="3702">Arabidopsis thaliana</option>
+        <option value="6239">Caenorhabditis elegans</option>
+        <option value="7227">Drosophila melanogaster</option>
+        <option value="7955">Danio rerio</option>
+        <option value="9031">Gallus gallus</option>
+        <option value="9606">Homo sapiens</option>
+        <option value="9615">Canis familiaris</option>
+        <option value="9823">Sus scrofa</option>
+        <option value="9913">Bos taurus</option>
+        <option value="10090">Mus musculus</option>
+        <option value="10116">Rattus norvegicus</option>
+        <option value="39947">Oryza sativa</option>
+        <option value="227321">Aspergillus nidulans</option>
+        <option value="511145">Escherichia coli</option>
+        <option value="559292">Saccharomyces cerevisiae</option>
+      </select>
+     </p>
+    <div class="row help whitovergrey bordered">
+        <p>Gene Ontology Biological Process</p>
+        <a class="plusInfo" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" onclick="downloadAnnot('GO_BP');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Gene Ontology Cellular Component</p>
+        <a class="plusInfo" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" onclick="downloadAnnot('GO_CC');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Gene Ontology Molecular Function</p>
+        <a class="plusInfo" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" onclick="downloadAnnot('GO_MF');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>KEGG Pathways</p>
+        <a class="plusInfo" style="padding:10px;" href="http://www.genome.jp/kegg" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" onclick="downloadAnnot('KEGG');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Panther Pathways</p>
+        <a class="plusInfo" style="padding:10px;" href="http://www.pantherdb.org/pathway" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" onclick="downloadAnnot('Panther');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>OMIM Diseases</p>
+        <a class="plusInfo" style="padding:10px;" href="http://www.ncbi.nlm.nih.gov/omim" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" onclick="downloadAnnot('OMIM');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>PharmGKB Drugs</p>
+        <a class="plusInfo" style="padding:10px;" href="http://www.pharmgkb.org" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" onclick="downloadAnnot('PharmGKB');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>LINCS Perturbations</p>
+        <a class="plusInfo " style="padding:10px;" href="https://clue.io/touchstone" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn " onclick="downloadAnnot('LINCS');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>CTD Compounds</p>
+        <a class="plusInfo " style="padding:10px;" href="http://ctdbase.org" target="_blank">[+ Info]</a>
+        <button class="annotDownBtn " type="button" onclick="downloadAnnot('CTD');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Human Phenotype Ontology</p>
+        <a class="plusInfo " style="padding:10px;" href="https://hpo.jax.org" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn " onclick="downloadAnnot('HPO');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Mouse Genome Informatics</p>
+        <a class="plusInfo " style="padding:10px;" href="http://www.informatics.jax.org" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn " onclick="downloadAnnot('MGI');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>DoRothEA Regulons</p>
+        <a class="plusInfo " style="padding:10px;" href="https://github.com/saezlab/DoRothEA" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn " onclick="downloadAnnot('DoRothEA');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>miRTarBase Strong</p>
+        <a class="plusInfo " style="padding:10px;" href="http://mirtarbase.cuhk.edu.cn/" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn " onclick="downloadAnnot('miRNA_Strong');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Reactome</p>
+        <a class="plusInfo " style="padding:10px;" href="https://reactome.org/" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn " onclick="downloadAnnot('Reactome');">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>WikiPathways</p>
+        <a class="plusInfo " style="padding:10px;" href="https://www.wikipathways.org" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn " onclick="downloadAnot('WikiPathways');">Download</button>
+    </div>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Stats
+  </button>
+  <div class="hidden">
+      <p class="helpTitle">Tests</p>
+      <h3>Hypergeometric</h3>
+      <p>Given an annotation associated to x genes from the input list of n genes
+         and that this annotation is associated to M from N genes in the reference
+         set, we can calculate the probability that a certain category occurs z
+         or more times in the input list using the hypergeometric distribution:
+      </p>
+      <img src="assets/images/hyper.jpg?v=1586453086789" alt="Hypergeometric formula">
+      <h3>Chi-Square</h3>
+      <p>Given an annotation and the set of genes associated to this annotation
+         the data can organized in a 2x2 contingency table:</p>
+      <table>
+          <tr>
+             <th></th>
+             <th>Input List Genes</th>
+             <th>Term's Genes</th>
+          </tr>
+          <tr>
+             <th>of Annotation</th>
+             <td>Obs11</td>
+             <td>Obs12</td>
+          </tr>
+          <tr>
+             <th>not of Annotation</th>
+             <td>Obs21</td>
+             <td>Obs22</td>
+          </tr>
+      </table>
+      <p>The chi-square test can be calculated as:</p>
+      <img src="assets/images/chi.jpg?v=1586453086789" alt="Chi-Square formula">
+      <p>where Obsij are the observed frequencies (values in the contingency table)
+      and Eij are the expected frequencies (the estimated expected value of the
+      observed cell frequency nij is equal to its respective row and column totals
+      divided by the total frequency. The value thus calculated can be compared
+      with critical values obtained from a 2 distribution with df = 1.
+      </p>
+      <p class="helpTitle">pValue Correction</p>
+      <h3>FDR</h3>
+      <p>It uses the False Discovery Rate method of Benjamini and Hochberg (J R Stat Soc 1995, 57:289-300).</p>
+      <h3>Permutations</h3>
+      <p>Implements the approach described in Boyle et al. (Bioinformatics 2004, 20:3710-3715).</p>
+  </div>
+</div>
+
+</div>
+<div id="results" class="tabcontent hidden">
+
+</div>
+</main>
+<footer class="footer">
+  <div class="row">
+    <div class="column fullhalf">
+      <h2>Please, cite:</h2>
+      <a href="https://doi.org/10.1186/gb-2007-8-1-r3" class="gc4links" target="_blank">
+          Carmona-Saez P, Chagoyen M, Tirado F, Carazo JM, Pascual-Montano A: GENECODIS: A web-based tool for finding significant concurrent annotations in gene lists. Genome Biology 2007 8(1):R3
+      </a>
+      <a href="https://doi.org/10.1093/nar/gkp416" class="gc4links" target="_blank">
+         Nogales-Cadenas R, Carmona-Saez P, Vazquez M, Vicente C, Yang X, Tirado F, Carazo JM, Pascual-Montano A: GeneCodis: interpreting gene lists through enrichment analysis and integration of diverse biological information. Nucleic Acids Research 2009
+     </a>
+     <a href="https://doi.org/10.1093/nar/gks402" class="gc4links" target="_blank">
+         Tabas-Madrid D, Nogales-Cadenas R, Pascual-Montano A: GeneCodis3: a non-redundant and modular enrichment analysis tool for functional genomics. Nucleic Acids Research 2012
+     </a>
+    </div>
+    <div class="column fullhalf">
+      <h2>Our Other Tools:</h2>
+      <a href="https://adex.genyo.es" class="gc4links" target="_blank">ADEX</a>
+      <a href="https://imageo.genyo.es" class="gc4links" target="_blank">ImaGEO</a>
+      <a href="http://bioinfo.genyo.es/metagenyo" class="gc4links" target="_blank">MetaGENyO</a>
+      <a href="https://bioconductor.org/packages/release/bioc/html/mCSEA.html" class="gc4links" target="_blank">mCSEA</a>
+      <h2>Contact us at:</h2>
+      <a href="mailto:bioinfo@genyo.es?subject=GeneCodis4 Help" class="gc4links">bioinfo@genyo.es</a>
+      <h2>GeneCodis 2019 &copy;</h2>
+    </div>
+  </div>
+</footer>
+<script>
+var x, i, j, selElmnt, a, b, c;
+/*look for any elements with the class "custom-select":*/
+x = document.getElementsByClassName("custom-select");
+for (i = 0; i < x.length; i++) {
+selElmnt = x[i].getElementsByTagName("select")[0];
+/*for each element, create a new DIV that will act as the selected item:*/
+a = document.createElement("DIV");
+a.setAttribute("class", "select-selected gc4org");
+var optValue = selElmnt.options[selElmnt.selectedIndex].value;
+if (isNaN(parseInt(optValue))) {
+  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+}else{
+  var img = '<img class="gc4orgicon" src="assets/images/organisms/'.concat(optValue).concat('.png?v=1586453086789">');
+  a.innerHTML = img.concat(selElmnt.options[selElmnt.selectedIndex].innerHTML);
+}
+x[i].appendChild(a);
+/*for each element, create a new DIV that will contain the option list:*/
+b = document.createElement("DIV");
+b.setAttribute("class", "select-items select-hide");
+for (j = 1; j < selElmnt.length; j++) {
+  /*for each option in the original select element,
+  create a new DIV that will act as an option item:*/
+  c = document.createElement("DIV");
+  if (j == 1){
+    c.className = "gc4org same-as-selected";
+  }else {
+    c.className = "gc4org";
+  }
+  var optValue = selElmnt.options[j].value;
+  if (isNaN(parseInt(optValue))) {
+    c.innerHTML = selElmnt.options[j].innerHTML;
+  }else{
+    var img = '<img class="gc4orgicon" src="assets/images/organisms/'.concat(optValue).concat('.png?v=1586453086789">');
+    c.innerHTML = img.concat(selElmnt.options[j].innerHTML);
+  }
+  c.addEventListener("click", function(e) {
+      /*when an item is clicked, update the original select box,
+      and the selected item:*/
+      var y, i, k, s, h;
+      s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+      h = this.parentNode.previousSibling;
+      for (i = 0; i < s.length; i++) {
+        cleanText = this.innerHTML.replace(/<\/?[^>]+(>|$)/g, "");
+        if (s.options[i].innerHTML == cleanText) {
+          var optValue = s.options[i].value;
+          if (isNaN(parseInt(optValue))) {
+            universeController(optValue);
+          }else{
+            document.getElementsByName('input')[0].value = '';
+            document.getElementsByName('input2')[0].value = '';
+            enableAnotsByOrgValue(optValue);
+          }
+          s.selectedIndex = i;
+          h.innerHTML = this.innerHTML;
+          y = this.parentNode.getElementsByClassName("same-as-selected");
+          for (k = 0; k < y.length; k++) {
+            y[k].className = "gc4org";
+          }
+          this.setAttribute("class", "gc4org same-as-selected");
+          break;
+        }
+      }
+      h.click();
+  });
+  b.appendChild(c);
+}
+x[i].appendChild(b);
+a.addEventListener("click", function(e) {
+    /*when the select box is clicked, close any other select boxes,
+    and open/close the current select box:*/
+    e.stopPropagation();
+    closeAllSelect(this);
+    this.nextSibling.classList.toggle("select-hide");
+    this.classList.toggle("select-arrow-active");
+  });
+}
+/*if the user clicks anywhere outside the select box,
+then close all select boxes:*/
+document.addEventListener("click", closeAllSelect);
+clickDropDown('9606','organism','gc4org');
+</script>
+</body>
+</html>

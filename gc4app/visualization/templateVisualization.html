@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .toolTip {pointer-events: none;position: absolute;display: none;width: auto;height: auto;background: none repeat scroll 0 0 #ffffff;padding: 9px 14px 6px 14px;border-radius: 4px;text-align: left;line-height: 1.3;color: black;box-shadow: 0px 3px 9px rgba(0, 0, 0, .15);}
+  .toolTip:after {content: "";width: 0;height: 0;border-left: 12px solid transparent;border-right: 12px solid transparent;border-top: 12px solid white;position: absolute;bottom: 0px;left: 50%;margin-left: -12px;}
+  .toolTip span {font-weight: 100;color: black;}
+  #label {
+    position: absolute;
+    left: 10px;
+    font-weight: 100;
+    font-family: "Proxima Nova", "Montserrat", sans-serif;
+  }
+  #sliderContainer {
+    text-align: center;
+    top: 600px;
+  }
+  p {
+    text-align: center;
+    top: 600px;
+  }
+  svg text{
+    font-family:"Arial, Helvetica, sans-serif";
+  }
+</style>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdn.rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+<script src="https://d3js.org/d3-scale.v1.min.js"></script>
+<script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+<script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
+</head>
+<body>
+  <p>Select Top Annotations</p>
+  <div id="sliderContainer">
+    <input id="mySlider" type="range" min="1" max="50" value="10" step="1"/><br>
+    <span id="range">10</span>
+  </div>
+<div>
+<button id="downloadSVG1">Download Barchart</button>
+<button id="downloadSVG2">Download WordCloud</button>
+<button id="downloadSVG3">Download Network</button>
+</div>
+<script>
+
+
+/// https://gist.github.com/sohaibghani1/ccec5d2697eae6f8c9524aeedea5584f ///
+function conversor(d) {
+    return d3.autoType(d);
+}
+
+
+
+var table_to_use = "tablefile";
+
+d3.csv(table_to_use, conversor)
+    .then((data) => {
+      function filterData(top){
+      document.getElementById("range").innerHTML=top;
+
+      ////////////// BARCHART ////////////////////////
+      data_filter = data.slice(0, top);
+
+      var allSizes = { big: { width: 700, height: 700, margin: {top: 10, right: 150, bottom: 60, left: 20}, padding: 0.3}};
+      var sizes = allSizes.big, margin = 	sizes.margin, padding = sizes.padding;
+      sizes.height = data_filter[data_filter.length - 1].barheight
+      var
+        width = sizes.width - margin.left - margin.right,
+        height = sizes.height - margin.top - margin.bottom;
+      var xClass = "axis axis--x",
+        yClass = "axis axis--y";
+
+      // svg-box
+      // place for the future chart. Includes chart body, legend, and axes
+
+      var chart1 =d3.select("body")
+        .append("svg")
+        .attr("width", sizes.width)
+        .attr("height", sizes.height)
+        .attr("id", "chart1")
+        .attr("xmlns", "http://www.w3.org/2000/svg");
+      // scales
+      // rangeRound: set range and round the resulting value to the nearest integer.
+
+      var y = d3.scaleBand().rangeRound([0,height]).padding(padding),
+          x = d3.scaleLinear().rangeRound([0, width]);
+
+      // chart boby
+      var g = chart1.append("g")
+                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      // axes-X (object)
+      var axesX = g.append("g")
+                   .attr("class", xClass)
+                   .attr("transform", "translate(0," + height + ")");
+
+      // axes-Y (object)
+      var axesY = g.append("g")
+                   .attr("class", yClass);
+      // X-axes text
+      chart1.append("text")
+          .attr("y",height + margin.bottom)
+          .attr("x",width/2)
+          .text("-log(PVal)")
+          .style("font-size","15px")
+          y.domain(data_filter.map(function(d) { return d.term; }));
+          var maxVal = d3.max(data_filter, function(d) { return d.logPval; });
+          x.domain([0, maxVal]);
+
+          // xAxes, yAxes (axes)
+          var xAxes = d3.axisBottom(x);
+          var yAxes = d3.axisLeft(y).tickValues([]);
+
+          // append data to axes
+          axesX.call(xAxes);
+          axesY.call(yAxes);
+          // .selectAll(".tick text")
+          // .call(d3.util.wrap, margin.left);
+
+          var rangeValues = data_filter.map(function(d) {return d.term_genes_found});
+          var myColorbc = d3.scaleLinear().domain([d3.min(rangeValues),d3.max(rangeValues)]).range(["#ffbaba","#ed2939"]);
+          var uColor = rangeValues.filter(onlyUnique);
+          var seq_color = [];
+          var min_genes = d3.min(uColor);
+          var max_genes = d3.max(uColor);
+          for (var i=min_genes; i <= max_genes; i++){
+            seq_color.push(i);
+          }
+          seq_color.sort((a, b) => b - a);
+
+          var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+          // bar for each data element
+          g.selectAll(".bar")
+            .data(data_filter)
+            .enter().append("rect")
+            .attr("class", "bar")
+              .attr("x", 0)
+              .attr("y", function(d) { return y(d.term); })
+              .attr("width", function(d) { return x(d.logPval); })
+              .attr("height", y.bandwidth())
+              .attr("fill", function(d){return myColorbc(d.term_genes_found) })
+              .on("mousemove", function(d){
+                                            d3.select(this).attr("fill", "#DB7093");
+                                            tooltip.style("left", d3.event.pageX - 50 + "px")
+                                                   .style("top", d3.event.pageY - 70 + "px")
+                                                   .style("display", "inline-block")
+                                                   .html("<span style='color:blue'>Term: </span> <spanstyle='color:black'>"+d.term+"</spanstyle><hr/><span style='color:blue'>Annotation: </span> <spanstyle='color:black'>"+d.annotation+"</spanstyle><hr/><span style='color:blue'>Hyp_p_val: </span> <spanstyle='color:black'>"+d.hyp_pval_adj+"</spanstyle><hr/><span style='color:blue'>Genes: </span> <spanstyle='color:black'>"+d.genes+"</spanstyle><hr/>");
+                                                 })
+               .on("mouseout", function(d, i) { tooltip.style("display", "none");
+                                                d3.select(this).attr("fill", function(d) {return myColorbc(d.term_genes_found);})});
+
+                var tt = 80;
+                var truncated_text =  data_filter.map(function(d) { return d.term; });
+                for (var i = 0; i < truncated_text.length; i++){
+                  if(truncated_text[i].length > tt){
+                    data[i].truncated_text = truncated_text[i].substr(0,tt) + "...";
+                  } else{
+                    data[i].truncated_text = truncated_text[i];
+                  }
+                }
+
+                var fontsize = data_filter[data_filter.length - 1].fontsize
+
+                g.selectAll("tt")
+                .data(data_filter)
+                .enter().append("text")
+                .attr("x", 0)
+                .attr("y", function(d) { return y(d.term) + y.bandwidth()/2; })
+                .text(function(d,i) { return d.truncated_text; })
+                .attr("font-size", fontsize +"px");
+
+          var legendRectSize = 18;
+          var legendSpacing = 4;
+
+          var legend = chart1.selectAll(".legend")
+          .data(seq_color)
+          .enter().append("g")
+          .attr("class", "legend")
+          .attr("transform", function(d, i) { return "translate(" + (width + 50) + "," + (20 + i * 20) + ")"; });
+
+          legend.append("rect")
+          .attr("width", 20)
+          .attr("height", 20)
+          .style("fill", myColorbc);
+
+          legend.append("text")
+          .attr("x", 25)
+          .attr("y", 10)
+          .attr("dy", ".35em")
+          .text(String);
+
+          var legendTitle = chart1.append("text")
+          .attr("transform", "translate("+(width-20) + ",0)")
+          .attr("x", 25)
+          .attr("y", 10)
+          .attr("dy", ".35em")
+          .text("Number of genes");
+          function onlyUnique(value, index, self) {return self.indexOf(value) === index;}
+
+
+//////////////////////////WORDCLOUD////////////////////////////////////
+        if (table_to_use.includes("CoAnn")) {
+          var terms = data_filter.map(function(d) { return d.term; });
+          var lots = [];
+          for (var i = 0; i < terms.length; i++) {
+            var split = terms[i].split("; ");
+            for (var j = 0; j < split.length; j++){
+              var intro = split[j];
+              lots.push(intro);
+            }
+          }
+          const countOccurrences = arr => arr.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {});
+          var unique_lots = countOccurrences(lots);
+          const entries = Object.entries(unique_lots);
+          var word_entries = [];
+          for (const [term, count] of entries) {
+            var dictobj = {"text":"", "count":0};
+            dictobj["count"] = count;
+            dictobj["text"] = term;
+            word_entries.push(dictobj);
+          }
+        } else {
+          var sizes = data_filter.map(function(d) { return d.logPval; });
+          var terms =  data_filter.map(function(d) { return d.term; });
+          var word_entries = [];
+          var max_size = d3.max(data_filter.map(function(d) { return d.logPval;}));
+          for (i = 0; i < terms.length; i++) {
+            var dictobj = {"text":"", "count":0};
+            dictobj["count"] = sizes[i] / max_size;
+            dictobj["text"] = terms[i];
+            word_entries.push(dictobj);
+          }
+        }
+
+        let fill = d3.scaleOrdinal(d3.schemeCategory10);
+        let size = d3.scaleLinear().domain([0, d3.max(word_entries, d => d.count)]).range([10, 30]);
+        let word_cloud_data = word_entries.map( function(d) {return { text: d.text, size: size(d.count)};});
+
+        var	chart2 = d3.select("body")
+                       .append("svg")
+                       .attr("width", 700)
+                       .attr("height", 700)
+                       .attr("id", "chart2")
+                       .attr("xmlns", "http://www.w3.org/2000/svg");
+
+        let layout = d3.layout.cloud()
+          .size([650, 650])
+          .words(word_cloud_data)
+          .padding(1.5)
+          .rotate(d => ~~(Math.random() * 2) * -45)
+          .fontSize(d => d.size)
+          .on("end", draw);
+
+        layout.start();
+
+        function draw(words) {
+          chart2.append("g")
+            .attr("transform", "translate(300,300)")
+            .selectAll("text")
+            .data(words)
+            .enter().append("text")
+            .style("fill", (d, i) => { d.color = fill(i); return d.color; })
+            .style("text-anchor", "middle")
+            .attr("transform", d => "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")")
+            .text(d => d.text)
+            .style("font-size", d => d.size + "px");
+          }
+
+///////////////////////NETWORK//////////////////////////////////////////////////
+          var nodes = [],links = [];
+          var initialScaleData = data_filter.map(function(d){return +d.logPval});
+          initialScaleData.push(5);
+          initialScaleData.push(25);
+          var min_value_size = d3.min(initialScaleData);
+          var max_value_size = d3.max(initialScaleData);
+          var newScaledData = [];
+          var linearScale = d3.scaleLinear().domain([min_value_size,max_value_size]).range([5,25]);
+          var logPvals = data_filter.map(function(d){return +d.logPval;});
+          var terms = data_filter.map(function(d){return d.term;});
+          var annotations = data_filter.map(function(d){return d.annotation;})
+          var pvals = data_filter.map(function(d){return +d.hyp_pval_adj;})
+          var genes = data_filter.map(function(d){return d.genes;});
+          for (var i = 0; i < logPvals.length; i++) {
+            var term = terms[i];
+            var annotation = annotations[i];
+            var pval = pvals[i];
+            size = logPvals[i];
+            var gene = genes[i];
+            nodes.push({"id":term,"group":1,"pval":pval,"size":linearScale(size),"annotation":annotation,"genes":gene});
+            gene = gene.split(",");
+            for (var j = 0; j < gene.length; j++){
+              nodes.push({"id":gene[j],"group":2,"pval":1,"size":5,"annotation":0,"genes":0})
+              links.push({"source":term,"target":gene[j]})
+            }
+          }
+
+          var obj = {};
+          for ( var i=0, len=nodes.length; i < len; i++ ){
+            obj[nodes[i]['id']] = nodes[i];
+          }
+          nodes = [];
+          for ( var key in obj ){
+            nodes.push(obj[key]);
+          }
+
+          var graph = {"nodes":nodes,"links":links};
+          var label = {
+              'nodes': [],
+              'links': []
+          };
+
+          graph.nodes.forEach(function(d, i) {
+              label.nodes.push({node: d});
+              label.nodes.push({node: d});
+              label.links.push({
+                  source: i * 2,
+                  target: i * 2 + 1
+              });
+          });
+
+          var labelLayout = d3.forceSimulation(label.nodes)
+              .force("charge", d3.forceManyBody().strength(-50))
+              .force("link", d3.forceLink(label.links).distance(0).strength(2));
+
+          var graphLayout = d3.forceSimulation(graph.nodes)
+              .force("charge", d3.forceManyBody().strength(-5000))
+              .force("center", d3.forceCenter(width / 2, height / 2))
+              .force("x", d3.forceX(width / 2).strength(1))
+              .force("y", d3.forceY(height / 2).strength(1))
+              .force("link", d3.forceLink(graph.links).id(function(d) {return d.id; }).distance(100).strength(1))
+              .on("tick", ticked);
+
+          var adjlist = [];
+
+          graph.links.forEach(function(d) {
+              adjlist[d.source.index + "-" + d.target.index] = true;
+              adjlist[d.target.index + "-" + d.source.index] = true;
+          });
+
+          function neigh(a, b) {
+              return a == b || adjlist[a + "-" + b];
+          }
+
+
+          var chart3 = d3.select("body")
+                         .append("svg")
+                         .attr("width", 1000)
+                         .attr("height", 1000)
+                         .attr("id", "chart3")
+                         .attr("xmlns", "http://www.w3.org/2000/svg");
+
+          var container = chart3.append("g")
+                                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          chart3.call(
+              d3.zoom()
+                  .scaleExtent([.1, 4])
+                  .on("zoom", function() { container.attr("transform", d3.event.transform); })
+          );
+
+          var link = container.append("g").attr("class", "links")
+              .selectAll("line")
+              .data(graph.links)
+              .enter()
+              .append("line")
+              .attr("stroke", "#aaa")
+              .attr("stroke-width", "0.5px");
+
+          var rangeValues = graph.nodes.map(function(d) {return d.size});
+          var myColornt = d3.scaleLinear().domain([d3.min(rangeValues),d3.max(rangeValues)]).range(["#bdd2ff","#5688f0"]);
+
+          var node = container.append("g").attr("class", "nodes")
+              .selectAll("g")
+              .data(graph.nodes)
+              .enter()
+              .append("circle")
+              .attr("r", function(d) { if (d.group == 1) {return d.size; }
+                                       else {return 3;}
+                                     })
+              .attr("fill",function(d){
+                if (d.group == 1) {return myColornt(d.size);}
+                else { return "orange" }
+              })
+
+              node.append("title")
+                  .text(function(d) {
+                    if (d.group == 1){return "Term: " + d.id + '\nAnnotation: ' + d.annotation + '\nHyp_p_val: ' + d.pval + "\nGenes: "+d.genes; }
+                    else {return d.id}
+                  })
+                  .attr('x', width / 50)
+                  .attr('y', height / 250);
+
+          node.on("mouseover", focus).on("mouseout", unfocus);
+
+          node.call(
+              d3.drag()
+                  .on("start", dragstarted)
+                  .on("drag", dragged)
+                  .on("end", dragended)
+          );
+
+          var labelNode = container.append("g").attr("class", "labelNodes")
+              .selectAll("text")
+              .data(label.nodes)
+              .enter()
+              .append("text")
+              .text(function(d, i) { return i % 2 == 0 ? "" : d.node.id; })
+              .style("fill", "#555")
+              .style("font-family", "Arial")
+              .style("font-size", 12)
+              .style("pointer-events", "none"); // to prevent mouseover/drag capture
+
+          node.on("mouseover", focus).on("mouseout", unfocus);
+
+          function ticked() {
+
+              node.call(updateNode);
+              link.call(updateLink);
+
+              labelLayout.alphaTarget(0.3).restart();
+              labelNode.each(function(d, i) {
+                  if(i % 2 == 0) {
+                      d.x = d.node.x;
+                      d.y = d.node.y;
+                  } else {
+                      var b = this.getBBox();
+
+                      var diffX = d.x - d.node.x;
+                      var diffY = d.y - d.node.y;
+
+                      var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+                      var shiftX = b.width * (diffX - dist) / (dist * 2);
+                      shiftX = Math.max(-b.width, Math.min(0, shiftX));
+                      var shiftY = 16;
+                      this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+                  }
+              });
+              labelNode.call(updateNode);
+
+          }
+
+          function fixna(x) {
+              if (isFinite(x)) return x;
+              return 0;
+          }
+
+          function focus(d) {
+              var index = d3.select(d3.event.target).datum().index;
+              node.style("opacity", function(o) {
+                  return neigh(index, o.index) ? 1 : 0.1;
+              });
+              labelNode.attr("display", function(o) {
+                return neigh(index, o.node.index) ? "block": "none";
+              });
+              link.style("opacity", function(o) {
+                  return o.source.index == index || o.target.index == index ? 1 : 0.1;
+              });
+          }
+
+          function unfocus() {
+             labelNode.attr("display", "block");
+             node.style("opacity", 1);
+             link.style("opacity", 1);
+          }
+
+          function updateLink(link) {
+              link.attr("x1", function(d) { return fixna(d.source.x); })
+                  .attr("y1", function(d) { return fixna(d.source.y); })
+                  .attr("x2", function(d) { return fixna(d.target.x); })
+                  .attr("y2", function(d) { return fixna(d.target.y); });
+          }
+
+          function updateNode(node) {
+              node.attr("transform", function(d) {
+                  return "translate(" + fixna(d.x) + "," + fixna(d.y) + ")";
+              });
+          }
+
+          function dragstarted(d) {
+              d3.event.sourceEvent.stopPropagation();
+              if (!d3.event.active) graphLayout.alphaTarget(0.3).restart();
+              d.fx = d.x;
+              d.fy = d.y;
+          }
+
+          function dragged(d) {
+              d.fx = d3.event.x;
+              d.fy = d3.event.y;
+          }
+
+          function dragended(d) {
+              if (!d3.event.active) graphLayout.alphaTarget(0);
+              d.fx = null;
+              d.fy = null;
+          }
+
+          seq_color = [d3.min(rangeValues),d3.max(rangeValues)]
+
+          legend = chart3.selectAll(".legend")
+          .data(seq_color)
+          .enter().append("g")
+          .attr("class", "legend")
+          .attr("transform", function(d, i) { return "translate(" + (1000 - 100) + "," + (30 + i * 20) + ")"; });
+
+          legend.append("circle")
+          .attr("r",5)
+          .style("fill", myColornt);
+
+          legend.append("text")
+          .attr("x", 10)
+          .attr("y", 0)
+          .attr("dy", ".35em")
+          .text(String);
+
+          var legendTitle = chart3.append("text")
+          .attr("transform", "translate("+(1000-200) + ",0)")
+          .attr("x", 25)
+          .attr("y", 10)
+          .attr("dy", ".35em")
+          .text("Number of genes");
+
+          var circle_sizes = graph.nodes.map(function(d) { if (d.group == 1) {return d.size}});
+          circle_sizes = circle_sizes.filter(function( element ) {return element !== undefined;});
+
+          var logPvals = graph.nodes.map(function(d) { if (d.group == 1) {return d.pval}});
+          logPvals = logPvals.filter(function( element ) {return element !== undefined;});
+          logPvals.forEach(function(element, index, array){
+            array[index] = -Math.log(element).toFixed(2);
+          });
+
+          circle_sizes.forEach(function(element, index, array){
+            array[index] = parseFloat(element.toFixed(2));
+          });
+
+          logPvals = [d3.min(logPvals),d3.max(logPvals)];
+          circle_sizes = [d3.min(circle_sizes),d3.max(circle_sizes)];
+
+          max_circle = d3.max(circle_sizes);
+
+          // Add legend: circles
+          chart3.selectAll("legend")
+            .data(circle_sizes)
+            .enter()
+            .append("circle")
+            .attr("cx", 700)
+            .attr("cy", function(d, i) { return 30 + i * max_circle;})
+            .attr("r", function(d){ return d })
+            .style("fill", "none")
+            .attr("stroke", "black");
+
+            chart3.selectAll("legend")
+              .data(logPvals)
+              .enter()
+              .append("text")
+              .attr("x", 730)
+              .attr("y", function(d, i) { return 30 + i * max_circle;})
+              .attr("dy", ".35em")
+              .text(String);
+
+            var legendTitle = chart3.append("text")
+            .attr("transform", "translate("+(1000-400) + ",0)")
+            .attr("x", 25)
+            .attr("y", 10)
+            .attr("dy", ".35em")
+            .text("-logPval");
+
+          chart3.append("text").attr("x",530).attr("y",50).text("Annotations");
+          chart3.append("circle").attr("cx",400).attr("cy",50).attr("r",10).attr("fill","orange");
+          chart3.append("text").attr("x",420).attr("y",50).text("Genes");
+          chart3.append("circle").attr("cx",510).attr("cy",50).attr("r",10).attr("fill","#5688f0");
+        }
+
+    filterData(10);
+
+    d3.select("#mySlider").on("input", function(d){
+      d3.selectAll("#chart1,#chart2,#chart3").remove();
+      selectedValue = this.value;
+      filterData(selectedValue);})
+
+      function downloadSVGAsText1() {
+        const svg = document.getElementById("chart1");
+        const base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
+        const a = document.createElement('a');
+        const e = new MouseEvent('click');
+        a.download = 'barchart.svg';
+        a.href = 'data:image/svg+xml;base64,' + base64doc;
+        a.dispatchEvent(e);
+      }
+      var downloadSVG = document.querySelector('#downloadSVG1');
+      downloadSVG.addEventListener('click', downloadSVGAsText1);
+
+      function downloadSVGAsText2() {
+        const svg = document.getElementById("chart2");
+        const base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
+        const a = document.createElement('a');
+        const e = new MouseEvent('click');
+        a.download = 'wordcloud.svg';
+        a.href = 'data:image/svg+xml;base64,' + base64doc;
+        a.dispatchEvent(e);
+      }
+
+      var downloadSVG = document.querySelector('#downloadSVG2');
+      downloadSVG.addEventListener('click', downloadSVGAsText2);
+
+      function downloadSVGAsText3() {
+        const svg = document.getElementById("chart3");
+        const base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
+        const a = document.createElement('a');
+        const e = new MouseEvent('click');
+        a.download = 'network.svg';
+        a.href = 'data:image/svg+xml;base64,' + base64doc;
+        a.dispatchEvent(e);
+      }
+
+      var downloadSVG = document.querySelector('#downloadSVG3');
+      downloadSVG.addEventListener('click', downloadSVGAsText3);
+});
+
+
+</script>

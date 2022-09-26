@@ -1,0 +1,15 @@
+# gc4app
+- apriori.py
+  - apply stats and coannotation discovery
+- argumentsControl.py
+  - sanity check and final formating of analysis parameters
+- blueprint.py
+  - endpoints of the GC4 API
+- commonthings.py
+  - helper functions used by all the modules here
+- factory.py
+  - preconfiguration of the APP before running it in parent folder
+- gc4mailer.py
+  - set up email functionalities
+- visualizator.py
+  - create the resulting htmls reports

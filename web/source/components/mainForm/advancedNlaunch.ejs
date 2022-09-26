@@ -1,0 +1,46 @@
+<div class="row advanced">
+    <div class="column cell advanced">
+        <button type="button" class="advancedbtn" onclick="showNextSibling(event);">Advanced Options</button>
+        <div class="row hidden advanced" id='advanced'>
+            <div class="column cell">
+              <h5>CoAnnotation</h5>
+              <input hidden type="radio" name="coannotation" value="coannotation_yes" id="coannotation_yes" class="gc4checkbox"  onchange="changeLimits()" checked>
+              <label for="coannotation_yes">Yes</label>
+              <input hidden type="radio" name="coannotation" value="coannotation_no" id="coannotation_no" class="gc4checkbox" onchange="changeLimits()" >
+              <label for="coannotation_no">No</label>
+            </div>
+            <div class="column cell">
+              <h5>Mode of analysis</h5>
+              <input id="single" onchange="hideComparative();" name="inputmode" type="radio" class="gc4checkbox" hidden checked>
+              <label for="single">Single</label>
+              <input id="comparative" onchange="allowComparative();" name="inputmode" type="radio" class="gc4checkbox" hidden>
+              <label for="comparative">Comparative</label>
+            </div>
+            <div class="column cell">
+              <h5>Min genes annotated</h5>
+              <input name="inputSupport" class="gc4textBox" id="inputSupportTextBox" placeholder="3" size="3" maxlength="3" value="3">
+              <h5 id="universe">Universe</h5>
+              <div class="custom-select">
+                  <select name="universemode" onchange="universeController(this.value);" class="gc4select" class="gc4select">
+                      <option value="default">Whole Genome</option>
+                      <option value="default">Whole Genome</option>
+                      <option value="custom">Custom</option>
+                  </select>
+              </div>
+              <textarea class="gc4textBox topspace" hidden name="universe" cols="20" rows="10" placeholder="Copy here your list of genes, TFs, miRNAs or CPGs to narrow down the analysis. One per line."></textarea>
+            </div>
+        </div>
+        <div class="column cell">
+          <div class="row lower">
+              <div class="column fullhalf">
+                  <input class="gc4textBox gc4submit" type="email" name="email" placeholder="Email to recieve your report">
+                  <input class="gc4textBox gc4submit" name="jobName" required placeholder="Name your report">
+              </div>
+              <div class="column fullhalf">
+                  <button class="gc4launch" type="button" onclick="validateForm();">Launch Analysis</button>
+              </div>
+          </div>
+          <p id="exdesc"></p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+{
+    "9913": {
+        "genes": 34772,
+        "mirna_directed": 3158,
+        "mirna_indirected": 15,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "6239": {
+        "genes": 47633,
+        "mirna_directed": 690,
+        "mirna_indirected": 38,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "9615": {
+        "genes": 50134,
+        "mirna_directed": 1457,
+        "mirna_indirected": 1,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "7955": {
+        "genes": 34622,
+        "mirna_directed": 1085,
+        "mirna_indirected": 100,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "7227": {
+        "genes": 25098,
+        "mirna_directed": 989,
+        "mirna_indirected": 83,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "9031": {
+        "genes": 33636,
+        "mirna_directed": 2998,
+        "mirna_indirected": 45,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "9606": {
+        "genes": 61686,
+        "mirna_directed": 6489,
+        "mirna_indirected": 2811,
+        "cpgs": 23199,
+        "tfs": 2683
+    },
+    "10090": {
+        "genes": 72797,
+        "mirna_directed": 4445,
+        "mirna_indirected": 786,
+        "cpgs": 0,
+        "tfs": 2664
+    },
+    "10116": {
+        "genes": 47503,
+        "mirna_directed": 1756,
+        "mirna_indirected": 257,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "9823": {
+        "genes": 30750,
+        "mirna_directed": 1273,
+        "mirna_indirected": 23,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "3702": {
+        "genes": 38261,
+        "mirna_directed": 752,
+        "mirna_indirected": 8,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "39947": {
+        "genes": 34678,
+        "mirna_directed": 1337,
+        "mirna_indirected": 0,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "559292": {
+        "genes": 6447,
+        "mirna_directed": 0,
+        "mirna_indirected": 0,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "227321": {
+        "genes": 9537,
+        "mirna_directed": 0,
+        "mirna_indirected": 0,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "511145": {
+        "genes": 4567,
+        "mirna_directed": 0,
+        "mirna_indirected": 0,
+        "cpgs": 0,
+        "tfs": 0
+    },
+    "237561": {
+        "genes": 6311,
+        "mirna_directed": 0,
+        "mirna_indirected": 0,
+        "cpgs": 0,
+        "tfs": 0
+    }
+}

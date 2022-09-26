@@ -1,0 +1,181 @@
+<div class="navbar fithtiary">
+    {% set ns = namespace(defaultopen=True) %}
+    {% for input in outJobs %}
+        {% if ns.defaultopen %}
+            <button class="tab active" onclick="openTab(event,'{{outJobs[input]['name']|safe}}')">{{outJobs[input]['name']|replace("_", " ")|safe}}</button>
+            {% set ns.defaultopen = False %}
+        {% else %}
+            <button class="tab" onclick="openTab(event,'{{outJobs[input]['name']|safe}}')">{{outJobs[input]['name']|replace("_", " ")|safe}}</button>
+        {% endif %}
+    {% endfor %}
+</div>
+  <div>
+    {% set ns = namespace(defaultopen=True) %}
+    {% for input in outJobs %}
+      {% if ns.defaultopen %}
+          <div id="{{ outJobs[input]['name']|safe }}" class="tabcontent shown">
+          {% set ns.defaultopen = False %}
+      {% else %}
+          <div id="{{ outJobs[input]['name']|safe }}" class="tabcontent hidden">
+      {% endif %}
+      {% if 'engenes' not in outJobs[input] %}
+        <p class='gc4title warningtitle'>
+            The list of genes provided is not associated to
+            the selected annotations.
+         </p>
+      {% else %}
+        <div class="navbar tertiary">
+          {% for result in outJobs[input]['engenes'] %}
+            {% set coannot = outJobs[input]['engenes'][result]['coannot'] %}
+            {% if coannot == True %}
+              {% set annot = 'CoAnnotation' %}
+              <button class="tab" onclick="openTab(event,'CoAnnotation')">CoAnnotation</button>
+            {% else %}
+              {% set annot = outJobs[input]['engenes'][result]['annotation'] %}
+              <button class="tab" onclick="openTab(event, '{{annot}}')">{{annot|replace("_", " ")|safe}}</button>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="column resultsblock">
+          {% for result in outJobs[input]['engenes'] %}
+            {% set coannot = namespace(show=outJobs[input]['engenes'][result]['coannot']) %}
+            {% if coannot.show %}
+                {% set annot = 'CoAnnotation' %}
+                <div id="{{annot}}" class="tabcontent hidden">
+            {% else %}
+                {% set annot = outJobs[input]['engenes'][result]['annotation'] %}
+                <div id="{{annot}}" class="tabcontent hidden">
+            {% endif %}
+            <div>
+              <p class='gc4title'>Quality Control</p>
+              <div class="row gc4table sidesbordered">
+                <div class="column gc4table">
+                  <p class="gc4tabletitle">General:</p>
+                </div>
+                <div class="column gc4table">
+                  <p class="gc4tablesubtitle">Invalid Input</p>
+                  {% if outJobs[input]['notInDB']['invalidInput']|length == 0 %}
+                    <p class="gc4tablecontent">0</p>
+                  {% else %}
+                    <button type="button" class="geneInfoLink" onclick="showList({{ outJobs[input]['notInDB']['invalidInput']|safe }});">
+                        {{ outJobs[input]['notInDB']['invalidInput']|length|safe }}
+                    </button>
+                  {% endif %}
+                </div>
+                <div class="column gc4table">
+                  <p class="gc4tablesubtitle">Invalid Universe</p>
+                  {% if outJobs[input]['notInDB']['invalidUniverse']|length == 0 %}
+                    <p class="gc4tablecontent">0</p>
+                  {% else %}
+                    <button type="button" class="geneInfoLink" onclick="showList({{ outJobs[input]['notInDB']['invalidUniverse']|safe }});">
+                        {{ outJobs[input]['notInDB']['invalidUniverse']|length|safe }}
+                    </button>
+                  {% endif %}
+                </div>
+                <div class="column gc4table">
+                  <p class="gc4tablesubtitle">Annotation(s) w/o Input</p>
+                  {% if outJobs[input]['notInDB']['notMapped']|length == 0 %}
+                    <p class="gc4tablecontent">0</p>
+                  {% else %}
+                    <p class="gc4tablecontent">{{ outJobs[input]['notInDB']['notMapped']|join(', ')|safe }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row gc4table bordered">
+                <div class="column gc4table">
+                <p class="gc4tabletitle">Annotation:</p>
+                </div>
+                <div class="column gc4table">
+                  <p class="gc4tablesubtitle">Annotated</p>
+                  {% if outJobs[input]['engenes'][result]['annotated']|length == 0 %}
+                    <p class="gc4tablecontent">0</p>
+                  {% else %}
+                        <a class="geneInfoLink" href="{{API_URL}}/geneinfo/org={{organism}}&genes={{ outJobs[input]['engenes'][result]['annotated']|join(',')|safe }}" target="_blank">
+                      {{ outJobs[input]['engenes'][result]['annotated']|length|safe }}
+                    </a>
+                  {% endif %}
+                </div>
+                <div class="column gc4table">
+                  <p class="gc4tablesubtitle">No Annotated</p>
+                  {% if outJobs[input]['engenes'][result]['noAnnotated']|length == 0 %}
+                  <p class="gc4tablecontent">0</p>
+                  {% else %}
+                  <a class="geneInfoLink" href="{{API_URL}}/geneinfo/org={{organism}}&genes={{outJobs[input]['engenes'][result]['noAnnotated']|join(',')|safe }}" target="_blank">
+                    {{ outJobs[input]['engenes'][result]['noAnnotated']|length|safe }}
+                  </a>
+                  {% endif %}
+                </div>
+                <div class="column gc4table">
+                    <p class="gc4tablesubtitle">Valid Universe</p>
+                    {% if  outJobs[input]['engenes'][result]['universe'] is number %}
+                        <p class="gc4tablecontent">{{ outJobs[input]['engenes'][result]['universe']|safe }} (whole genome)</p>
+                    {% elif  outJobs[input]['engenes'][result]['universe']|length == 0 %}
+                        <p class="gc4tablecontent">0</p>
+                    {% else %}
+                        <a class="geneInfoLink" href="{{API_URL}}/geneinfo/org={{organism}}&genes={{outJobs[input]['engenes'][result]['universe']|join(',')|safe }}" target="_blank">
+                          {{ outJobs[input]['engenes'][result]['universe']|length|safe }}
+                        </a>
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+            <div>
+                <p class='gc4title'>Results</p>
+                {% if outJobs[input]['engenes'][result]['plot'] is string %}
+                    <p class='gc4title warningtitle'>There are no significant annotations</p>
+                    </div>
+                {% else %}
+                <p class="noticeboard" style="font-weight: bold;">These results will be stored for 30 days, be sure to download
+                  them if you are planning to use them in your publication.</p>
+                  <button class="downbtn" type="button" onclick="downResults('{{outJobs[input]['name']|safe}}-{{annot}}')">Download Full Table</button>
+                  {{ outJobs[input]['engenes'][result]['plot']['divs']['table']|safe }}
+                  </div>
+                  <div class="row">
+                      {{ outJobs[input]['engenes'][result]['plot']['divs']['topInput']|safe }}
+                  </div>
+                  <div id="sliderContainer">
+                    <input id="mySlider" type="range" min="1" max="50" value="10" step="1" width='100%'>
+                    <span id="range">10</span>
+                  </div>
+                  <div class="navbar quartiary">
+                      <button class="tab active" onclick="openTab(event,'geneclusters')">Gene-Clustered</button>
+                      <button class="tab" onclick="openTab(event,'wordcloud')">WordsCloud</button>
+                      <button class="tab" onclick="openTab(event,'barchart')">Bars-Chart</button>
+                  </div>
+                  <div>
+                    <div id="geneclusters" class="tabcontent shown">
+                        <div class="row">
+                          {{ outJobs[input]['engenes'][result]['plot']['divs']['scatterPlot']|safe }}
+                        </div>
+                    </div>
+                    <div id="wordcloud" class="tabcontent hidden">
+                      <button class="downbtn" type="button" onclick="downResults('{{outJobs[input]['name']|safe}}-{{annot}}','True')">Download WordCloud SVG</button>
+                      <div>
+                        <img class="maxwidthed" src="{{ outJobs[input]['engenes'][result]['plot']['divs']['wordcloud']|safe }}.png">
+                      </div>
+                    </div>
+                    <div id="barchart" class="tabcontent hidden">
+                        <div class="row">
+                            {{ outJobs[input]['engenes'][result]['plot']['divs']['barChart']|safe }}
+                        </div>
+                    </div>
+                  </div>
+                {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% for input in outJobs %}
+    {% for result in outJobs[input]['engenes'] %}
+        <div name="gc4bokehscript">
+            {{outJobs[input]['engenes'][result]['plot']['js']|safe}}
+        </div>
+    {% endfor %}
+{% endfor %}
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-2.0.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-2.0.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-tables-2.0.0.min.js"></script>

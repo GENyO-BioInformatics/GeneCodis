@@ -1,0 +1,15 @@
+taxonomy_id	input_name	output_name	help_name	kingdom	kegg_id	collection	date	synonyms_data	go_gaf_file
+9913	bos_taurus	Bos taurus	Bos taurus	animal	bta			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Bos_taurus.gene_info.gz	http://current.geneontology.org/annotations/goa_cow.gaf.gz
+6239	caenorhabditis_elegans	Caenorhabditis elegans	Caenorhabditis elegans	animal	cel			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Invertebrates/Caenorhabditis_elegans.gene_info.gz	http://current.geneontology.org/annotations/wb.gaf.gz
+9615	canis_familiaris	Canis familiaris	Canis familiaris	animal	cfa			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Canis_familiaris.gene_info.gz	http://current.geneontology.org/annotations/goa_dog.gaf.gz
+7955	danio_rerio	Danio rerio	Danio rerio	animal	dre			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Non-mammalian_vertebrates/Danio_rerio.gene_info.gz	http://current.geneontology.org/annotations/zfin.gaf.gz
+7227	drosophila_melanogaster	Drosophila melanogaster	Drosophila melanogaster	animal	dme			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Invertebrates/Drosophila_melanogaster.gene_info.gz	http://current.geneontology.org/annotations/fb.gaf.gz
+9031	gallus_gallus	Gallus gallus	Gallus gallus	animal	gga			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Non-mammalian_vertebrates/Gallus_gallus.gene_info.gz	http://current.geneontology.org/annotations/goa_chicken.gaf.gz
+9606	homo_sapiens	Homo sapiens	Homo sapiens	animal	hsa			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz	http://current.geneontology.org/annotations/goa_human.gaf.gz
+10090	mus_musculus	Mus musculus	Mus musculus	animal	mmu			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Mus_musculus.gene_info.gz	http://current.geneontology.org/annotations/mgi.gaf.gz
+10116	rattus_norvegicus	Rattus norvegicus	Rattus norvegicus	animal	rno			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Rattus_norvegicus.gene_info.gz	http://current.geneontology.org/annotations/rgd.gaf.gz
+9823	sus_scrofa	Sus scrofa	Sus scrofa	animal	ssc			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Sus_scrofa.gene_info.gz	http://current.geneontology.org/annotations/goa_pig.gaf.gz
+3702	arabidopsis_thaliana	Arabidopsis thaliana	Arabidopsis thaliana	plants	ath			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Plants/Arabidopsis_thaliana.gene_info.gz	http://current.geneontology.org/annotations/tair.gaf.gz
+39947	oryza_sativa	Oryza sativa	Oryza sativa Japonica Group	plants	osa			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Plants/Oryza_sativa.gene_info.gz	http://current.geneontology.org/annotations/gramene_oryza.gaf.gz
+559292	saccharomyces_cerevisiae	Saccharomyces cerevisiae	Saccharomyces cerevisiae S288C	fungi	sce			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Fungi/Saccharomyces_cerevisiae.gene_info.gz	http://current.geneontology.org/annotations/sgd.gaf.gz
+511145	escherichia_coli_str_k_12_substr_mg1655	Escherichia coli	Escherichia coli str. K-12 substr. MG1655	bacteria	eco			ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Archaea_Bacteria/Escherichia_coli_str._K-12_substr._MG1655.gene_info.gz

@@ -1,0 +1,28 @@
+{
+  "name": "genecodis4",
+  "version": "1.0.0",
+  "description": "All the development of the tool should be carried out with the virtual environment activated. This is mandatory as all the dependencies will be tracked down and the installation and configuration of the libraries to use/develop GeneCodis4.0 will be automatic.",
+  "main": "index.js",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "ijavascript": "^5.2.0",
+    "pg": "^7.11.0",
+    "wendigo": "^2.1.2"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GENyO-BioInformatics/GeneCodis4.0.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GENyO-BioInformatics/GeneCodis4.0/issues"
+  },
+  "homepage": "https://github.com/GENyO-BioInformatics/GeneCodis4.0#readme"
+}

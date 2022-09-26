@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include("../componentsBulma/header") %>
+</head>
+
+<body>
+  <main>
+     <section class="hero">
+      <div class="container">
+        <div class="hero-head">
+          <%- include("../componentsBulma/navbar") %>
+        </div>
+        <div class="hero-body">
+          <div id="analysis">
+            <div class="notification is-warning mb-0">
+              <p>We are in a maintenance break. We are currently updating GeneCodis4.
+                Come back in a few hours. Thanks for choosing GeneCodis.</p>
+            </div>
+          </div>
+          <div id="help" style="display:none;">
+            <%- include("../componentsBulma/about") %>
+          </div>
+          <div id="results" style="display:none;">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+<footer class="footer genyoCol">
+  <%- include("../componentsBulma/footer") %>
+</footer>
+<script>
+  checkEnvironment();
+</script>

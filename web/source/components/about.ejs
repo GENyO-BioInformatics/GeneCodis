@@ -1,0 +1,556 @@
+<div class="column help">
+<button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+ General Info
+</button>
+<div class="hidden">
+  <p class="justified">
+    GeneCodis is a web-based tool for the ontological analysis of lists of genes, proteins,
+    and regulatory elements like miRNAs, transcription factors, and CpGs.
+    It can be used to determine biological annotations or combinations of annotations that
+    are significantly associated to a list of genes under study with respect to a reference
+    list. As well as single annotations, this tool allows users to simultaneously evaluate
+    annotations from different sources, for example GO Biological Process and KEGG.
+    To this end, and before computing p-values, it uses the apriori algorithm to
+    extract sets of annotations that frequently co-occur in the analyzed list of
+    genes. More information can be found in <a class="plusInfo" href="https://doi.org/10.1186/1471-2105-7-54", target="_blank">Carmona-Saez et al. (BMC Bioinformatics, 2006).</a>
+  </p>
+  <p class="justified">
+    You are visiting a whole new website of GeneCodis. This new version, the fourth,
+    allows users to input genes, proteins, transcription factors and also accepts CpG sites and miRNAs.
+    We have updated the annotations and organisms. Some of them are completly new, but
+    some old ones have not been included. Annotations are now divided in three general
+    collections, Regulatory, Functional and Perturbation. The results are also displayed
+    differently, we are now using <a class="plusInfo" href="https://d3js.org" target="_blank">D3.js</a>.
+    In case that you are missing any functionality, organisms, annotation or
+    even if you want some kind of new feature please do not hesitate in contact
+    us at <a class="plusInfo" target="_blank" href="mailto:bioinfo@genyo.es">bioinfo@genyo.es</a>
+    since we are continually working on creating a complete updated GeneCodis,
+    feedback is always welcome.
+  </p>
+</div>
+<button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+  Tutorial | Launch an analysis
+</button>
+<div class="hidden">
+<p class="helpTitle">1º Choose an organism</p>
+<p class="justified">Select one of the sixteen possible organisms listed in this page SECTION "Organisms".</p>
+<p class="helpTitle">2º Choose the type of input</p>
+<p class="justified">Select between, genes/proteins, TFs, miRNAS and CpGs. </p>
+<p class="helpTitle">3º Paste your query list/s</p>
+<p class="justified">Genes, proteins, transcription Factors, miRNAs and/or CpGs  in any of the allowed
+nomenclatures, as explained in "Allowed Input" section of this page.</p>
+<p class="helpTitle">4º Choose the annotation/s</p>
+<p class="justified">The available annotations vary for each organism, check "Organisms" help.</p>
+<p class="helpTitle">5º Advanced Options</p>
+<h4>Mode of analysis</h4>
+<p class="justified">Single by default. It is also possible Comparative, which analyse the common
+   elements and uniques of the two input lists. If this last option is selected,
+   you will be able to name each list, if not they are called "input1" and "input 2",
+   respectively.</p>
+<h4>Min genes annotated</h4>
+<p class="justified">Annotations or combinations of annotations that do not have at least the
+   selected number of genes will not be shown. This parameter is only relevant
+   for the co-ocurrence analysis, the singular analyses are always computed
+   with a minimum support of 1.</p>
+<h4>Universe</h4>
+<p class="justified">By default, all the genes of the organism that have one annotation associated.
+   It will differ in each annotation data base.</p>
+<p class="helpTitle">Email</p>
+<p class="justified">Introduce your email so that we can send you the link with results. If you
+do not want to submit it please be sure to copy the report url to recover your
+job anytime.</p>
+<p class="helpTitle">Report Name</p>
+<p class="justified">Personalise your analysis with a name.</p>
+</div>
+<button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+ Tutorial | Results Interpretation
+</button>
+<div class="hidden">
+  <p class="helpTitle">Quality Control</p>
+  <p class="justified">
+      The first step in the GeneCodis analysis is to check the validity of the input.
+      We differenciate between a general control and that specific to the annotation
+      whose results are under exploration. There are six possible conditions, one
+      regarding the annotations and the other to the input list. We can explore the
+      elements that did not pass the quality control by click the number if there are
+      cases. Then the six conditions are entitled as follows:
+  </p>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Invalid Input</p>
+      <p class="justified">Those elements in the input that are not in our database.
+        Be sure that these elements are invalid, any kind of strange characters
+        could cause not to identify them in our database. If applicable fix this
+        and repeat the analysis.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Invalid Universe</p>
+      <p class="justified">Those elements in the custom universe that are not in our database.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Annotation(s) w/o Input</p>
+      <p class="justified">The annotations that have none of the elements introduced in the input.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Annotated Input</p>
+      <p class="justified">Those elements in the input that have annotations of the selected collection.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">No Annotated Input</p>
+      <p class="justified">Those elements in the input that do not have annotations of the selected collection.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Annotated Universe</p>
+      <p class="justified">Those elements in the universe that have annotations of the selected collection.</p>
+  </div>
+  <p class="helpTitle">Table</p>
+  <p class="justified">GeneCodis reports only significant enriched terms, those whose
+     adjusted pValue is below 0.05. The web table is limited to show the top 100 terms,
+     if more are abotained they are available in the downloadable table.</p>
+  <p class="justified">
+      There is one for every selected annotation database, pluse one for the
+      CoAnnotation analysis. The table columns are:
+  </p>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Description</p>
+      <p class="justified">The human readable name of the annotation id.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+    <p style="font-weight: bold;">Annotation Id</p>
+    <p class="justified">The standarized code that identifies each term, specific to each
+      database.</p>
+    </div>
+  <div class="row help whitoverblack bordered">
+    <p style="font-weight: bold;">Genes Found</p>
+    <p class="justified">Number of genes in the input list that part of the annotation.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+    <p style="font-weight: bold;">Input Size (in download)</p>
+    <p class="justified">Number of genes introduced in GeneCodis. Only in downloaded table.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+    <p style="font-weight: bold;">Term Genes (in download)</p>
+    <p class="justified">Number of genes that are annotated to each annotation. Only in downloaded table.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+    <p style="font-weight: bold;">Genes Universe (in download)</p>
+    <div class="column">
+      <p class="justified">The number of genes to use as the background set in the
+        Fisher's test.Only in downloaded table. By default, GeneCodis uses all the
+        measurable elements depending on the annotations and organism selected.
+        Since, TFs and CpGs are transformed to genes the universe is the same used
+        when the input consist in genes/proteins. The same applies to miRNAs,
+        excepting when miRNAs-based annotations are selected the universe covers
+        all the miRNAs known of the organism selected.
+      </p>
+      <ul>
+        <li>For gene-based annotations, all the genes available in <a class="plusInfo" target="_self" href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">NCBI gene_info.gz</a></li>
+        <li>For miRNAs-based annotations, all the miRNAs available in <a class="plusInfo" target="_self" href="ftp://mirbase.org/pub/mirbase/CURRENT/miRNA.xls.zip">current miRBase</a></li>
+        </ul>
+        <p class="justified">
+          The universe should be customized to the set of elements that can
+          be measured in your upstream experiment. Go to "Advanced Options >
+          Universe > Custom".
+        </p>
+    </div>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Relative Enrichment</p>
+      <p class="justified">It measures the proportion between the number of genes found of an
+        annotation in the input divided by the size of the input and how many genes
+        are under that annotation divided by all the genes in the database:
+        <sup>(Genes Found / Input Size)</sup> &#8260; <sub>(Term Genes / Genes Universe)</sub>
+        High numbers imply a better relative enrichment.
+      </p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Pval and Pval Adj</p>
+      <p class="justified">The hypergeometric test raw Pvalues and their FDR adjusted. In the website
+         only the adjusted are shown, download the table to see the raw.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Genes</p>
+      <p class="justified">The input genes associated to each annotation separated by comma.</p>
+  </div>
+  <p class="helpTitle">Visualizations</p>
+  <p class="justified">Next we find three interactive and downloadble plots that can be customized
+    by moving the slider below the table to set the number of annotations displayed.
+  </p>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Network Clusters</p>
+      <p class="justified">The selected top annotations and their genes found are drawn in a network
+        with a profuse force layout, in this way annotations nodes that share genes
+        are close together. The size of the annotations node is proportional to
+        -log10(Pval Adj) and the blue intensity goes in concordance with the number of
+        genes found.</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">WordsCloud</p>
+      <p class="justified">In CoAnnotation, the terms appear in the wordscloud according the frequency
+      that each one is reported in the selected top co-annotated terms. Meanwhile, in the
+      single analysis, the size of the word is related to the -log10(Pval Adj).</p>
+  </div>
+  <div class="row help whitoverblack bordered">
+      <p style="font-weight: bold;">Bars Chart</p>
+      <p class="justified">The bars size represent the -log10(Pval Adj) and the red intensity the number of genes found.</p>
+  </div>
+</div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Allowed Input
+  </button>
+  <div class="hidden">
+  <p class="justified">GeneCodis supports different geneand protein nomenclatures and other types of input
+    which are, TFs, miRNAs and CpGs. Transcription factors, miRNAs and CpGs, will
+    be converted to its genes target or, in case of the CpGs, those where they occur.
+    Additionally, we have incorporated direct annotations for miRNAs, see
+    <a href="https://doi.org/10.3390/biom10091252" target="_blank">Garcia-Moreno,
+    Adrian and Carmona-Saez, Pedro for more details.</a> For all organisms, users
+    can input entrez, symbol, ensembl and uniprot ids, as well as synonyms symbols
+    collected in the NCBI FTP
+    <a class="plusInfo" target="_self" href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">
+    gene_info.gz file</a>. CpG sites allowed derive from Infinium
+    MethylationEPIC i.e.: cg00050873 and are extracted from
+    <a class="plusInfo" target="_blank" href="https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html">
+    (the latest manifest file)</a>. The miRNAs allowed, i.e: hsa-miR-122-5p,
+    come from miRTarBase 8 derived from strong evidence techniques such as:
+    reporter assay, western blot and qRT-PCR.
+  </p>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Organisms
+  </button>
+  <div class="hidden">
+    <p class="justified">Currently GeneCodis provides annotations for 16 different organisms.
+      Click on them to check the different annotations available.</p>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+        Homo sapiens
+      </button>
+      <div class="column helpannots hidden">
+      <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+      <p class="justified">KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+      <p class="justified">TFs (DoRothEA), miRNAs (miRTarBase), Reactome, WikiPathways</p>
+      <p class="justified">HPO, LINCS, OMIM, PharmGKB, MNDR</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Caenorhabditis elegans</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, Reactome, WikiPathways, CTD</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Canis familiaris</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Mouse Genomic Information, Panther Pathways, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Danio rerio</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+        <p class="justified">Reactome, WikiPathways, miRNAs (miRTarBase), CTD</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Drosophila melanogaster</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, miRNAs (miRTarBase), Reactome, WikiPathways, CTD</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Gallus gallus</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+        <p class="justified">Reactome, WikiPathways, CTD</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Bos taurus</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, Mouse Genomic Information, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Mus musculus</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+        <p class="justified">miRNAs (miRTarBase), CTD, Reactome, WikiPathways, MNDR</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Rattus norvegicus</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, Mouse Genomic Information</p>
+        <p class="justified">miRNAs (miRTarBase), MNDR, Reactome, WikiPathways, CTD</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Sus scrofa</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Reactome, MNDR, CTD</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Arabidopsis thaliana</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Oryza sativa</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Saccharomyces cerevisiae</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways, Reactome, WikiPathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Aspergillus nidulans</button>
+  <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Escherichia coli</button>
+    <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways, Panther Pathways</p>
+      </div>
+    </div>
+    <div class="row help bordered">
+      <button type="button" class="helpbtn" onclick="showNextSibling(event);">
+    Candida albicans</button>
+    <div class="column helpannots hidden">
+        <p class="justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function</p>
+        <p class="justified">KEGG Pathways</p>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Annotations
+  </button>
+  <div class="hidden">
+    <p class="justified">GeneCodis4 gather 16 annotation sources. These
+      are updated every three months. You can download, for each one, a
+      two columns table with the pairs gene-annotation directly from our
+      database. Genes are in by default in Symbol nomenclature, but you can
+      choose the one that suits you:
+      <select name="nomenclature">
+        <option value="symbol">Symbol</option>
+        <option value="ensembl">Ensembl</option>
+        <option value="entrez">Entrez</option>
+        <option value="uniprot">Uniprot</option>
+      </select>
+      By defaul, you will download the information from all the organisms
+      in the database, however you can choose a concrete one:
+      <select name="taxid" onchange="allowannotDownBtns(this.value)">
+        <option value="all">All</option>
+        <option value="3702">Arabidopsis thaliana</option>
+        <option value="6239">Caenorhabditis elegans</option>
+        <option value="7227">Drosophila melanogaster</option>
+        <option value="7955">Danio rerio</option>
+        <option value="9031">Gallus gallus</option>
+        <option value="9606">Homo sapiens</option>
+        <option value="9615">Canis familiaris</option>
+        <option value="9823">Sus scrofa</option>
+        <option value="9913">Bos taurus</option>
+        <option value="10090">Mus musculus</option>
+        <option value="10116">Rattus norvegicus</option>
+        <option value="39947">Oryza sativa</option>
+        <option value="227321">Aspergillus nidulans</option>
+        <option value="511145">Escherichia coli</option>
+        <option value="559292">Saccharomyces cerevisiae</option>
+        <option value="237561">Candida albicans</option>
+      </select>
+     </p>
+    <div class="row help whitovergrey bordered">
+        <p>Gene Ontology Biological Process</p>
+        <a class="plusInfo" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="GO_BP" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Gene Ontology Cellular Component</p>
+        <a class="plusInfo" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="GO_CC" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Gene Ontology Molecular Function</p>
+        <a class="plusInfo" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="GO_MF" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>KEGG Pathways</p>
+        <a class="plusInfo" style="padding:10px;" href="http://www.genome.jp/kegg" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="KEGG" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Panther Pathways</p>
+        <a class="plusInfo" style="padding:10px;" href="http://www.pantherdb.org/pathway" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="Panther" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>OMIM Diseases</p>
+        <a class="plusInfo" style="padding:10px;" href="http://www.ncbi.nlm.nih.gov/omim" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="OMIM" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>PharmGKB Drugs</p>
+        <a class="plusInfo" style="padding:10px;" href="http://www.pharmgkb.org" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="PharmGKB" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>LINCS Perturbations</p>
+        <a class="plusInfo " style="padding:10px;" href="https://clue.io/touchstone" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="LINCS" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>CTD Compounds</p>
+        <a class="plusInfo " style="padding:10px;" href="http://ctdbase.org" target="_blank">[+ Info]</a>
+        <button class="annotDownBtn" type="button" name="CTD" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Human Phenotype Ontology</p>
+        <a class="plusInfo " style="padding:10px;" href="https://hpo.jax.org" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="HPO" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Mouse Genome Informatics</p>
+        <a class="plusInfo " style="padding:10px;" href="http://www.informatics.jax.org" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="MGI" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>DoRothEA Regulons (Evidence level: A)</p>
+        <a class="plusInfo " style="padding:10px;" href="https://github.com/saezlab/DoRothEA" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="DoRothEA" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>miRTarBase Strong</p>
+        <a class="plusInfo " style="padding:10px;" href="http://mirtarbase.cuhk.edu.cn/" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="miRTarBase" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>Reactome</p>
+        <a class="plusInfo " style="padding:10px;" href="https://reactome.org/" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="Reactome" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>WikiPathways</p>
+        <a class="plusInfo " style="padding:10px;" href="https://www.wikipathways.org" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="WikiPathways" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>TAM 2</p>
+        <a class="plusInfo " style="padding:10px;" href="http://www.lirmed.com/tam2" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="TAM_2" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>HMDD 3</p>
+        <a class="plusInfo " style="padding:10px;" href="http://www.cuilab.cn/hmdd" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="HMDD_v3" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+    <div class="row help whitovergrey bordered">
+        <p>MNDR</p>
+        <a class="plusInfo " style="padding:10px;" href="http://www.rna-society.org/mndr" target="_blank">[+ Info]</a>
+        <button type="button" class="annotDownBtn" name="MNDR" onclick="downloadAnnot(this.name);">Download</button>
+    </div>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Stats
+  </button>
+  <div class="hidden">
+      <p class="helpTitle">Tests</p>
+      <h3>Hypergeometric</h3>
+      <p class="justified">Considering the following:
+      <ul>
+         <li>An input of n elements. n = input size</li>
+         <li>From which, i elements are associated to an annotation. i = genes found</li>
+         <li>A total of M genes are under that annotation. M = term genes</li>
+         <li>And the total number of genes annotated is N. N = genes universe</li>
+      </ul>
+      </p>
+      <img style="display: block; margin-left: auto; margin-right: auto;" src="assets/images/hyper.jpg" alt="Hypergeometric formula">
+      <p class="helpTitle">pValue Correction</p>
+      <h3>FDR</h3>
+      <p class="justified">Via the False Discovery Rate (FDR) method of
+      Benjamini and Hochberg  <a class="plusInfo" href="https://www.jstor.org/stable/2346101" target="_blank">
+      (J R Stat Soc 1995, 57:289-300).</a></p>
+      <p class="helpTitle">Relative Enrichment</p>
+      <p class="justified"><sup>(Genes Found / Input Size)</sup> &#8260; <sub>(Term Genes / Genes Universe)</sub></p>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Browser Compatibility
+  </button>
+  <div class="hidden">
+    <table class="gc4realtable">
+      <tr>
+        <th>Browser</th>
+        <th>Version</th>
+      </tr>
+      <tr>
+        <td>Mozilla Firefox</td>
+        <td>82</td>
+      </tr>
+      <tr>
+        <td>Google Chrome</td>
+        <td>86</td>
+      </tr>
+      <tr>
+        <td>Safari</td>
+        <td>14</td>
+      </tr>
+      <tr>
+        <td>Microsoft Edge</td>
+        <td>87</td>
+      </tr>
+      <tr>
+        <td>Opera</td>
+        <td>72</td>
+      </tr>
+    </table>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Updates GeneCodis4 [Change Log]
+  </button>
+  <div class="hidden">
+    <p class="justified">
+        <%- changelog %>
+    </p>
+  </div>
+  <button type="button" class="helpTitlebtn" onclick="showNextSibling(event);">
+    Database Sources
+  </button>
+  <div class="hidden">
+<div class="column"><div class="row help whitovergrey bordered"><div class="column"><p>Mammalian ncRNA-Disease Repository</p></div><div class="column"><p>https://www.rna-society.org/mndr/download/miRNA-disease%20information.zip</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>miRTarBase</p></div><div class="column"><p>http://mirtarbase.cuhk.edu.cn/cache/download/8.0/miRTarBase_SE_WR.xls</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>PharmGKB</p></div><div class="column"><p>https://s3.pgkb.org/data/drugs.zip</p><p>https://api.pharmgkb.org/v1/download/file/data/genes.zip</p><p>https://api.pharmgkb.org/v1/download/file/data/relationships.zip</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Human Phenotype Ontology</p></div><div class="column"><p>http://compbio.charite.de/jenkins/job/hpo.annotations/lastSuccessfulBuild/artifact/util/annotation/genes_to_phenotype.txt</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>EBI</p></div><div class="column"><p>ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>KEGG</p></div><div class="column"><p>https://www.kegg.jp/kegg/rest/keggapi.html</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>WikiPathways</p></div><div class="column"><p>http://data.wikipathways.org/current/gmt/ (Arabidopsis_thaliana, Bos_taurus, Caenorhabditis_elegans, Canis_familiaris, Danio_rerio, Drosophila_melanogaster, Gallus_gallus, Homo_sapiens, Mus_musculus, Oryza_sativa, Rattus_norvegicus, Saccharomyces_cerevisiae, Sus_scrofa)</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Mouse Genome Informatics</p></div><div class="column"><p>http://www.informatics.jax.org/downloads/reports/HOM_AllOrganism.rpt</p><p>http://www.informatics.jax.org/downloads/reports/VOC_MammalianPhenotype.rpt</p><p>http://www.informatics.jax.org/downloads/reports/MRK_ENSEMBL.rpt</p><p>http://www.informatics.jax.org/downloads/reports/MGI_PhenoGenoMP.rpt</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Infinium MethylationEPIC</p></div><div class="column"><p>http://webdata.illumina.com.s3-website-us-east-1.amazonaws.com/downloads/productfiles/methylationEPIC/infinium-methylationepic-v-1-0-b5-manifest-file-csv.zip</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Human microRNA Disease Database</p></div><div class="column"><p>http://www.cuilab.cn/static/hmdd3/data/alldata.xlsx</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>TAM2</p></div><div class="column"><p>http://www.lirmed.com/tam2/Public/static/data/mirset_v9.txt</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>NCBI</p></div><div class="column"><p>https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2go.gz</p><p>ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz</p><p>ftp://ftp.ncbi.nih.gov/gene/DATA/gene2refseq.gz</p><p>ftp://ftp.ncbi.nih.gov/gene/DATA/mim2gene_medgen</p><p>ftp://ftp.ncbi.nlm.nih.gov/pub/medgen/NAMES.RRF.gz</p><p>ftp://ftp.ncbi.nih.gov/gene/DATA/gene_refseq_uniprotkb_collab.gz</p><p>ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2ensembl.gz</p><p>https://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>miRBase</p></div><div class="column"><p>ftp://mirbase.org/pub/mirbase/CURRENT/miRNA.xls.zip</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Panther</p></div><div class="column"><p>ftp://ftp.pantherdb.org/pathway/current_release</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Ensembl</p></div><div class="column"><p>ftp://ftp.ensembl.org/pub/current_gtf (canis_lupus_familiaris, bos_taurus, caenorhabditis_elegans, danio_rerio, drosophila_melanogaster, gallus_gallus, homo_sapiens, mus_musculus, rattus_norvegicus, sus_scrofa)</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>EnsemblGenomes</p></div><div class="column"><p>ftp://ftp.ensemblgenomes.org/pub/bacteria/current/species_EnsemblBacteria.txt</p><p>ftp://ftp.ensemblgenomes.org/pub/bacteria/current/gtf (escherichia_coli_str_k_12_substr_mg1655)</p><p>ftp://ftp.ensemblgenomes.org/pub/plants/current/gtf (arabidopsis_thaliana, oryza_sativa)</p><p>ftp://ftp.ensemblgenomes.org/pub/fungi/current/gtf (aspergillus_nidulans, saccharomyces_cerevisiae)</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Comparative Toxicogenomics Database</p></div><div class="column"><p>http://ctdbase.org/reports/CTD_chem_gene_ixns.csv.gz</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>DoRothEA</p></div><div class="column"><p>https://github.com/saezlab/dorothea/tree/master/data (mus_musculus, homo_sapiens)</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Gene Ontology</p></div><div class="column"><p>http://purl.obolibrary.org/obo/go.obo</p><p>http://current.geneontology.org/annotations/ (all organisms)</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>Reactome</p></div><div class="column"><p>https://reactome.org/download/current/NCBI2Reactome_All_Levels.txt</p></div></div><div class="row help whitovergrey bordered"><div class="column"><p>LINCS</p></div><div class="column"><p>https://clue.io/touchstone</p></div></div></div>
+  </div>
+</div>

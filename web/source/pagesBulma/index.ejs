@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include("../componentsBulma/header") %>
+</head>
+
+<body>
+  <main>
+     <section class="hero">
+      <div class="container">
+        <div class="hero-head">
+          <%- include("../componentsBulma/navbar") %>
+        </div>
+        <div class="hero-body">
+          <div id="analysis">
+            <form autocomplete="on" id="gc4form">
+              <div class="tile is-ancestor">
+                <div class="tile is-parent is-4 is-vertical box">
+                  <%- include("../componentsBulma/mainForm/inputs") %>
+                </div>
+                <div class="tile is-parent is-8 is-vertical p-0">
+                  <div class="tile is-child is-vertical p-3 box">
+                    <%- include("../componentsBulma/mainForm/annotations") %>
+                  </div>
+                  <div class="tile is-child is-vertical p-3 box">
+                    <%- include("../componentsBulma/mainForm/advanced") %>
+                  </div>
+                  <div class="tile is-child is-vertical p-3 box">
+                    <%- include("../componentsBulma/mainForm/launch") %>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div id="help" style="display:none;">
+            <%- include("../componentsBulma/about") %>
+          </div>
+          <div id="results" style="display:none;">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+<footer class="footer genyoCol">
+  <%- include("../componentsBulma/footer") %>
+</footer>
+<script>
+  checkEnvironment();
+  document.getElementsByName('organism')[0].value = '9606';
+  document.getElementById('genes').click();
+  document.getElementById('GO_BP').click();
+  changeLimits();
+</script>

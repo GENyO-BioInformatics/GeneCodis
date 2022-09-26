@@ -1,0 +1,40 @@
+<div class="is-flex is-direction-row">
+  <label class='label' id='annotations'>
+    <p>Annotations</p><p id='annotscounter'></p>
+    <i class="far fa-question-circle tooltip">
+      <span class="tooltiptext">Choose up to 2 annotations DBs in CoAnnotation mode or unlimited otherwise.</span>
+    </i>
+  </label>
+  <p class="pl-2" id='selectallbtns'>
+    <button type="button" class="button is-small aslabel" onclick="checkallannots();">Select all</button>
+    <button type="button" class="button is-small aslabel" onclick="uncheckallannots();">Select none</button>
+  </p>
+</div>
+<div class="tile" name="annotationsrow">
+  <div class="tile is-vertical mb-3 is-5">
+    <div class="field">
+      <p class="subtitle is-6 mb-3 has-text-weight-semibold">Functional</p>
+      <%- annotsForm.functional %>
+    </div>
+  </div>
+  <div class="tile is-vertical mb-3 is-4">
+    <div class="field">
+      <p class="subtitle is-6 mb-3 has-text-weight-semibold">Regulatory</p>
+      <%- annotsForm.regulatory %>
+    </div>
+    <div class="field">
+      <p class="subtitle is-6 mb-3 has-text-weight-semibold">miRNAs-based</p>
+      <%- annotsForm.mirnas %>
+    </div>
+  </div>
+  <div class="tile is-vertical mb-3 is-3">
+    <div class="field">
+      <p class="subtitle is-6 mb-3 has-text-weight-semibold">Drugs</p>
+      <%- annotsForm.drugs %>
+    </div>
+    <div class="field">
+      <p class="subtitle is-6 mb-3 has-text-weight-semibold">Phenotypes</p>
+      <%- annotsForm.phenotypes %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<ul>
+  <li><b>2021-06-19:</b>Renewal of website appearance GeneCodis4 using Bulma framework.
+  Improved interactivity of network and bars plots and removal of wordcloud. Added
+  new analysis options, Wallenius stat and more efficient CoAnnotation discovery
+  with Frequent Pattern, Growth and Maximal algorithms, along with an automatic
+  increase in the minimun number of genes to optimise processing time and better
+  results.</li>
+  <li><b>2020-02-11:</b> Final GeneCodis4 version released. Bokeh visualizations
+  substituted with D3.js, direct and indirect miRNAs annotations included.
+  CoAnnotation analysis is now optional, and statistical analysis is determined
+  to Fisher Exact Test with hypergeometric distribution and FDR correction. </li>
+  <li><b>2020-06-30:</b> Jobs now only stays in our server for 30 days.
+  Consenquently, please download the results if you are planning to use them,
+  otherwise you will need to relaunch the analysis.
+  We have established some limits in order to asure that CoAnnotation analyses
+  finish properly. From now on, input are limited to 1000 elements and
+  annotations up to 3. In case that you are only interested in Single Enrichment
+  no limits are applied. You can deactivate CoAnnotation analysis, in
+  Advanced Options > CoAnnotation and check No.</li>
+</ul>

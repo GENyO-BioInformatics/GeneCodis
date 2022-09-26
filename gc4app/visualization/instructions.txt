@@ -1,0 +1,7 @@
+
+
+1. Copy .tsv files from results into raw_tables folder. Keep the CoAnnotation word because it is use to do the wordcloud
+
+2. Run doVisualization.py
+
+3. One html by .tsv file has been generated. Each one has the three figures (barchart, wordcloud and network) and slider to select the top annotations (from 1 to 50) and three buttons to download the SVG files for each one.

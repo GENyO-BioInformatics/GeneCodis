@@ -1,0 +1,34 @@
+<p class='gc4title'>Choose the type of input</p>
+<div class="row gc4input">
+  <input value="genes" id="genes" type="radio" name="inputtype" class="gc4checkbox" hidden checked onclick="disableAnnotsByInputType();">
+  <label for="genes">Genes/Proteins</label>
+  <input value="cpgs" id="cpgs" type="radio" name="inputtype" class="gc4checkbox" hidden onclick="disableAnnotsByInputType();">
+  <label for="cpgs">CpGs</label>
+  <input value="mirnas" id="mirnas" type="radio" name="inputtype" class="gc4checkbox" hidden onclick="disableAnnotsByInputType();">
+  <label for="mirnas">miRNAs</label>
+  <input value="tfs" id="tfs" type="radio" name="inputtype" class="gc4checkbox" hidden onclick="disableAnnotsByInputType();">
+  <label for="tfs">TFs</label>
+</div>
+<p class='gc4title' id='input'>Paste your query list/s (0/1000)</p>
+<div class="column">
+  <div class="row">
+    <div class="column">
+        <div class="row">
+            <button class="loadexample" onclick="getexample('input');" type="button">Load Example</button>
+            <button class="loadexample" onclick="clearinputBox('input');" type="button">Clear Input/Annotations</button>
+        </div>
+        <textarea name="input" class="gc4textBox" placeholder="Paste here your list of genes, TFs, miRNAs or CPGs. One per line." cols="20" rows="10" oninput="addCounter()"></textarea>
+        <button class="loadexample" id='limitbtn1' onclick="fitToLimit('input');" type="button">Keep first 1000 elements</button>
+        <input class="gc4textBox topspace hidden" name="inputName" placeholder="First list name (input1)">
+    </div>
+    <div class="column hidden" id='secondinput'>
+        <div class="row">
+            <button class="loadexample" onclick="getexample('input2');" type="button">Load Example</button>
+            <button class="loadexample" onclick="clearinputBox('input2');" type="button">Clear Input/Annotations</button>
+        </div>
+        <textarea name="input2" class="gc4textBox" placeholder="Paste here your second list of genes, TFs, miRNAs or CPGs. One per line." cols="20" rows="10" oninput="addCounter()"></textarea>
+        <button class="loadexample" id='limitbtn2' onclick="fitToLimit('input2');" type="button">Keep first 1000 elements</button>
+        <input class="gc4textBox topspace" name="input2Name" placeholder="Second list name (input2)">
+    </div>
+  </div>
+</div>

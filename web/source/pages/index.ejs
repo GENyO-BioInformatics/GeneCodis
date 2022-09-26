@@ -1,0 +1,25 @@
+<%- include("../components/header") %>
+<div id="analysis" class="tabcontent">
+    <form autocomplete="on" id="gc4form">
+        <div class="row">
+            <div class="column cell">
+                <%- include("../components/mainForm/organisms") %>
+                <%- include("../components/mainForm/inputs") %>
+            </div>
+            <div class="column cell">
+                <%- include("../components/mainForm/annotations") %>
+                <%- include("../components/mainForm/advancedNlaunch") %>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- <div id="api" class="tabcontent hidden">
+    <%- include("../components/api") %>
+</div> -->
+<div id="about" class="tabcontent hidden">
+    <%- include("../components/about") %>
+</div>
+<div id="results" class="tabcontent hidden">
+
+</div>
+<%- include("../components/footer") %>

@@ -1,0 +1,768 @@
+<div class="tile is-ancestor">
+  <div class="tile is-parent is-3">
+    <div class="tile is-child is-vertical">
+      <nav class="panel panelfixed">
+        <p class="panel-heading">Table of Content</p>
+        <a class="panel-block" onclick="move2anchor('general');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          1- General info</a>
+        <a class="panel-block" onclick="move2anchor('options');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          2- Analysis options</a>
+        <a class="panel-block" onclick="move2anchor('interpretation');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          3- Results interpretation</a>
+        <a class="panel-block" onclick="move2anchor('inputallowed');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          4- Input allowed</a>
+        <a class="panel-block" onclick="move2anchor('orgs');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          5- Organisms supported</a>
+        <a class="panel-block" onclick="move2anchor('annotsinfo');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          6- Annotations included</a>
+        <a class="panel-block" onclick="move2anchor('stats');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          7- Stats</a>
+        <a class="panel-block" onclick="move2anchor('cite');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          8- Cite</a>
+        <a class="panel-block" onclick="move2anchor('browsers');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          9- Browser compatibility</a>
+        <a class="panel-block" onclick="move2anchor('changelog');">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          10- Last updates</a>
+        <a class="panel-block" onclick="move2anchor('dbsinfo')">
+          <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+          11- Database sources</a>
+      </nav>
+    </div>
+  </div>
+  <div class="tile is-vertical">
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="general">
+            1- General info
+          </p>
+          <p class="has-text-justified">
+            GeneCodis is a web-based tool for the functional analysis of lists of genes, proteins,
+            and regulatory elements miRNAs, transcription factors (TFs), and CpGs.
+            It can be used to determine biological annotations or combinations of annotations that
+            are significantly associated to a list of genes o miRNAs under study with respect to a reference
+            list. As well as single collections, this tool allows users to simultaneously evaluate
+            annotations from different sources, for example GO Biological Process and KEGG.
+            To this end, and before computing p-values, it uses the associantion rules algorithms to
+            extract sets of annotations that frequently co-occur in the analyzed list of
+            genes. More information can be found in <a class="genyoLink" href="https://doi.org/10.1186/1471-2105-7-54" , target="_blank">Carmona-Saez et al. (BMC Bioinformatics, 2006).</a>
+          </p>
+          <p class="has-text-justified">
+            You are visiting a whole new website of GeneCodis. This new version, the fourth,
+            allows users to input genes, proteins, TFs, CpG sites and miRNAs.
+            This has suppoused a complete update in the statistical methods to overcome a known gene
+            selection bias with the Wallenius approach. It is present in the set enrichment analysis
+            of regulatory elements that need to be transformed to their associated genes to test the
+            annotations and exceptionally with genes selected from expression data obtained with
+            aggregated tag counts. The new methods are based on GOseq.
+          </p>
+          <p class="has-text-justified">
+            We have updated the annotations and organisms. Annotations are now divided in four general
+            collections, Functional, Regulatory with miRNAs-based annotations, Drugs and Phenotypes.
+            The results are also displayed differently, we are now using
+            <a class="genyoLink" href="https://d3js.org" target="_blank">D3.js</a> to create two
+            interactive visualizations, a gene-, mirna-annotation network and a bars chart.
+          </p>
+          <p class="has-text-justified">
+            In case that you are missing any functionality, organisms, annotation or
+            even if you want some kind of new feature please do not hesitate in contact
+            us at <a class="genyoLink" target="_blank" href="mailto:bioinfo@genyo.es">bioinfo@genyo.es</a>
+            since we are continually working on creating a complete updated GeneCodis,
+            feedback is always appreciated.
+          </p>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="options">
+            2- Analysis options
+          </p>
+          <p class="subtitle is-4">1º Choose an organism</p>
+          <p class="has-text-justified">Select one of the possible organisms listed in the drop down menu. See section 5- Organisms supported.</p>
+          <p class="subtitle is-4">2º Choose the type of input</p>
+          <p class="has-text-justified">Select between, genes/proteins, TFs, CpGs and miRNAS.</p>
+          <p class="has-text-justified">If you select miRNAs, below the input box appears the converter between mature and precursos miRNAs ids.</p>
+          <p class="subtitle is-4">3º Paste your query list</p>
+          <p class="has-text-justified">Genes, proteins, transcription factors, CpGs or miRNAs in any of the allowed
+            nomenclatures, as explained in section 4- Input allowed</p>
+          <p class="subtitle is-4">4º Choose the annotations</p>
+          <p class="has-text-justified">The available annotations vary for each organism, check section 5- Organisms supported.</p>
+          <p class="subtitle is-4">5º Advanced Options</p>
+          <p class="subtitle is-5 has-text-weight-bold">Enrichment stats</p>
+          <p class="has-text-justified">
+            You can select the test with the standard hypergeometric or
+            Wallenius' noncentral hypergeometric distribution.
+            The Wallenius test approach is reccommended to overcome bias effects.
+            This approach is widely used and is implemented following R's packages
+            <a class="genyoLink" href="https://doi.org/10.1186/gb-2010-11-2-r14" target="_blank">GOseq</a>,
+            <a class="genyoLink" href="https://doi.org/10.1093/bioinformatics/bty892" target="_blank">methylGSA</a> and
+            <a class="genyoLink" href="https://doi.org/10.1186/s13059-021-02388-x" target="_blank">missMethyl GOmeth</a>.
+            You can read the articles by clicking in the previous links.
+          </p>
+          <p class="subtitle is-5 has-text-weight-bold">Universe scope</p>
+          <p class="has-text-justified">
+            You can choose between using as background set only the genes in the selected database, "Annotated" or all the
+            genes included in our database for the selected organism, "Whole".
+          </p>
+          <p class="subtitle is-5 has-text-weight-bold">CoAnnotation analysis</p>
+          <p class="has-text-justified">Discover groups of annotations that share
+            a minimun number of genes to test their over-representation significance.
+          </p>
+          <p class="subtitle is-5 has-text-weight-bold">CoAnnotation algorithm</p>
+          <p class="has-text-justified">The groups of annotations or itemesets, CoAnnotations in our context,
+            are discovered by means of the Frequent Pattern (FP) algorithm. Previous versions
+            of GeneCodis are based on the Apriori algorithm but the FP methods are
+            more timely efficient. We offer two variations: FP Growth,
+            to discover closed CoAnnotations, and FP Max, to discover closed
+            maximal CoAnnotations. FP Max is faster. A closed CoAnnotation is a combination of
+            annotations that share a minimun number of genes. A closed CoAnnotation
+            is maximal when it is the superset of other closed CoAnnotations.
+            In the following image, the minimun support can be regarded as the
+            minimun number of genes, being the numbers the genes and the letters
+            the annotations. <a class="genyoLink" href="http://rasbt.github.io/mlxtend/" target="_blank">
+            Source from MLxtend</a>
+          </p>
+            <figure class="image">
+              <img src="https://miro.medium.com/max/700/1*vXKwhN32RuLoNsnPXz3TlQ.png">
+            </figure>
+          <p class="subtitle is-5 has-text-weight-bold">Minimal input % in CoAnnotation</p>
+          <p class="has-text-justified">Percent of allowed miRNAs or genes to be considered
+            in co-annotation. The minimun is always 10% but if there are less than 30 elements
+            it will increase to consider a least 3 elements in co-annotations.
+            This increase automatically by one if the FP algorithm takes more than
+            5 minutes to finish, in this way less CoAnnotations are returned but greater
+            biological meaning can be observed.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Compare two lists</p>
+          <p class="has-text-justified">Select Yes to analyse the common and
+            unique elements of two input lists. If this last option is selected,
+            you will be able to name each list, if not they are called "input1"
+            and "input 2", respectively.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Custom universe</p>
+          <p class="has-text-justified">By default, GeneCodis uses all the genes
+            or miRNAs of the organism that can be measured according to our
+            database (see section 4- Input allowed). It will differ in the input type selected.
+            You can paste here all the genes, proteins, TFs, miRNAs and CpGs,
+            in order to fit the analysis to your experiment or to only consider
+            a set of genes of interest in your system under study.</p>
+          <p class="subtitle is-4">6º Email</p>
+          <p class="has-text-justified">Introduce your email so that we can send you the link with results.
+            If you do not want to submit it please be sure to copy the report url to recover your
+            job anytime.</p>
+          <p class="subtitle is-4">7º Report Name</p>
+          <p class="has-text-justified">Personalise your analysis with a name.</p>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="interpretation">
+            3- Results interpretation
+          </p>
+          <p class="subtitle is-4">Quality Control</p>
+          <p class="has-text-justified">
+            The first step in the GeneCodis analysis is to check the validity of the input.
+            We differenciate between a general control and that specific to the annotation
+            whose results are under exploration. There are six possible conditions, one
+            regarding the annotations and the other to the input list. We can explore the
+            elements that did not pass the quality control by clicking the number if there are
+            cases. The six conditions are entitled as follows:
+          </p>
+          <p class="subtitle is-5 has-text-weight-bold">Input not in our database</p>
+          <p class="has-text-justified">Those elements in the input that are not in our database.
+            Be sure that these elements are invalid, any kind of strange characters
+            could cause not to identify them in our database. If applicable fix this
+            and repeat the analysis.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Universe not in our database</p>
+          <p class="has-text-justified">Those elements in the custom universe that are not in our database.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Annotations not mapped to input</p>
+          <p class="has-text-justified">The annotations that have none of the elements introduced in the input.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Annotated input</p>
+          <p class="has-text-justified">Those elements in the input that have annotations of the selected collection.</p>
+          <p class="subtitle is-5 has-text-weight-bold">No annotated input</p>
+          <p class="has-text-justified">Those elements in the input that do not have annotations of the selected collection.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Annotation universe</p>
+          <p class="has-text-justified">Those elements in the universe that have annotations of the selected collection.</p>
+          <p class="subtitle is-4">Table</p>
+          <p class="has-text-justified">GeneCodis report all the terms without applying a
+            0.05 p-value cut-off. To keep the navigation light, in the web it is limited to the top 100 terms.
+            Download the complete table to obtain the full results and analysis information.</p>
+          <p class="has-text-justified">
+            There is one for every selected annotation database, pluse one for the
+            CoAnnotation analysis. The table columns are:
+          </p>
+          <p class="subtitle is-5 has-text-weight-bold">Description</p>
+          <p class="has-text-justified">The human readable name of the annotation id.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Annotation Id (in download)</p>
+          <p class="has-text-justified">The standarized code that identifies each term, specific to each
+            database.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Genes Found (in download)</p>
+          <p class="has-text-justified">Number of genes in the input list that part of the annotation.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Pval (in download) and Pval adj. (FDR)</p>
+          <p class="has-text-justified">The hypergeometric or Wallenius test raw
+            p-values and corrected via Benjamini/Hochberg FDR. In the website
+            only the adjusted are shown, download the table to see the raw.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Relative Enrichment</p>
+          <p class="has-text-justified">It measures the proportion between the
+            number of genes found of an annotation in the input divided by the
+            size of the input and how many genes are under that annotation
+            divided by all the genes in the database:
+          </p>
+          <p class="has-text-justified">
+            <sup>(Genes Found / Input Size)</sup> &#8260; <sub>(Term Genes / Genes Universe)</sub>
+          </p> 
+          <p class="has-text-justified">
+            High numbers imply a better relative enrichment.
+          </p> 
+          <p class="subtitle is-5 has-text-weight-bold">Input Size (in download)</p>
+          <p class="has-text-justified">Number of genes introduced in GeneCodis. Only in downloaded table.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Term Genes (in download)</p>
+          <p class="has-text-justified">Number of genes that are annotated to each annotation. Only in downloaded table.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Genes Count</p>
+          <p class="has-text-justified">(Genes Found / Term Genes). Only in online table.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Genes Universe (in download)</p>
+          <p class="has-text-justified">The number of genes to use as the background set in the
+            Fisher's test.Only in downloaded table. By default, GeneCodis uses all the
+            measurable elements depending on the annotations and organism selected.
+            Since, TFs and CpGs are transformed to genes the universe is the same used
+            when the input consist in genes/proteins. The same applies to miRNAs,
+            excepting when miRNAs-based annotations are selected the universe covers
+            all the miRNAs known of the organism selected.
+          </p>
+          <ul>
+            <li>For gene-based annotations, all the genes available in <a class="genyoLink" target="_self" href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">NCBI gene_info.gz</a></li>
+            <li>For miRNAs-based annotations, all the miRNAs available in <a class="genyoLink" target="_self" href="ftp://mirbase.org/pub/mirbase/CURRENT/miRNA.xls.zip">current miRBase</a></li>
+          </ul>
+          <p class="has-text-justified">
+            The universe should be customized to the set of elements that can
+            be measured in your upstream experiment. Go to "Advanced Options >
+            Universe > Custom".
+          </p>
+          <p class="subtitle is-5 has-text-weight-bold">Annotation bias (in download)</p>
+          <p class="has-text-justified">
+            Only appears if Wallenius is the stat selected in advanced options.
+            The bias score or annotation weight is calculated as the odds ratio
+            of a power weighting function. See 7- Stats for more info.
+          </p>
+          <p class="subtitle is-5 has-text-weight-bold">Genes</p>
+          <p class="has-text-justified">The input genes associated to each
+            annotation separated by comma.</p>
+          <p class="subtitle is-4">Visualisations</p>
+          <p class="has-text-justified">Next we find two interactive and
+            downloadble plots that can be customized by moving the slider in
+            the left menu or via the text box next to it set the number of
+            annotations displayed. Leave the mouse on a node or bar to get more
+            information. Plots can be downloaded as .png or .svg.
+          </p>
+          <p class="subtitle is-5 has-text-weight-bold">Gene-Annotation Clusters Network</p>
+          <p class="has-text-justified">The selected top annotations in the left
+            menu, and their genes found are drawn in a network with a profuse
+            force layout, in this way annotations nodes that share genes are
+            close together. The size of the annotations node is proportional to
+            -log10(Pval Adj) and the blue intensity goes in concordance with the
+            number of genes found. You can hide the gene nodes and by clicking
+            on nodes you show or hide their labels.</p>
+          <p class="subtitle is-5 has-text-weight-bold">Bars Chart</p>
+          <p class="has-text-justified">The bars size represent the -log10(Pval Adj)
+            and the red intensity the number of genes found.</p>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="inputallowed">
+            4- Input allowed
+          </p>
+          <p class="has-text-justified">GeneCodis supports the gene and protein nomenclatures that are common of NCBI and Ensembl,
+            also accepts regulatory elements: TFs, miRNAs and CpGs. These will be converted to its associated genes.
+            Additionally, we have incorporated direct annotations for miRNAs, see
+            <a class="genyoLink" href="https://doi.org/10.3390/biom10091252" target="_blank">Garcia-Moreno,
+            Adrian and Carmona-Saez, Pedro for more details.</a>
+          </p>
+          <p class="has-text-justified">
+            Genes, for all organisms, users can input entrez, symbol, ensembl and uniprot ids, as well as
+            synonyms symbols collected in the NCBI FTP (<a class="genyoLink" target="_self" href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">
+            gene_info.gz file</a>) which are inlcuded in Ensembl databases.
+          </p>
+          <p class="has-text-justified">
+            CpG sites allowed derive from Infinium MethylationEPIC i.e.: cg00050873, extracted from
+            (<a class="genyoLink" target="_blank" href="https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html">
+            the latest manifest file</a>).
+          </p>
+          <p class="has-text-justified">
+            The miRNAs allowed, i.e: hsa-miR-122-5p, come from miRTarBase 8 derived
+            from strong evidence techniques such as: reporter assay, western blot and qRT-PCR.
+          </p>
+          <p class="has-text-justified">
+            The TFs allowed derives from <a class="genyoLink " href="https://github.com/saezlab/DoRothEA" target="_blank">DoRothEA</a>
+            (Regulons Evidence level: A, B and C).
+          </p>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="orgs">5- Organisms supported</p>
+          <p class="has-text-justified">Currently GeneCodis provides annotations for 14 different organisms.
+            Here we specify which different annotations are available for each one.</p>
+          <p class="subtitle is-4">Homo sapiens</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function, Covid
+            KEGG Pathways, Panther Pathways, Mouse Genomic Information, Reactome, WikiPathways,
+            TFs (DoRothEA), miRNAs (miRTarBase), MNDR, TAM2, HMDD3,
+            PharmGKB, LINCS, DisGeNET, HPO, OMIM</p>
+          <p class="subtitle is-4">Caenorhabditis elegans</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function
+            KEGG Pathways, Panther Pathways, Reactome, WikiPathways, CTD</p>
+          <p class="subtitle is-4">Canis familiaris</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function,
+            KEGG Pathways, Panther Pathways, Reactome, WikiPathways</p>
+          <p class="subtitle is-4">Danio rerio</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function
+            KEGG Pathways, Panther Pathways, Mouse Genomic Information, Reactome, WikiPathways, miRNAs (miRTarBase), CTD</p>
+          <p class="subtitle is-4">Drosophila melanogaster</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function,
+            KEGG Pathways, Panther Pathways, Reactome, WikiPathways, miRNAs (miRTarBase), CTD</p>
+          <p class="subtitle is-4">Gallus gallus</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function
+            KEGG Pathways, Panther Pathways, Reactome, WikiPathways, CTD</p>
+          <p class="subtitle is-4">Bos taurus</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function,
+            KEGG Pathways, Panther Pathways, Mouse Genomic Information, Reactome, WikiPathways</p>
+          <p class="subtitle is-4">Mus musculus</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function,
+            KEGG Pathways, Panther Pathways, Mouse Genomic Information, Reactome, WikiPathways, TFs (DoRothEA), miRNAs (miRTarBase), MNDR, CTD</p>
+          <p class="subtitle is-4">Rattus norvegicus</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function
+            KEGG Pathways, Panther Pathways, Mouse Genomic Information, Reactome, WikiPathways,
+            miRNAs (miRTarBase), MNDR, CTD</p>
+          <p class="subtitle is-4">Sus scrofa</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function,
+            KEGG Pathways, Reactome, MNDR, CTD</p>
+          <p class="subtitle is-4">Arabidopsis thaliana</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function, KEGG Pathways, Panther Pathways, WikiPathways</p>
+          <p class="subtitle is-4">Oryza sativa</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function, KEGG Pathways</p>
+          <p class="subtitle is-4">Saccharomyces cerevisiae</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function
+            KEGG Pathways, Panther Pathways, Reactome, WikiPathways</p>
+          <p class="subtitle is-4">Escherichia coli</p>
+          <p class="has-text-justified">Gene Ontology: Biological Process, Cellular Component, Molecular Function,
+            KEGG Pathways, Panther Pathways</p>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="annotsinfo">
+            6- Annotations included
+          </p>
+          <p class="has-text-justified pb-5">GeneCodis4 gather 21 annotation sources. These
+            are updated every three months. You can download, for each one, a
+            two columns table with the pairs gene-annotation directly from our
+            database. Genes are in by default in Symbol nomenclature, but you can
+            choose the one that suits you:
+            <select name="nomenclature">
+              <option value="symbol">Symbol</option>
+              <option value="ensembl">Ensembl</option>
+              <option value="entrez">Entrez</option>
+              <option value="uniprot">Uniprot</option>
+            </select>
+            By defaul, you will download the information from all the organisms
+            in the database, however you can choose a concrete one:
+            <select name="taxid" onchange="allowannotDownBtns(this.value)">
+              <option value="all">All</option>
+              <option value="3702">Arabidopsis thaliana</option>
+              <option value="6239">Caenorhabditis elegans</option>
+              <option value="7227">Drosophila melanogaster</option>
+              <option value="7955">Danio rerio</option>
+              <option value="9031">Gallus gallus</option>
+              <option value="9606">Homo sapiens</option>
+              <option value="9615">Canis familiaris</option>
+              <option value="9823">Sus scrofa</option>
+              <option value="9913">Bos taurus</option>
+              <option value="10090">Mus musculus</option>
+              <option value="10116">Rattus norvegicus</option>
+              <option value="39947">Oryza sativa</option>
+              <option value="511145">Escherichia coli</option>
+              <option value="559292">Saccharomyces cerevisiae</option>
+            </select>
+          </p>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>BioPlanet
+              <a class="genyoLink" style="padding:10px;" href="https://tripod.nih.gov/bioplanet/" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="BioPlanet" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Gene Ontology Biological Process
+              <a class="genyoLink" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="GO_BP" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Gene Ontology Cellular Component
+              <a class="genyoLink" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="GO_CC" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Gene Ontology Molecular Function
+              <a class="genyoLink" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="GO_MF" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Gene Ontology Covid
+              <a class="genyoLink" style="padding:10px;" href="https://www.ebi.ac.uk/QuickGO" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="GO_COVID" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>KEGG Pathways
+              <a class="genyoLink" style="padding:10px;" href="http://www.genome.jp/kegg" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="KEGG" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Panther Pathways
+              <a class="genyoLink" style="padding:10px;" href="http://www.pantherdb.org/pathway" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="Panther" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>OMIM Diseases
+              <a class="genyoLink" style="padding:10px;" href="http://www.ncbi.nlm.nih.gov/omim" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="OMIM" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>PharmGKB Drugs
+              <a class="genyoLink" style="padding:10px;" href="http://www.pharmgkb.org" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="PharmGKB" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>LINCS Perturbations
+              <a class="genyoLink " style="padding:10px;" href="https://clue.io/touchstone" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="LINCS" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>CTD Compounds
+              <a class="genyoLink " style="padding:10px;" href="http://ctdbase.org" target="_blank">[+ Info]</a>
+            </p>
+            <button class="button is-small annotDownBtn" type="button" name="CTD" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>DisGeNET
+              <a class="genyoLink" style="padding:10px;" href="https://www.disgenet.org/" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="DisGeNET" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Human Phenotype Ontology (HPO)
+              <a class="genyoLink " style="padding:10px;" href="https://hpo.jax.org" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="HPO" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Mouse Genome Informatics
+              <a class="genyoLink " style="padding:10px;" href="http://www.informatics.jax.org" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="MGI" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Transcription Factors (DoRothEA Regulons Evidence level: A, B and C)
+              <a class="genyoLink " style="padding:10px;" href="https://github.com/saezlab/DoRothEA" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="DoRothEA" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>miRNAs (miRTarBase)
+              <a class="genyoLink " style="padding:10px;" href="http://mirtarbase.cuhk.edu.cn/" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="miRTarBase" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>Reactome
+              <a class="genyoLink " style="padding:10px;" href="https://reactome.org/" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="Reactome" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>WikiPathways
+              <a class="genyoLink " style="padding:10px;" href="https://www.wikipathways.org" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="WikiPathways" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>TAM 2
+              <a class="genyoLink " style="padding:10px;" href="http://www.lirmed.com/tam2" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="TAM_2" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>HMDD 3
+              <a class="genyoLink " style="padding:10px;" href="http://www.cuilab.cn/hmdd" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="HMDD_v3" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+          <div class="columns is-flex is-align-content-center is-justify-content-space-between">
+            <p>MNDR
+              <a class="genyoLink " style="padding:10px;" href="http://www.rna-society.org/mndr" target="_blank">[+ Info]</a>
+            </p>
+            <button type="button" class="button is-small annotDownBtn" name="MNDR" onclick="downloadAnnot(this.name);"><span class="icon">
+                <i class="fas fa-download"></i>
+              </span><span>
+                Download
+              </span>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="stats">
+            7- Stats
+          </p>
+          <p class="subtitle is-4">Tests</p>
+          <p class="subtitle is-5 has-text-weight-bold">Hypergeometric distribution
+          </p>
+          <p class="has-text-justified">Considering the following:
+            <ul>
+              <li>An input of N elements. N = input size</li>
+              <li>From which, k elements are associated to an annotation. k = genes found</li>
+              <li>A total of n genes are under that annotation. n = term genes</li>
+              <li>And the total number of genes annotated is M. M = genes universe</li>
+            </ul>
+          </p>
+          <figure class="image">
+            <img class="is-rounded" src="assets/images/hyper_pmf.png" alt="Hypergeometric pmf formula">
+          </figure>
+          <a class="genyoLink" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hypergeom.html" target="_blank">
+            Source from Scipy</a>
+          <p class="subtitle is-5 has-text-weight-bold pt-3">Wallenius noncentral hypergeometric distribution
+          </p>
+          <p class="has-text-justified">Adding to the hypergeometric parameters w:
+            <ul>
+              <li>The weight of a annotation being enriched is w. w = annotation odds</li>
+              <li>w is obtained via the Power Weighting Function</li>
+            </ul>
+          </p>
+          <p>Note here x is k from the normal hypergeometric distribution</p>
+          <figure class="image">
+            <img class="is-rounded" src="assets/images/wallenius_pmf.png" alt="Wallenius hypergeometric pmf formula">
+          </figure>
+          <a class="genyoLink" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.nchypergeom_wallenius.html" target="_blank">
+            Source from Scipy</a>
+          <p class="subtitle is-6 has-text-weight-bold pt-3">Power Weighting Function</p>
+          <p class="has-text-justified">
+            Based on GOseq, this is a function used to calculate the differential weights of genes used later
+            for the odds of the tested annotations by Wallenius. This function derives from a logistic GAM model
+            that fits a cubic spline with a monotonicity constraint to a binary data series where a value of 1
+            refers to an input gene or TF-, miRNA-, CpG-target gene and 0 if none. The fitting is against different
+            variables depending on the type of input. If genes are introduced, GeneCodis uses their length,
+            in the case of CpGs the bias is given by the number of CpGs associated to each gene, likewise,
+            for TFs and miRNAs is the number of TFs or miRNAs per target gene. Finally, the Wallenius test uses
+            the odds ratio for each term calculated as the average gene bias score of the annotated elements
+            in the category divided by the average of those that are not.
+          </p>
+          <p class="subtitle is-4 pt-3">p-value Correction (FDR)</p>
+          <p class="has-text-justified">Via the False Discovery Rate (FDR) method of
+            Benjamini and Hochberg <a class="genyoLink" href="https://www.jstor.org/stable/2346101" target="_blank">
+              (J R Stat Soc 1995, 57:289-300).</a></p>
+          <a class="genyoLink" href="https://www.statsmodels.org/dev/generated/statsmodels.stats.multitest.multipletests.html" target="_blank">
+          Source from statsmodels</a>
+          <p class="subtitle is-4 pt-3">Relative Enrichment</p>
+          <p class="is-size-4 has-text-justified"><sup>(Genes Found / Input Size)</sup>&#8260;<sub>(Term Genes / Genes Universe)</sub></p>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="cite">
+            8- Cite
+          </p>
+          <ol>
+            <p class="subtitle is-6 has-text-weight-bold">Please cite our latest article:</p>
+            <li>
+              <a class="genyoLink" href="https://doi.org/10.1101/2021.04.15.439962" target="_blank">
+                A. García-Moreno, R. López-Domínguez, A. Ramirez-Mena, A. Pascual-Montano, E. Aparicio-Puerta, M. Hackenberg, P. Carmona-Saez. GeneCodis 4: Expanding the modular enrichment analysis to regulatory elements bioRxiv 2021.04.15.439962
+              </a>
+            </li>
+            <p class="subtitle is-6 has-text-weight-bold pt-4">Previous articles:</p>
+            <li>
+              <a class="genyoLink" href="https://doi.org/10.1093/nar/gks402" target="_blank">
+                Tabas-Madrid D, Nogales-Cadenas R, Pascual-Montano A: GeneCodis3: a non-redundant and modular enrichment analysis tool for functional genomics. Nucleic Acids Research 2012
+              </a>
+            </li>
+            <li>
+              <a class="genyoLink" href="https://doi.org/10.1093/nar/gkp416" target="_blank">
+                Nogales-Cadenas R, Carmona-Saez P, Vazquez M, Vicente C, Yang X, Tirado F, Carazo JM, Pascual-Montano A: GeneCodis: interpreting gene lists through enrichment analysis and integration of diverse biological information. Nucleic Acids
+                Research 2009
+              </a>
+            </li>
+            <li>
+              <a class="genyoLink" href="https://doi.org/10.1186/gb-2007-8-1-r3" target="_blank">
+                Carmona-Saez P, Chagoyen M, Tirado F, Carazo JM, Pascual-Montano A: GENECODIS: A web-based tool for finding significant concurrent annotations in gene lists. Genome Biology 2007 8(1):R3
+              </a>
+            </li>
+          </ol>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="browsers">
+            9- Browser compatibility
+          </p>
+          <table class="gc4realtable">
+            <tr>
+              <th>Browser</th>
+              <th>Version</th>
+            </tr>
+            <tr>
+              <td>Mozilla Firefox</td>
+              <td>82</td>
+            </tr>
+            <tr>
+              <td>Google Chrome</td>
+              <td>86</td>
+            </tr>
+            <tr>
+              <td>Safari</td>
+              <td>14</td>
+            </tr>
+            <tr>
+              <td>Microsoft Edge</td>
+              <td>87</td>
+            </tr>
+            <tr>
+              <td>Opera</td>
+              <td>72</td>
+            </tr>
+          </table>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="changelog">
+            10- Last updates
+          </p>
+          <p class="has-text-justified">
+            <%- changelog %>
+          </p>
+        </div>
+      </article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <div class="content">
+          <p class="title is-2" id="dbsinfo">
+            11- Database sources
+          </p>
+          <%- dbsources %>
+        </div>
+    </div>
+  </div>
+</div>

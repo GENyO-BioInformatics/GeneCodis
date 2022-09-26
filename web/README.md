@@ -1,0 +1,45 @@
+# web
+
+## folders
+- **htmls** (unique public folder of the web APP)
+  - assets
+    - css: bulmaCustom.css
+    - images      
+    - js
+      - cookie-warn.js
+      - organism_annotations.js
+        - annotations-organisms availability
+      - validator_template.js
+        - parsed by toProduction.py to create validator[0-9]+.js with the details of .env
+      - saveSvgAsPng.js
+        - to download web SVGs as PNGs
+  - jobs
+    - each analysis folder identified by an UI with the resulting files:
+      - log: verbose of the analysis run
+      - engene(s): input-annotation associations
+      - params.json: parameters of the analysis used by relaunch.py
+      - report.html: resulting html report
+  - indexBulma.html
+    - static home page
+- **source**
+  - pagesBulma
+    - index.ejs (where componentsBulma are embeded)
+  - componentsBulma (rendering elements of GC4 website)
+    - navbar.ejs (top navigation bar)
+    - mainForm (elements of main form)
+      - advanced.ejs
+      - annotations.ejs
+      - inputs.ejs
+      - launch.ejs
+    - about.ejs (help tab)
+    - footer.ejs
+    - header.ejs (with calls to cdn js scripts)
+  - node_modules
+    - ejs rendering engine local install
+  - generate_bulma.js
+    - GC4 html rendering script, creates index.html
+- **templates**
+  - resultsD3.html
+    - html chunk to create report
+  - index_template.html
+    - variation of index.html to embed the report.html and recover a job

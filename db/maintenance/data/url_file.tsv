@@ -1,0 +1,49 @@
+URL	Dir	Type	Download	Source
+https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2go.gz	data/gene2go.gz	application/gzip	Normal	NCBI
+http://purl.obolibrary.org/obo/go.obo	data/go.obo	text/plain	Normal	Gene Ontology
+http://www.informatics.jax.org/downloads/reports/HOM_AllOrganism.rpt	data/HOM_AllOrganism.rpt	text/plain	Normal	Mouse Genome Informatics
+http://www.informatics.jax.org/downloads/reports/VOC_MammalianPhenotype.rpt	data/VOC_MammalianPhenotype.rpt	text/plain	Normal	Mouse Genome Informatics
+http://ctdbase.org/reports/CTD_chem_gene_ixns.csv.gz	data/CTD.csv.gz	application/gzip	Alt	Comparative Toxicogenomics Database
+ftp://ftp.ensemblgenomes.org/pub/bacteria/current/species_EnsemblBacteria.txt	data/bacteria.txt	text/plain	Normal	EnsemblGenomes
+http://www.informatics.jax.org/downloads/reports/MRK_ENSEMBL.rpt	data/MRK_ENSEMBL.rpt	text/plain	Normal	Mouse Genome Informatics
+http://www.informatics.jax.org/downloads/reports/MGI_PhenoGenoMP.rpt	data/MGI_PhenoGenoMP.rpt	text/plain	Normal	Mouse Genome Informatics
+https://ci.monarchinitiative.org/view/hpo/job/hpo.annotations/lastSuccessfulBuild/artifact/rare-diseases/util/annotation/genes_to_phenotype.txt	data/HPO.txt	text/plain	Normal	Human Phenotype Ontology
+https://s3.pgkb.org/data/drugs.zip	data/drugs.zip	application/zip	Alt	PharmGKB
+https://api.pharmgkb.org/v1/download/file/data/genes.zip	data/genes.zip	application/zip	Alt	PharmGKB
+https://api.pharmgkb.org/v1/download/file/data/relationships.zip	data/relationships.zip	application/zip	Alt	PharmGKB
+https://mirtarbase.cuhk.edu.cn/~miRTarBase/miRTarBase_2019/cache/download/8.0/miRTarBase_SE_WR.xls	data/miRTarBase_SE_WR.xls	application/vnd.ms-excel	Normal	miRTarBase
+ftp://ftp.pantherdb.org/pathway/current_release	data/panther_release	text/plain	Normal	Panther
+ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz	data/gene_info.gz	application/gzip	Normal	NCBI
+ftp://ftp.ncbi.nih.gov/gene/DATA/gene2refseq.gz	data/gene2refseq.gz	application/gzip	Normal	NCBI
+ftp://ftp.ncbi.nih.gov/gene/DATA/mim2gene_medgen	data/mim2gene_medgen	text/plain	Normal	NCBI
+ftp://ftp.ncbi.nlm.nih.gov/pub/medgen/NAMES.RRF.gz	data/MedGen_HPO_OMIM_Mapping.txt.gz	application/gzip	Normal	NCBI
+ftp://ftp.ncbi.nih.gov/gene/DATA/gene_refseq_uniprotkb_collab.gz	data/refseq2uniprot.gz	application/gzip	Normal	NCBI
+ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2ensembl.gz	data/gene2ensembl.gz	application/gzip	Normal	NCBI
+ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz	data/goa_uniprot_all.gaf.gz	application/gzip	Normal	EBI
+http://www.cuilab.cn/static/hmdd3/data/alldata.xlsx	data/hmdd3.xls	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet	Normal	Human microRNA Disease Database
+http://www.lirmed.com/tam2/Public/static/data/mirset_v9.txt	data/tam2.txt	text/plain	Normal	TAM2
+https://www.rna-society.org/mndr/download/miRNA-disease%20information.zip	data/mndr.zip	application/zip	Normal	Mammalian ncRNA-Disease Repository
+https://www.mirbase.org/ftp/CURRENT/miRNA.xls.zip	data/mirna.xls.zip	application/zip	Normal	miRBase
+https://reactome.org/download/current/NCBI2Reactome_All_Levels.txt	data/Reactome.txt	text/plain	Normal	Reactome
+ftp://ftp.ensembl.org/pub/current_gtf/canis_lupus_familiaris/	data/9615_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/bos_taurus/	data/9913_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/caenorhabditis_elegans/	data/6239_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/danio_rerio/	data/7955_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/drosophila_melanogaster/	data/7227_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/gallus_gallus/	data/9031_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/homo_sapiens/	data/9606_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/mus_musculus/	data/10090_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/rattus_norvegicus/	data/10116_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensembl.org/pub/current_gtf/sus_scrofa/	data/9823_ensembl_directory	text/plain	Normal	Ensembl
+ftp://ftp.ensemblgenomes.org/pub/plants/current/gtf/arabidopsis_thaliana/	data/3702_ensembl_directory	text/plain	Normal	EnsemblGenomes
+ftp://ftp.ensemblgenomes.org/pub/plants/current/gtf/oryza_sativa/	data/39947_ensembl_directory	text/plain	Normal	EnsemblGenomes
+ftp://ftp.ensemblgenomes.org/pub/fungi/current/gtf/aspergillus_nidulans/	data/227321_ensembl_directory	text/plain	Normal	EnsemblGenomes
+ftp://ftp.ensemblgenomes.org/pub/fungi/current/gtf/saccharomyces_cerevisiae/	data/559292_ensembl_directory	text/plain	Normal	EnsemblGenomes
+ftp://ftp.ensemblgenomes.org/pub/fungi/current/gtf/fungi_ascomycota2_collection/candida_albicans_sc5314_gca_000784635/	data/237561_ensembl_directory	text/plain	Normal	EnsemblGenomes
+ftp://ftp.ensemblgenomes.org/pub/bacteria/current/gtf/bacteria_0_collection/escherichia_coli_str_k_12_substr_mg1655_gca_000005845/	data/511145_ensembl_directory	text/plain	Normal	EnsemblGenomes
+http://geneontology.org/data/sars-cov-2_targets.gaf	data/covid.gaf	text/plain	Normal	Gene Ontology
+https://tripod.nih.gov/bioplanet/download/pathway.csv	data/bioplanet.csv	application/csv	Normal	Bioplanet
+https://www.disgenet.org/static/disgenet_ap1/files/downloads/curated_gene_disease_associations.tsv.gz	data/disgenet.tsv.gz	application/gzip	Normal	Disgenet
+https://github.com/saezlab/dorothea/raw/master/data/dorothea_hs.rda	data/9606_dorothea.rda	application/x-xz	Normal	DoRothEA
+https://github.com/saezlab/dorothea/raw/master/data/dorothea_mm.rda	data/10090_dorothea.rda	application/x-xz	Normal	DoRothEA
+https://webdata.illumina.com/downloads/productfiles/methylationEPIC/infinium-methylationepic-v-1-0-b5-manifest-file-csv.zip	data/meth.zip	application/zip	Normal	EPIC

@@ -1,5 +1,7 @@
 from flask import Blueprint
 from flask import *
+import flask.scaffold
+flask.helpers._endpoint_from_view_func = flask.scaffold._endpoint_from_view_func
 from flask_restful import *
 from flask import Flask, request, render_template
 from flask_marshmallow import Marshmallow
@@ -54,7 +56,7 @@ try:
     stat = GC4params.stat
     algorithm  = GC4params.algorithm
     scope = GC4params.scope
-    coannotation = True if GC4params.coannotation == "coannotation_yes" else False
+    coannotation = True if GC4params.coannotation == "yes" else False
 
     jobDir = os.path.join('web/htmls/jobs/',gc4uid)
     os.makedirs(jobDir,exist_ok=True)

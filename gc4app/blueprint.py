@@ -169,21 +169,21 @@ def GC4analysis():
 
         #with current_app.app_context():
         #ORIGINAL VERSION
-        #os.system("venv/bin/python relaunchJob.py {}".format(gc4uid)) # CAREFULL CTRL+C do not kill this
+        os.system("venv/bin/python relaunchJob.py {}".format(gc4uid)) # CAREFULL CTRL+C do not kill this
         
         #QEUEING VERSION FOR APOLO SERVER, WATCH OUT MEM-PER-CPU & CPUS-PER-TASK
         cmd = "/home/genecodis/GeneCodis4.0/venv/bin/python relaunchJob.py {}".format(gc4uid)
         toqeueCMD1 = '/usr/bin/sbatch --job-name={0} --output=/home/genecodis/GeneCodis4.0/web/htmls/jobs/{0}/SBATCH.log --mem-per-cpu=5000 --cpus-per-task=6 --wrap="{1}" &'.format(gc4uid,cmd)
 
         
-        GC4logger('Your job is submitted to the jobs queue',gc4uid,'status=PROCESSING')
-        writeReport("PENDING",gc4uid)
-        os.system(toqeueCMD1)
-        output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
-        while(output.stdout=="PENDING\n"):
-            output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
-            if(output.stdout=="RUNNING\n"):
-                GC4logger('Your job started running'.format(),gc4uid,'status=PROCESSING')
+        # GC4logger('Your job is submitted to the jobs queue',gc4uid,'status=PROCESSING')
+        # writeReport("PENDING",gc4uid)
+        # os.system(toqeueCMD1)
+        # output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
+        # while(output.stdout=="PENDING\n"):
+        #     output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
+        #     if(output.stdout=="RUNNING\n"):
+        #         GC4logger('Your job started running'.format(),gc4uid,'status=PROCESSING')
 
         return(Response("OK, Analysis launched successfully, jobID:"+paramsDict['gc4uid'], status=200))
 

@@ -30,7 +30,7 @@ class aprioriStats:
             engenes = inputsDict[input]['engenes']
             invalidInput = len(inputsDict[input]['notInDB']['invalidInput'])            
             for engenePath,jobUnit in engenes.items():
-                self.startExecution(engenePath,jobUnit,inputsDict, inputSupport, organism, inputtype, stat, algorithm, gc4uid, scope, input, invalidInput,"Multiprocessing")
+                self.startExecution(engenePath,jobUnit,inputsDict, inputSupport, organism, inputtype, stat, algorithm, gc4uid, scope, input, invalidInput,"Optimized")
         return([inputsDict,inputSupport])
 
     

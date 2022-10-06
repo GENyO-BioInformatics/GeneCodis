@@ -1,200 +1,152 @@
-from tabnanny import check
 import requests, json, os, pandas
 import urllib3
 import urllib
 from io import StringIO
 
+#urlBase="http://localhost:5000/"
+#URL base for GeneCodis
+urlBase='https://genecodis.genyo.es/gc4'
+
 def launchAnalysis(organism,inputType,inputQuery,annotationsDBs,enrichmentStat="hypergeom",
 universeScope="annotated",coannotation="no",coannotationAlgorithm="fpgrowth",minimalInputCoannotation=10,
-secondInputQuery=[],inputName1="input1",inputName2="input2",customUniverse=[],email="",ReportName="input1",outputType="dataframe"):
-    
-    if organism=="Homo sapiens":
-        organismCode=9606
-    elif organism=="Caenorhabditis elegans":
-        organismCode=6239
-    elif organism=="Canis familiaris":
-        organismCode=9615
-    elif organism=="Danio rerio":
-        organismCode=7955
-    elif organism=="Drosophila melanogaster":
-        organismCode=7227
-    elif organism=="Gallus gallus":
-        organismCode=9031
-    elif organism=="Bos taurus":
-        organismCode=9913
-    elif organism=="Mus musculus":
-        organismCode=10090
-    elif organism=="Rattus norvegicus":
-        organismCode=10116
-    elif organism=="Sus scrofa":
-        organismCode=9823
-    elif organism=="Arabidopsis thaliana":
-        organismCode=3702
-    elif organism=="Oryza sativa":
-        organismCode=39947
-    elif organism=="Saccharomyces cerevisiae":
-        organismCode=559292
-    elif organism=="Escherichia coli":
-        organismCode=511145
-    else:
-        organismCode=9606
-
-    if len(secondInputQuery)==0:
-        input={'input': inputQuery}
-        inputNames= {"input1unique": inputName1}
-    else:
-        input={'input': inputQuery,'input2':secondInputQuery}
-        inputNames= {"input": inputName1, "input2": inputName2}
-
-    if coannotation=="no":
-        coannotation="coannotation_no"
-    else:
-        coannotation="coannotation_yes"
+secondInputQuery=[],inputName1="input1",inputName2="input2",customUniverse=[],email="",ReportName="input1"):
     
     params={
     "inputmode": "on",
-    "organism":organismCode,
+    "organism":organism,
     "inputtype":inputType,
-    "input":input,
+    "input":{"input":inputQuery,"input2":secondInputQuery},
     "annotations":annotationsDBs,
     "stat":enrichmentStat,
     "scope":universeScope,
     "coannotation":coannotation,
     "algorithm":coannotationAlgorithm,
     "inputSupport":minimalInputCoannotation,
-    "inputNames":inputNames,
+    "inputNames":{"input": inputName1, "input2": inputName2},
     "universe":customUniverse,
     "email":email,
     "jobName":ReportName
     }
 
-    urlBase='https://genecodis.genyo.es/gc4'
-    #Define URL to obtain gc4uid
-    queryURL = os.path.join(urlBase,'createjob')
-    print('Creating Job')
+    print('Got analysis petition...')
     #Add GC4uid to job params
-    params['gc4uid'] = requests.get(queryURL,verify=False).text
-    print('Job in progress: '+params['gc4uid'])
+    params['gc4uid'] = ""
     #Define URL to request job analysis
     analysisURL = os.path.join(urlBase,'analysis')
-    print("params",params)
     #Make request to genecodis server
     myresp = requests.post(analysisURL,json=params,verify=False)
-    #Check if analysis has finished
-    try:
-        print('Checked DataBase\nGenerating Results...')
-        while(checkState(params['gc4uid'])!="SUCCESS"):
-            #print(checkState(params['gc4uid']))
-            if(checkState(params['gc4uid'])=="SUCCESS"):
-                break
-    except requests.exceptions as e:
-         print("ERROR:",e)
+    params['gc4uid']=myresp.text[myresp.text.find(":")+1:len(myresp.text)]
+    print('Performing the analyses for job:',params["gc4uid"],"...")
     #Get results from analysis
-    return getResults(params,outputType)
+    return getResults(params['gc4uid'])  
+def mirnasConversion(mirnas,target):
+    try:
+        mirnas=",".join(mirnas)
+        if target not in ("precursor","mature"):
+            raise ValueError("ERROR: target value must be 'precursor' or 'mature'.")
+        mirnasURL=os.path.join(urlBase,'mirnas?mirnas={}&target={}&action=replace'.format(mirnas,target))
+        content = requests.get(mirnasURL, verify=False).text
+    except ValueError as e:
+        raise e
+    return content
 
-def checkState(gc4uid,urlBase='https://genecodis.genyo.es/gc4'):
-    #Function to check state of job, given the gc4uid
-    #posible values: PENDING, SUCCESS or FAILURE
+def getGeneAnnotPairs(annotation,organism,nomenclature):
+    try:
+        if organism=="Homo sapiens":
+            organismCode=9606
+        elif organism=="Caenorhabditis elegans":
+            organismCode=6239
+        elif organism=="Canis familiaris":
+            organismCode=9615
+        elif organism=="Danio rerio":
+            organismCode=7955
+        elif organism=="Drosophila melanogaster":
+            organismCode=7227
+        elif organism=="Gallus gallus":
+            organismCode=9031
+        elif organism=="Bos taurus":
+            organismCode=9913
+        elif organism=="Mus musculus":
+            organismCode=10090
+        elif organism=="Rattus norvegicus":
+            organismCode=10116
+        elif organism=="Sus scrofa":
+            organismCode=9823
+        elif organism=="Arabidopsis thaliana":
+            organismCode=3702
+        elif organism=="Oryza sativa":
+            organismCode=39947
+        elif organism=="Saccharomyces cerevisiae":
+            organismCode=559292
+        elif organism=="Escherichia coli":
+            organismCode=511145
+        else:
+            raise ValueError("Input error, organism not in GeneCodis database. Please check available databases.")
     
-    stateURL = os.path.join(urlBase,'checkstate/job={}'.format(gc4uid))
+        if annotation not in ["BioPlanet","GO_BP","GO_CC","GO_MF","GO_COVID","KEGG","Panther","OMIM","PharmGKB","LINCS","CTD","DisGeNET","HPO","MGI","DoRothEA","miRTarBase","Reactome","TAM_2","MNDR"]:
+            raise ValueError("Input error, annotation not in GeneCodis database. Please check available databases.")
+        if nomenclature not in ["symbol","ensebl","entrez","uniot"]:
+            raise ValueError("Input error, nomenclature must be 'symbol','ensebl','entrez' or 'uniprot'")
+
+        anotpairlsURL=os.path.join(urlBase,'database?annotation={}&organism={}&nomenclature={}'.format(annotation,organismCode,nomenclature))
+        content = requests.get(anotpairlsURL, verify=False).text
+        result = pandas.read_csv(StringIO(content),sep="\t")
+        return result
+    except ValueError as e:
+        raise e
+  
+def checkInvalidInput(gc4uid):
+    stateURL = os.path.join(urlBase,'analysisResults?job={}'.format(gc4uid))
     state = requests.get(stateURL, verify=False).text
     try:
+        if "invalid input list" not in state:
+            return False
+        else:
+            return True
+    except requests.exceptions as e:
+        print("ERROR:",e)
+
+def checkErrorStatus(gc4uid):
+    stateURL = os.path.join(urlBase,'analysisResults?job={}'.format(gc4uid))
+    state = requests.get(stateURL, verify=False).text
+    try:
+        if "unexpected" not in state:
+            return False
+        else:
+            return True
+    except requests.exceptions as e:
+        print("ERROR:",e)
+
+def getResults(gc4uid):
+
+    stateURL = os.path.join(urlBase,'checkstate?job={}'.format(gc4uid))
+    state = requests.get(stateURL, verify=False).text
+    state = json.loads(state)
+    while state['state']=="PENDING":
+        state = requests.get(stateURL, verify=False).text
         state = json.loads(state)
-        return(state['state'])
-        #if gc4uid doesnt exist print error
-    except json.JSONDecodeError:
-        print("server error, gc4uid not found")
-
-def getResults(params,outputType):
-
-    urlBase='https://genecodis.genyo.es/gc4'
-    #Array to store links to the data
-    urls=[]
-    #Key with the name of each dataframe
-    dicKeys=[]
-    #Dictionary to store dataframes related to links
+    requestURL= os.path.join(urlBase,'results?job={}'.format(gc4uid),'&annotation=all&jsonify=t')
     results=dict()
-    results['jobID']=params['gc4uid']
-    #Check number of inputs
-    #if one input, create links for each anotation
-    if len(params['inputNames'])==1:
-        for input in params['inputNames']:
-            for annotation in params['annotations']:
-                #Create links to the data and store them in the array
-                endpoint="results?job={}&annotation={}"
-                resultsStr = params['inputNames'][input]+"-"+annotation
-                endpoint = endpoint.format(params['gc4uid'],resultsStr)
-                downURL = os.path.join(urlBase,endpoint)
-                print(downURL)
-                dicKeys.append(resultsStr)
-                urls.append(downURL)
-            #if coannotation store link to the coannotated data
-            if params['coannotation']=="coannotation_yes":
-                endpoint="results?job={}&annotation={}"
-                resultsStr = params['inputNames'][input]+"-CoAnnotation-"+params['annotations'][0]+"_"+params['annotations'][1]
-                endpoint = endpoint.format(params['gc4uid'],resultsStr)                
-                downURL = os.path.join(urlBase,endpoint)
-                print(downURL)
-                urls.append(downURL)
-                dicKeys.append(resultsStr)
-    #if two inputs, create links for each anotation, uniques and commons
-    else:
-        for input in params['inputNames']:
-            for annotation in params['annotations']:
-                endpoint="results?job={}&annotation={}"
-                resultsStr = params['inputNames'][input]+"_uniques-"+annotation
-                endpoint = endpoint.format(params['gc4uid'],resultsStr)
-                downURL = os.path.join(urlBase,endpoint)
-                #print(downURL)
-                urls.append(downURL)
-                dicKeys.append(resultsStr)
-        for annotation in params['annotations']:
-            endpoint="results?job={}&annotation={}"
-            resultsStr = params['inputNames']['input']+"_"+params['inputNames']['input2']+"_commons-"+annotation
-            endpoint = endpoint.format(params['gc4uid'],resultsStr)
-            downURL = os.path.join(urlBase,endpoint)
-            #print(downURL)
-            urls.append(downURL)
-            dicKeys.append(resultsStr)
-        #if coannotation store link to the coannotated data
-        if params['coannotation']=="coannotation_yes":
-            #commons in coanotation
-            endpoint="results?job={}&annotation={}"
-            resultsStr = params['inputNames']['input']+"_"+params['inputNames']['input2']+"_commons-CoAnnotation-"+params['annotations'][0]+"_"+params['annotations'][1]
-            endpoint = endpoint.format(params['gc4uid'],resultsStr)                
-            downURL = os.path.join(urlBase,endpoint)
-            #print(downURL)
-            urls.append(downURL)
-            dicKeys.append(resultsStr)
-            #coanotation for input
-            endpoint="results?job={}&annotation={}"
-            resultsStr = params['inputNames']['input']+"_uniques-CoAnnotation-"+params['annotations'][0]+"_"+params['annotations'][1]
-            endpoint = endpoint.format(params['gc4uid'],resultsStr)                
-            downURL = os.path.join(urlBase,endpoint)
-            #print(downURL)
-            urls.append(downURL)
-            dicKeys.append(resultsStr)
-            #coanotation for input2
-            endpoint="results?job={}&annotation={}"
-            resultsStr = params['inputNames']['input2']+"_uniques-CoAnnotation-"+params['annotations'][0]+"_"+params['annotations'][1]
-            endpoint = endpoint.format(params['gc4uid'],resultsStr)                
-            downURL = os.path.join(urlBase,endpoint)
-            #print(downURL)
-            urls.append(downURL)
-            dicKeys.append(resultsStr)    
-
-    #For each url obtain the data and save it in the array as dataframes
-    for url,name in zip(urls,dicKeys):
-        myresp=requests.get(url,verify=False)
-        try:
-            if outputType=="dataframe":
-                result = pandas.read_csv(StringIO(myresp.text),sep="\t")
-            else:
-                result= myresp.text
-            results[name]=result
-        except requests.exceptions as e:
-            print("ERROR:",e)
-    print("Analysis finished successfully, showing results")
+    tempdic=dict()
+    tempdic2=dict()
+    #save jobid
+    results['jobID']=gc4uid
+    #get and save tables
+    myresp=requests.get(requestURL,verify=False)
+    content = myresp.json()
+    for key in content.keys():
+        tempDataF=pandas.DataFrame(content[key])
+        tempdic[key]=tempDataF
+    results['stats_tables']=tempdic
+    #get and save quality controls
+    qcURL=os.path.join(urlBase,'qc?job={}'.format(gc4uid))
+    myresp=requests.get(qcURL,verify=False)
+    content = myresp.json()
+    #for key in content.keys():
+    #    tempDataF=pandas.DataFrame(content[key])
+    #    tempdic2[key]=tempDataF
+    #results['quality_controls']=tempdic2
+    results['quality_controls']=content
     return results
 
 params = {'organism': 9606, 
@@ -219,22 +171,15 @@ params={"inputmode": "on", "annotations": ["GO_BP", "GO_CC"], "jobName": "Homo_s
 urlencoded =urllib.parse.urlencode(params,doseq=True)
 urllib3.disable_warnings()
 
-result=launchAnalysis(organism="Homo sapiens",inputType="genes",inputQuery=["APOH", "APP", "COL3A1", "MSX1", "NRP1", "OLR1", "PDGFA", "PF4", "PGLYRP1"],
-annotationsDBs=["GO_BP", "GO_CC"],outputType="dataframe",coannotation="yes",coannotationAlgorithm="fpmax",enrichmentStat="wallenius",
+result=launchAnalysis(organism="Homo sapiens",inputType="genes",inputQuery=["APOH", "APP", "COL3A1", "COL5A2", "CXCL6", "FGFR1", "FSTL1", "ITGAV", "JAG1", "JAG2", "KCNJ8", "LPL", "LRPAP1", "LUM", "MSX1", "NRP1", "OLR1", "PDGFA", "PF4", "PGLYRP1"],
+annotationsDBs=["GO_BP", "GO_CC"],coannotation="yes",coannotationAlgorithm="fpmax",enrichmentStat="wallenius",
 inputName1="input1",ReportName="API_Wrapper_example")
 print(result)
-#Output (dataframe,txt,csv,etc)
-#Organism
-#Input type
-#input
-#annotations
-#stat
-#universe scope
-#coannotation
-#coannotation algorithm
-#input support for coannotation
-#number of inputs
-#input 2 (optional, if number of inputs==2)
-#custom universe
-#email
-#job name
+
+#listmirnas=["hsa-mir-133a-1","hsa-miR-133a-3p","hsa-miR-133a-5p"]
+#result=mirnasConversion(listmirnas,"mature")
+#print(result)
+#contenido=getResults("zqNYlq4g0D9s_w")
+
+#result=getGeneAnnotPairs("GO_BP","Homo sapiens","symbol")
+#print(result)

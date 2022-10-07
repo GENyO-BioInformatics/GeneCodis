@@ -35,6 +35,13 @@ secondInputQuery=[],inputName1="input1",inputName2="input2",customUniverse=[],em
     analysisURL = os.path.join(urlBase,'analysis')
     #Make request to genecodis server
     myresp = requests.post(analysisURL,json=params,verify=False)
+    try:
+        myresp.raise_for_status()
+    except requests.HTTPError as e:
+        if myresp.text:
+            raise requests.HTTPError(myresp.text)
+        else:
+           raise e
     params['gc4uid']=myresp.text[myresp.text.find(":")+1:len(myresp.text)]
     print('Performing the analyses for job:',params["gc4uid"],"...")
     #Get results from analysis

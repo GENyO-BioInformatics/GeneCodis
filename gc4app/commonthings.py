@@ -144,6 +144,13 @@ def failureReport(gc4uid):
     </p></div>".format(gc4uid)
     return(report.format(getJobticket(gc4uid)))
 
+def failureReport2(gc4uid):
+    report = "<div class='notification is-warning'><p>\
+    Your job {} exceeded the memory limit, please try again with a lighter job. \
+        \
+    </p></div>".format(gc4uid)
+    return(report.format(getJobticket(gc4uid)))
+
 def writeReport(state,gc4uid):
     if state == "INVALID":
         report = invalidReport(gc4uid)
@@ -151,6 +158,8 @@ def writeReport(state,gc4uid):
         report = failureReport(gc4uid)
     elif state == "PENDING":
         report = pendingReport(gc4uid)
+    elif state =="EXCEEDED":
+        report = failureReport2(gc4uid)
     outFile = os.path.join('web/htmls/jobs',gc4uid,"report.html")
     save2File(outFile,report)
 

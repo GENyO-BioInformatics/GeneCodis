@@ -59,6 +59,10 @@ def GC4analysis():
         checkvalidTypes=GeneCodisParamsSchema().checkValidType(paramsDict)
         if(checkvalidTypes==False):
             return(Response("error:input type not valid, input type must be 'genes','tfs','cpgs' or 'mirnas'.",status=400))
+        #check available wallenius
+        checkAvailableWalleniuss=GeneCodisParamsSchema().checkAvailableWallenius(paramsDict)
+        if(checkAvailableWalleniuss==False):
+            return(Response("error:input type not valid, you cannot use wallenius with genes/proteins",status=400))
         #check input org
         checkvalidOrg=GeneCodisParamsSchema().checkValidOrg(paramsDict)
         if(checkvalidOrg==False):
@@ -169,21 +173,37 @@ def GC4analysis():
 
         #with current_app.app_context():
         #ORIGINAL VERSION
-        os.system("venv/bin/python relaunchJob.py {}".format(gc4uid)) # CAREFULL CTRL+C do not kill this
+        #os.system("venv/bin/python relaunchJob.py {}".format(gc4uid)) # CAREFULL CTRL+C do not kill this
         
         #QEUEING VERSION FOR APOLO SERVER, WATCH OUT MEM-PER-CPU & CPUS-PER-TASK
         cmd = "/home/genecodis/GeneCodis4.0/venv/bin/python relaunchJob.py {}".format(gc4uid)
         toqeueCMD1 = '/usr/bin/sbatch --job-name={0} --output=/home/genecodis/GeneCodis4.0/web/htmls/jobs/{0}/SBATCH.log --mem-per-cpu=5000 --cpus-per-task=6 --wrap="{1}" &'.format(gc4uid,cmd)
 
         
-        # GC4logger('Your job is submitted to the jobs queue',gc4uid,'status=PROCESSING')
-        # writeReport("PENDING",gc4uid)
-        # os.system(toqeueCMD1)
-        # output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
-        # while(output.stdout=="PENDING\n"):
-        #     output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
-        #     if(output.stdout=="RUNNING\n"):
-        #         GC4logger('Your job started running'.format(),gc4uid,'status=PROCESSING')
+        GC4logger('Your job is submitted to the jobs queue',gc4uid,'status=PROCESSING')
+        writeReport("PENDING",gc4uid)
+        #launch job
+        os.system(toqeueCMD1)
+        #check status of job
+        output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
+        while(output.stdout=="PENDING\n"):
+            output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
+            #if job started running tell the user
+            if(output.stdout=="RUNNING\n"):
+                GC4logger('Your job started running'.format(),gc4uid,'status=PROCESSING')
+        #check if job exceeded memory limit
+        while(output.stdout=="RUNNING\n"):
+            output = subprocess.run(["/usr/bin/squeue -h -O State:. -n {}".format(gc4uid)], capture_output=True,text=True,check=True,shell=True)
+            #wait for SBATCH.log creation
+            while not os.path.exists(os.path.join(jobDir,"SBATCH.log")):
+                time.sleep(1)
+            #check memory limit message
+            for line in open(os.path.join(jobDir,"SBATCH.log")).read().splitlines():
+                if "Exceeded job memory limit" in line:
+                    writeReport('EXCEEDED',gc4uid)
+                    GC4logger("Exceeded job memory limit, please try with a lighter job",gc4uid,'status=ERROR')
+                    return(Response("error", status=400))
+
 
         return(Response("OK, Analysis launched successfully, jobID:"+paramsDict['gc4uid'], status=200))
 

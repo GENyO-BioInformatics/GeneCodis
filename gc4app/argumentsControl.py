@@ -58,6 +58,15 @@ class GeneCodisParamsSchema(Schema):
             checked=False
         print("Valid input type:",checked)
         return(checked)
+
+    def checkAvailableWallenius(self, in_data,**kwargs):
+        checked=True
+        inputtype=in_data['inputtype']
+        stat=in_data['stat']
+        if inputtype=="genes" and stat=="wallenius":
+            checked=False
+        print("Available wallenius condition:",checked)
+        return(checked)
     
     def checkValidOrg(self,in_data,**kwargs):
         checked=True

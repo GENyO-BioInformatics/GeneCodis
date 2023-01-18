@@ -32,7 +32,7 @@ secondInputQuery=[],inputName1="input1",inputName2="input2",customUniverse=[],em
     #Add GC4uid to job params
     params['gc4uid'] = ""
     #Define URL to request job analysis
-    analysisURL = os.path.join(urlBase,'analysis')
+    analysisURL = urlBase+'/analysis'
     #Make request to genecodis server
     myresp = requests.post(analysisURL,json=params,verify=False)
     try:
@@ -51,7 +51,7 @@ def mirnasConversion(mirnas,target):
         mirnas=",".join(mirnas)
         if target not in ("precursor","mature"):
             raise ValueError("ERROR: target value must be 'precursor' or 'mature'.")
-        mirnasURL=os.path.join(urlBase,'mirnas?mirnas={}&target={}&action=replace'.format(mirnas,target))
+        mirnasURL=urlBase+'/mirnas?mirnas={}&target={}&action=replace'.format(mirnas,target)
         content = requests.get(mirnasURL, verify=False).text
     except ValueError as e:
         raise e
@@ -95,7 +95,7 @@ def getGeneAnnotPairs(annotation,organism,nomenclature):
         if nomenclature not in ["symbol","ensebl","entrez","uniot"]:
             raise ValueError("Input error, nomenclature must be 'symbol','ensebl','entrez' or 'uniprot'")
 
-        anotpairlsURL=os.path.join(urlBase,'database?annotation={}&organism={}&nomenclature={}'.format(annotation,organismCode,nomenclature))
+        anotpairlsURL=urlBase+'/database?annotation={}&organism={}&nomenclature={}'.format(annotation,organismCode,nomenclature)
         content = requests.get(anotpairlsURL, verify=False).text
         result = pandas.read_csv(StringIO(content),sep="\t")
         return result
@@ -103,7 +103,7 @@ def getGeneAnnotPairs(annotation,organism,nomenclature):
         raise e
   
 def checkInvalidInput(gc4uid):
-    stateURL = os.path.join(urlBase,'analysisResults?job={}'.format(gc4uid))
+    stateURL = urlBase+'/analysisResults?job={}'.format(gc4uid)
     state = requests.get(stateURL, verify=False).text
     try:
         if "invalid input list" not in state:
@@ -114,7 +114,7 @@ def checkInvalidInput(gc4uid):
         print("ERROR:",e)
 
 def checkErrorStatus(gc4uid):
-    stateURL = os.path.join(urlBase,'analysisResults?job={}'.format(gc4uid))
+    stateURL = urlBase+'/analysisResults?job={}'.format(gc4uid)
     state = requests.get(stateURL, verify=False).text
     try:
         if "unexpected" not in state:
@@ -126,13 +126,13 @@ def checkErrorStatus(gc4uid):
 
 def getResults(gc4uid):
 
-    stateURL = os.path.join(urlBase,'checkstate?job={}'.format(gc4uid))
+    stateURL = urlBase+'/checkstate?job={}'.format(gc4uid)
     state = requests.get(stateURL, verify=False).text
     state = json.loads(state)
     while state['state']=="PENDING":
         state = requests.get(stateURL, verify=False).text
         state = json.loads(state)
-    requestURL= os.path.join(urlBase,'results?job={}'.format(gc4uid),'&annotation=all&jsonify=t')
+    requestURL= urlBase+'/results?job={}'.format(gc4uid)+'&annotation=all&jsonify=t'
     results=dict()
     tempdic=dict()
     tempdic2=dict()
@@ -146,7 +146,7 @@ def getResults(gc4uid):
         tempdic[key]=tempDataF
     results['stats_tables']=tempdic
     #get and save quality controls
-    qcURL=os.path.join(urlBase,'qc?job={}'.format(gc4uid))
+    qcURL=urlBase+'/qc?job={}'.format(gc4uid)
     myresp=requests.get(qcURL,verify=False)
     content = myresp.json()
     #for key in content.keys():

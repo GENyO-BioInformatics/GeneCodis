@@ -32,7 +32,7 @@
           9- Browser compatibility</a>
         <a class="panel-block" onclick="move2anchor('changelog');">
           <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
-          10- Last updates</a>
+          10- API documentation</a>
         <a class="panel-block" onclick="move2anchor('dbsinfo')">
           <span class="panel-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
           11- Database sources</a>
@@ -47,24 +47,13 @@
             1- General info
           </p>
           <p class="has-text-justified">
-            GeneCodis is a web-based tool for the functional analysis of lists of genes, proteins,
-            and regulatory elements miRNAs, transcription factors (TFs), and CpGs.
-            It can be used to determine biological annotations or combinations of annotations that
-            are significantly associated to a list of genes o miRNAs under study with respect to a reference
-            list. As well as single collections, this tool allows users to simultaneously evaluate
-            annotations from different sources, for example GO Biological Process and KEGG.
-            To this end, and before computing p-values, it uses the associantion rules algorithms to
-            extract sets of annotations that frequently co-occur in the analyzed list of
-            genes. More information can be found in <a class="genyoLink" href="https://doi.org/10.1186/1471-2105-7-54" , target="_blank">Carmona-Saez et al. (BMC Bioinformatics, 2006).</a>
-          </p>
-          <p class="has-text-justified">
-            You are visiting a whole new website of GeneCodis. This new version, the fourth,
-            allows users to input genes, proteins, TFs, CpG sites and miRNAs.
-            This has suppoused a complete update in the statistical methods to overcome a known gene
-            selection bias with the Wallenius approach. It is present in the set enrichment analysis
-            of regulatory elements that need to be transformed to their associated genes to test the
-            annotations and exceptionally with genes selected from expression data obtained with
-            aggregated tag counts. The new methods are based on GOseq.
+            GeneCodis is an API and web tool for the Singular and Modular Enrichment Analysis (SEA and MEA) of 
+            lists of genes, proteins, and regulatory elements: miRNAs, transcription factors (TFs), and CpGs. 
+            Look CoAnnotation in the next panel for more information on the Modular Enrichment Analysis. 
+            The enrichment analysis of regulatory elements, requires a different approach. 
+            Due to a gene selection bias (some genes are more targeted than others) in platforms and regulation networks 
+            it requires a test based on a non-central hypergeometric distribution, concretely, we use the Wallenius distribution. 
+            Our method is based on the GOseq implementation. Read the paper for more information: <a class="genyoLink" href="https://www.mdpi.com/2227-9059/10/3/590" , target="_blank">Functional Enrichment Analysis of Regulatory Elements (Biomedicines 2022).</a>
           </p>
           <p class="has-text-justified">
             We have updated the annotations and organisms. Annotations are now divided in four general
@@ -78,7 +67,7 @@
             even if you want some kind of new feature please do not hesitate in contact
             us at <a class="genyoLink" target="_blank" href="mailto:bioinfo@genyo.es">bioinfo@genyo.es</a>
             since we are continually working on creating a complete updated GeneCodis,
-            feedback is always appreciated.
+            feedback is always appreciated. We want GeneCodis to be an open source project and share it with all developers and researchers, so feel free to visit our <a class="genyoLink" href="https://github.com/GENyO-BioInformatics/GeneCodis" , target="_blank">Github repository</a> and fork your own branch.
           </p>
         </div>
       </article>
@@ -747,10 +736,10 @@
       <article class="tile is-child notification">
         <div class="content">
           <p class="title is-2" id="changelog">
-            10- Last updates
+            10- API documentation
           </p>
           <p class="has-text-justified">
-            <%- changelog %>
+            The GeneCodis API is a set of endpoints focused for developers who want to programmatically use the GeneCodis features. The documentation of the GeneCodis API is published by Postman, an API platform that helps users and simplifies processes like design or testing. This documentation is available in C#, cURL, Dart, GO, Java, Javascript, C, NodeJS, Objective-C, Ocaml, PHP, Powershell, Python, R, Ruby, Shell and Swift. Through the API we can launch an analysis, obtain the results from an existent job, transform microRNAs between precursors and mature nomenclatures, download the annotation databases, query genes and terms in the databases, among other characteristics. See the details in the <a class="genyoLink" href="https://documenter.getpostman.com/view/21704552/2s7YfPfuPN" , target="_blank">GeneCodis API documentation.</a>
           </p>
         </div>
       </article>

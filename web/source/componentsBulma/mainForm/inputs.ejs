@@ -6,7 +6,7 @@
     </i>
   </label>
   <div class="select">
-    <select name='organism' onchange="disableAnnotsByInputType();">
+    <select name='organism' onchange="disableAnnotsByInputType();disableAlgByInputType();">
       <%- orgsForm %>
     </select>
   </div>
@@ -20,19 +20,19 @@
   </label>
   <div class="control is-flex-direction-column">
     <label class="radio ml-0" for="genes">
-      <input value="genes" id="genes" type="radio" name="inputtype" class="mr-2" checked onclick="disableAnnotsByInputType();">
+      <input value="genes" id="genes" type="radio" name="inputtype" class="mr-2" checked onclick="disableAnnotsByInputType();disableAlgByInputType();">
       Genes/Proteins
     </label>
     <label class="radio ml-0" for="tfs">
-      <input value="tfs" id="tfs" type="radio" name="inputtype" class="mr-2" onclick="disableAnnotsByInputType();">
+      <input value="tfs" id="tfs" type="radio" name="inputtype" class="mr-2" onclick="disableAnnotsByInputType();disableAlgByInputType();">
       TFs
     </label>
     <label class="radio ml-0" for="cpgs">
-      <input value="cpgs" id="cpgs" type="radio" name="inputtype" class="mr-2" onclick="disableAnnotsByInputType();">
+      <input value="cpgs" id="cpgs" type="radio" name="inputtype" class="mr-2" onclick="disableAnnotsByInputType();disableAlgByInputType();">
       CpGs
     </label>
     <label class="radio ml-0" for="mirnas">
-      <input value="mirnas" id="mirnas" type="radio" name="inputtype" class="mr-2" onclick="disableAnnotsByInputType();">
+      <input value="mirnas" id="mirnas" type="radio" name="inputtype" class="mr-2" onclick="disableAnnotsByInputType();disableAlgByInputType();">
       miRNAs
     </label>
   </div>

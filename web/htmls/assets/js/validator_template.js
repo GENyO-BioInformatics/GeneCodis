@@ -112,6 +112,32 @@ function uncheckDisabled() {
   };
 }
 
+function disableAlgByInputType(){
+  let hypergeom = document.getElementById('hypergeom').checked;
+  let wallenius = document.getElementById('wallenius').checked;
+  let genes = document.getElementById('genes').checked;
+  let tfs = document.getElementById('tfs').checked;
+  let cpgs = document.getElementById('cpgs').checked;
+  let mirnas = document.getElementById('mirnas').checked;
+  
+  if(genes){
+    document.getElementById('wallenius').disabled = true;
+    document.getElementById('wallenius').parentElement.className += ' is-disabled';
+    document.getElementById('hypergeom').checked=true;
+  }
+
+  if(tfs || cpgs){
+    document.getElementById('wallenius').disabled = false;
+    document.getElementById('wallenius').parentElement.classList.remove("is-disabled");
+    document.getElementById('wallenius').checked=true;
+  }
+
+  if(mirnas){
+    document.getElementById('wallenius').disabled = false;
+    document.getElementById('wallenius').parentElement.classList.remove("is-disabled");
+    document.getElementById('hypergeom').checked=true;
+  }
+}
 
 function disableAnnotsByInputType() {
   var annots = [...document.querySelectorAll(`[name="annotations"]:checked`)];
@@ -402,14 +428,19 @@ function getexample(textbox) {
   let description = orgExample[organism.taxid.toString()][inputtype]['description'];
   disableAllAnots();
   disableAnnotsByInputType();
+  let wallenius = document.getElementById('wallenius').checked;
   if (organism.taxid == '9606' && inputtype == 'mirnas') {
     document.getElementById('KEGG').enabled = true;
     document.getElementById('KEGG').checked = true;
-    document.getElementById('HMDD_v3').enabled = true;
-    document.getElementById('HMDD_v3').checked = true;
+    if(!wallenius){
+      document.getElementById('HMDD_v3').enabled = true;
+      document.getElementById('HMDD_v3').checked = true;
+    }
   } else if (organism.taxid == '9823' && inputtype == 'mirnas') {
-    document.getElementById('MNDR').enabled = true;
-    document.getElementById('MNDR').checked = true;
+    if(!wallenius){
+      document.getElementById('MNDR').enabled = true;
+      document.getElementById('MNDR').checked = true;
+    }    
   } else if (['3702', '7955'].includes(organism.taxid) && inputtype == 'mirnas' ||
     (['9606', '10090'].includes(organism.taxid) && inputtype == 'tfs')) {
     document.getElementById('KEGG').enabled = true;
@@ -1055,7 +1086,7 @@ async function getGC4uid() {
 
 async function getstate(gc4uid) {
   try {
-    var response = await fetch(`API_URL/checkstate/job=${gc4uid}`, {
+    var response = await fetch(`API_URL/checkstate?job=${gc4uid}`, {
       method: 'get'
     });
     var state = await response.text();
@@ -1077,7 +1108,7 @@ async function checkstate(gc4uid) {
 }
 
 function toJobURL(gc4uid) {
-  window.open(`API_URL/job=${gc4uid}`, "_self");
+  window.open(`API_URL/analysisResults?job=${gc4uid}`, "_self");
 }
 
 async function sendData(relaunch = false) {

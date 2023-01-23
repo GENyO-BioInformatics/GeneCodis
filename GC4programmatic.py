@@ -43,6 +43,16 @@ secondInputQuery=[],inputName1="input1",inputName2="input2",customUniverse=[],em
         else:
            raise e
     params['gc4uid']=myresp.text[myresp.text.find(":")+1:len(myresp.text)]
+     # check errors
+    try: 
+        if checkInvalidInput(params['gc4uid'])==True:
+            raise ValueError("It seems that you have provided an invalid input list. It could be also possible that the input does not match the selected organism or that we have no record of those in our database associated to the selected annotations. Sorry the inconveniences. Please go to the Help tab and check the allowed ids.")
+        if checkErrorStatus(params['gc4uid'])==True:
+            raise ValueError("Please send the job ticket, ",params['gc4uid']," to bioinfo@genyo.es, the server found an unexpected error. We will solve it as soon as possible.")
+        if checkRateLimit(params['gc4uid'])==True:
+            raise ValueError("You have exceeded the GeneCodis rate-limit, which is 10 requests per minute. If you think you may need a further access to GeneCodis please contact us at bioinfo@genyo.es")
+    except ValueError as e:
+        raise e
     print('Performing the analyses for job:',params["gc4uid"],"...")
     #Get results from analysis
     return getResults(params['gc4uid'])  
@@ -107,6 +117,17 @@ def checkInvalidInput(gc4uid):
     state = requests.get(stateURL, verify=False).text
     try:
         if "invalid input list" not in state:
+            return False
+        else:
+            return True
+    except requests.exceptions as e:
+        print("ERROR:",e)
+
+def checkRateLimit(gc4uid):
+    stateURL = urlBase+'/analysisResults?job={}'.format(gc4uid)
+    state = requests.get(stateURL, verify=False).text
+    try:
+        if "rate-limit" not in state:
             return False
         else:
             return True

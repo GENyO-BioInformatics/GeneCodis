@@ -180,38 +180,8 @@ def which_input(list_input,input_list,inputtype,organism_id):
 
 def checkNgenerate(input,organism_id,universe,annotations,jobDir,inputtype,inputNames,coannotation,stat):
     print(inputtype)
-    flag_mirnas = True if stat != 'wallenius' and inputtype == 'mirnas' else False
-    if flag_mirnas == False:
-        universe,invalidUniverse,type = check_universe(universe,organism_id)
-        print("Checking Input Lists")
-        print([input,inputtype,organism_id,inputNames])
-        full_dict,synonyms_dict = checking_lists(input,inputtype,organism_id,inputNames)
-        if full_dict == "":
-            return("")
-        end_dict = {}
-        for input_list in full_dict:
-            print("Processing "+input_list+" list")
-            final_input = full_dict[input_list]['input']
-            inputName = full_dict[input_list]['inputName']
-            final_dict,notMapped = generate_engene(final_input,organism_id,universe,annotations,jobDir,inputName,type,coannotation,inputtype,stat)
-            if final_dict == "":
-                end_dict[input_list] = {'name':inputName}
-                continue
-            final_dict = redistribute_dictionary(final_dict)
-            final_dict = {'engenes':final_dict}
-            final_dict['notInDB'] = {'invalidInput':full_dict[input_list]['invalidInput'],'notMapped':notMapped,'invalidUniverse':invalidUniverse}
-            mirnatargets = full_dict[input_list]['mirnatargets']
-            for engene in final_dict['engenes']:
-                annotated_list = final_dict["engenes"][engene]['annotated']
-                mirnas = {}
-                for mirna in mirnatargets:
-                    target_genes = [x for x in mirnatargets[mirna] if x in annotated_list]
-                    if len(target_genes) > 0:
-                        mirnas[mirna] = target_genes
-                final_dict['engenes'][engene]['mirnatargets'] = mirnas
-            end_dict[input_list] = final_dict
-        end_dict['synonyms'] = synonyms_dict
-    else:
+    # flag_mirnas = True if stat != 'wallenius' and inputtype == 'mirnas' else False
+    if stat == 'hypergeom' and inputtype == 'mirnas':
         universe,invalidUniverse,type = check_universe_mirnas(universe,organism_id)
         print("Checking Input Lists")
         print([input,inputtype,organism_id,inputNames])
@@ -242,7 +212,36 @@ def checkNgenerate(input,organism_id,universe,annotations,jobDir,inputtype,input
                 final_dict['engenes'][engene]['mirnatargets'] = mirnas
             end_dict[input_list] = final_dict
         end_dict['synonyms'] = synonyms_dict
-
+    else:
+        universe,invalidUniverse,type = check_universe(universe,organism_id)
+        print("Checking Input Lists")
+        print([input,inputtype,organism_id,inputNames])
+        full_dict,synonyms_dict = checking_lists(input,inputtype,organism_id,inputNames)
+        if full_dict == "":
+            return("")
+        end_dict = {}
+        for input_list in full_dict:
+            print("Processing "+input_list+" list")
+            final_input = full_dict[input_list]['input']
+            inputName = full_dict[input_list]['inputName']
+            final_dict,notMapped = generate_engene(final_input,organism_id,universe,annotations,jobDir,inputName,type,coannotation,inputtype,stat)
+            if final_dict == "":
+                end_dict[input_list] = {'name':inputName}
+                continue
+            final_dict = redistribute_dictionary(final_dict)
+            final_dict = {'engenes':final_dict}
+            final_dict['notInDB'] = {'invalidInput':full_dict[input_list]['invalidInput'],'notMapped':notMapped,'invalidUniverse':invalidUniverse}
+            mirnatargets = full_dict[input_list]['mirnatargets']
+            for engene in final_dict['engenes']:
+                annotated_list = final_dict["engenes"][engene]['annotated']
+                mirnas = {}
+                for mirna in mirnatargets:
+                    target_genes = [x for x in mirnatargets[mirna] if x in annotated_list]
+                    if len(target_genes) > 0:
+                        mirnas[mirna] = target_genes
+                final_dict['engenes'][engene]['mirnatargets'] = mirnas
+            end_dict[input_list] = final_dict
+        end_dict['synonyms'] = synonyms_dict
     return(end_dict)
 
 def generate_engene_mirnas(final_input,organism_id,universe,annotations,jobDir,inputName,type,coannotation,mirna_target,inputtype):

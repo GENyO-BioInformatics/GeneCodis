@@ -1263,10 +1263,10 @@ def launchQuery(cmdTemplate,args,getDF=True,dbname=os.getenv("DB_NAME"),user=os.
 def by_mirna(mirna,targets):
     """ Get annotation for all target genes by mirna """
     targets.append(mirna)
-    command = "SELECT annotation_id,annotation_source FROM annotation INNER JOIN gene ON (annotation.id = gene.id) WHERE annotation.id IN %s;"
-    args = (targets,)
+    command = "SELECT annotation_id,annotation_source FROM annotation INNER JOIN gene ON (annotation.id = gene.id) WHERE annotation.id IN %s AND annotation_source != %s;"
+    args = (targets,"miRTarBase")
     query_result = launchQuery(command,args)
-    query_result = query_result[query_result.annotation_source != "miRTarBase"]
+    #query_result = query_result[query_result.annotation_source != "miRTarBase"]
     query_result['id'] = mirna
     query_result = query_result.iloc[:,[2,0,1]]
     return(query_result)

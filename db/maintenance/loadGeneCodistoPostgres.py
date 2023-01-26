@@ -87,22 +87,29 @@ pandas.options.mode.chained_assignment = None
 
 command = "SELECT annotation_id,id FROM miRTarBase"
 mirna_input = launchQuery(command,args=())
-universe_ann = pandas.DataFrame({'id':[],'annotation_id':[],"annotation_source":[]})
+#universe_ann = pandas.DataFrame({'id':[],'annotation_id':[],"annotation_source":[]})
 universe = list(set(list(mirna_input.annotation_id)))
-
 input_data = [(mirna,mirna_input[mirna_input.annotation_id == mirna]['id'].tolist()) for mirna in universe]
 
 with Pool() as pool:
     universe_ann = pandas.concat(pool.starmap(by_mirna,input_data)).dropna()
 
-command = "SELECT * FROM tam_2;"
-tam2 = launchQuery(command,args=())
-command = "SELECT * FROM HMDD_v3;"
-hmdd = launchQuery(command,args=())
-command = "SELECT * FROM MNDR;"
-mndr = launchQuery(command,args=())
+#command = "SELECT * FROM tam_2;"
+#tam2 = launchQuery(command,args=())
+#command = "SELECT * FROM HMDD_v3;"
+#hmdd = launchQuery(command,args=())
+#command = "SELECT * FROM MNDR;"
+#mndr = launchQuery(command,args=())
 
-universe_ann = pandas.concat([universe_ann,tam2,hmdd,mndr])
+command = "SELECT id FROM synonyms WHERE synonyms.source = %s;"
+getallmirnasGC4ids = launchQuery(command,("mirbase",))
+allmirnasGC4ids = list(set(getallmirnasGC4ids.id.to_list()))
+
+command = "SELECT annotation.id,annotation_id,annotation_source FROM annotation INNER JOIN gene ON (annotation.id = gene.id) WHERE annotation.id IN %s AND annotation_source != %s;"
+args = (allmirnasGC4ids,"miRTarBase")
+mirnasAnnotsOfGenesDBs = launchQuery(command,args)
+
+universe_ann = pandas.concat([universe_ann,mirnasAnnotsOfGenesDBs])
 
 universe_ann.to_csv("raw_sql/mirna_to_annotation_table.tsv",sep="\t",index=False)
 

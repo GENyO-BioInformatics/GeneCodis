@@ -8,7 +8,7 @@ from io import StringIO
 urlBase='https://genecodis.genyo.es/gc4'
 
 def launchAnalysis(organism,inputType,inputQuery,annotationsDBs,enrichmentStat="hypergeom",
-universeScope="annotated",coannotation="no",coannotationAlgorithm="fpgrowth",minimalInputCoannotation=10,
+universeScope="annotated",coannotation="coannotation_no",coannotationAlgorithm="fpgrowth",minimalInputCoannotation=10,
 secondInputQuery=[],inputName1="input1",inputName2="input2",customUniverse=[],email="",ReportName="input1"):
     
     params={
@@ -177,37 +177,9 @@ def getResults(gc4uid):
     results['quality_controls']=content
     return results
 
-params = {'organism': 9606, 
-'inputtype': 'genes', 
-'input': {'input': ['APOH', 'APP', 'COL3A1', 'COL5A2', 'CXCL6', 'FGFR1', 'FSTL1', 'ITGAV', 'JAG1', 'JAG2', 'KCNJ8', 'LPL', 'LRPAP1', 'LUM', 'MSX1', 'NRP1', 'OLR1', 'PDGFA', 'PF4', 'PGLYRP1', 'POSTN', 'PRG2', 'PTK2', 'S100A4', 'SERPINA5', 'SLCO2A1', 'SPP1', 'STC1', 'THBD', 'TIMP1', 'TNFRSF21', 'VAV2', 'VCAN', 'VEGFA', 'VTN']}, 
-'annotations': ['GO_BP', 'GO_CC'], 
-'stat': 'hypergeom', 
-'scope': 'annotated', 
-'coannotation': 'coannotation_yes', 
-'inputmode': 'on', 
-'universe': [], 
-'email': '', 
-'jobName': 'Homo_sapiens_example', 
-'algorithm': 'fpgrowth', 
-'inputSupport': 0, 
-'inputNames': {'input1unique': 'Homo_sapiens_example'}}
-params={"scope": "annotated", "coannotation": "coannotation_yes", "inputSupport": 10, "inputNames": {"input1unique": "Homo_sapiens_example"}, "universe": [], "email": "", "inputtype": "genes", "organism": 9606, "stat": "hypergeom", "inputmode": "on", "annotations": ["GO_BP", "GO_CC"], "jobName": "Homo_sapiens_example", "input": {"input": ["APOH", "APP", "COL3A1", "COL5A2", "CXCL6", "FGFR1", "FSTL1", "ITGAV", "JAG1", "JAG2", "KCNJ8", "LPL", "LRPAP1", "LUM", "MSX1", "NRP1", "OLR1", "PDGFA", "PF4", "PGLYRP1", "POSTN", "PRG2", "PTK2", "S100A4", "SERPINA5", "SLCO2A1", "SPP1", "STC1", "THBD", "TIMP1", "TNFRSF21", "VAV2", "VCAN", "VEGFA", "VTN"]}, "algorithm": "fpgrowth"}
-params={"scope": "annotated", "coannotation": "coannotation_yes", "inputSupport": 0, "inputNames": {"input": "input1", "input2": "input2"}, "universe": [], "email": "", "inputtype": "genes", "organism": 9606, "stat": "hypergeom", "inputmode": "on", "annotations": ["GO_BP", "GO_CC"], "jobName": "Homo sapiens example", "input": {"input": ["LUM", "MSX1", "NRP1", "OLR1", "PDGFA", "PF4", "PGLYRP1", "POSTN", "PRG2", "PTK2", "S100A4", "SERPINA5", "SLCO2A1", "SPP1", "STC1", "THBD", "TIMP1", "TNFRSF21", "VAV2", "VCAN", "VEGFA", "VTN"], "input2": ["APOH", "APP", "COL3A1", "COL5A2", "CXCL6", "FGFR1", "FSTL1", "ITGAV", "JAG1", "JAG2", "KCNJ8", "LPL", "LRPAP1", "LUM", "MSX1", "NRP1", "OLR1", "PDGFA", "PF4"]}, "algorithm": "fpgrowth"}
-params={"inputmode": "on", "annotations": ["KEGG", "Reactome"], "jobName": "Homo_sapiens_example", "email": "", "universe": [], "coannotation": "coannotation_yes", "inputtype": "tfs", "organism": 9606, "stat": "hypergeom", "scope": "annotated", "input": {"input": ["FOSL2", "NR3C1", "ARNTL", "SOX2", "SRF", "STAT6", "NFATC2", "ATF6"]}, "inputNames": {"input1unique": "Homo_sapiens_example"}, "algorithm": "fpgrowth", "inputSupport": 10}
-params={"inputmode": "on", "annotations": ["GO_BP", "GO_CC"], "jobName": "Homo_sapiens_example", "email": "", "universe": [], "coannotation": "coannotation_yes", "inputtype": "cpgs", "organism": 9606, "stat": "hypergeom", "scope": "annotated", "input": {"input": ["cg12862002", "cg11807238", "cg08466770", "cg03996150", "cg11081441", "cg03269045", "cg07892276", "cg12560128", "cg20163324", "cg22833204", "cg06671069", "cg03320783", "cg08817962", "cg00474889", "cg02228675", "cg20724781", "cg15113090", "cg17990983", "cg22963452", "cg13155430", "cg25484698", "cg04640194", "cg09151598", "cg12652301", "cg06740354", "cg20161089", "cg07348311", "cg25800166", "cg09969248", "cg08596817", "cg12987761", "cg21052403", "cg17114584", "cg21730677", "cg09354037", "cg10311754", "cg24948564", "cg03538095", "cg27066543", "cg02988155", "cg24805898", "cg05338155", "cg00493400", "cg18766080", "cg23684711", "cg21135483", "cg21930140", "cg20729846", "cg19764540", "cg22281505"]}, "inputNames": {"input1unique": "Homo_sapiens_example"}, "algorithm": "fpgrowth", "inputSupport": 10}
-
-urlencoded =urllib.parse.urlencode(params,doseq=True)
 urllib3.disable_warnings()
 
 result=launchAnalysis(organism="Homo sapiens",inputType="genes",inputQuery=["APOH", "APP", "COL3A1", "COL5A2", "CXCL6", "FGFR1", "FSTL1", "ITGAV", "JAG1", "JAG2", "KCNJ8", "LPL", "LRPAP1", "LUM", "MSX1", "NRP1", "OLR1", "PDGFA", "PF4", "PGLYRP1"],
-annotationsDBs=["GO_BP", "GO_CC"],coannotation="yes",coannotationAlgorithm="fpmax",enrichmentStat="wallenius",
+annotationsDBs=["GO_BP", "GO_CC"],coannotation="coannotation_yes",coannotationAlgorithm="fpmax",enrichmentStat="wallenius",
 inputName1="input1",ReportName="API_Wrapper_example")
 print(result)
-
-#listmirnas=["hsa-mir-133a-1","hsa-miR-133a-3p","hsa-miR-133a-5p"]
-#result=mirnasConversion(listmirnas,"mature")
-#print(result)
-#contenido=getResults("zqNYlq4g0D9s_w")
-
-#result=getGeneAnnotPairs("GO_BP","Homo sapiens","symbol")
-#print(result)

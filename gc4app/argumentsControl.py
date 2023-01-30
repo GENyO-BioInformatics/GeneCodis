@@ -248,7 +248,7 @@ class GeneCodisParamsSchema(Schema):
     def checkCoannot(self,in_data,**kwargs):
         checked=True
         coanot=in_data['coannotation']
-        if coanot not in ["yes","no"]:
+        if coanot not in ["coannotation_yes","coannotation_no"]:
             checked=False
         print("check valid coannotation value:",checked)
         return(checked)
@@ -257,7 +257,7 @@ class GeneCodisParamsSchema(Schema):
         checked=True
         coanot=in_data['coannotation']
         annots=in_data['annotations']
-        if coanot=="yes" and len(annots)>2:
+        if coanot=="coannotation_yes" and len(annots)>2:
             checked=False
         print("check valid input annotations with coannotation:",checked)
         return(checked)

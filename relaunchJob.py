@@ -56,7 +56,7 @@ try:
     stat = GC4params.stat
     algorithm  = GC4params.algorithm
     scope = GC4params.scope
-    coannotation = True if GC4params.coannotation == "yes" else False
+    coannotation = True if GC4params.coannotation == "coannotation_yes" else False
 
     jobDir = os.path.join('web/htmls/jobs/',gc4uid)
     os.makedirs(jobDir,exist_ok=True)

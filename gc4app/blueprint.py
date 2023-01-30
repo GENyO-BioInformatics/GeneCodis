@@ -50,7 +50,7 @@ def GC4analysis():
         #check coannotation value
         checkcoanot=GeneCodisParamsSchema().checkCoannot(paramsDict)
         if(checkcoanot==False):
-            return(Response("error: coannotation value must be 'yes' or 'no'.",status=400))
+            return(Response("error: coannotation value must be 'coannotation_yes' or 'coannotation_no'.",status=400))
         #check length annotations
         checklenannots=GeneCodisParamsSchema().checklenwithcoanot(paramsDict)
         if(checklenannots==False):
@@ -139,7 +139,7 @@ def GC4analysis():
         email = GC4params.email
         jobName = GC4params.jobName
         gc4uid = GC4params.gc4uid
-        coannotation = True if GC4params.coannotation == "yes" else False
+        coannotation = True if GC4params.coannotation == "coannotation_yes" else False
         # organism = str(GC4params.organism)
         # annotations = GC4params.annotations
         # input = GC4params.input

@@ -16,7 +16,7 @@ checkRatelimit <- function(content){
 
 #function to launch analysis
 launchAnalysis <- function(organism,inputType,inputQuery,annotationsDBs,enrichmentStat="hypergeom",
-                           universeScope="annotated",inputCoannotation="no",coannotationAlgorithm="fpgrowth",minimalInputCoannotation=10,
+                           universeScope="annotated",inputCoannotation="coannotation_no",coannotationAlgorithm="fpgrowth",minimalInputCoannotation=10,
                            secondInputQuery=list(),inputName1="input1",inputName2="input2",customUniverse=list(),inputEmail="",ReportName="input1"){
   
   params <- list(inputmode = "on",
